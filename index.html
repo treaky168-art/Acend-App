@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Ascend</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<script>
+// Light surfaces need dark status bar text; iOS reads this tag at launch.
+(function () {
+  var light = false;
+  try { light = localStorage.getItem("ascend:ui_light") === "1"; } catch (e) {}
+  document.write('<meta name="apple-mobile-web-app-status-bar-style" content="' + (light ? "default" : "black-translucent") + '">');
+})();
+</script>
+<meta name="apple-mobile-web-app-title" content="Ascend">
+<meta name="theme-color" content="#05060B">
+<meta name="color-scheme" content="dark light">
+<meta name="build" content="2026.09.26.4">
+<link rel="apple-touch-icon" href="icon-180.png">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="stylesheet" href="ascend.css?v=2026.09.26.4">
+<style>
+  html, body { margin:0; padding:0; background:#05060B; overscroll-behavior:none; }
+  body { -webkit-tap-highlight-color: transparent; -webkit-touch-callout: none; -webkit-text-size-adjust: 100%; }
+  /* 16px or larger stops iOS zooming in when a field is focused. !important beats the app's inline sizes. */
+  input, textarea { -webkit-user-select: text; user-select: text; font-size: 16px !important; }
+  input[type="time"] { line-height: normal; }
+  input[type="time"]::-webkit-date-and-time-value { text-align: center; margin: 0; }
+  input[type="time"]::-webkit-calendar-picker-indicator { display: none; }
+  button { touch-action: manipulation; }
+  .ac-root { padding-top: env(safe-area-inset-top); min-height: 100dvh !important; }
+  .ac-goals h2 { visibility: hidden; }
+  .ac-hscroll::-webkit-scrollbar { display: none; }
+  .ac-toast { top: calc(14px + env(safe-area-inset-top)) !important; }
+  /* Scrolling inside a sheet should not drag the page behind it. */
+  .ac-sheet { padding-bottom: calc(46px + env(safe-area-inset-bottom)) !important; overscroll-behavior: contain; -webkit-overflow-scrolling: touch; max-height: 90dvh !important; }
+  /* Everyday tab artwork tiles. --t is the tile's neon tint. */
+  .ac-art { position: relative; display: block; width: 100%; box-sizing: border-box; overflow: hidden; border-radius: 18px; border: 1.5px solid var(--t); background: #080a14 center / cover no-repeat; padding: 0; margin: 0; cursor: pointer; color: #fff; text-align: left; font-family: inherit; box-shadow: 0 0 16px -5px var(--t), inset 0 0 20px -10px var(--t); -webkit-user-select: none; user-select: none; }
+  .ac-art::before { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(6,7,14,.8) 0%, rgba(6,7,14,.5) 28%, rgba(6,7,14,0) 52%); pointer-events: none; }
+  .ac-art-head { position: absolute; left: 10px; top: 10px; right: 8px; display: flex; gap: 9px; align-items: flex-start; }
+  .ac-art-ic { flex: 0 0 auto; width: 36px; height: 36px; box-sizing: border-box; border-radius: 11px; display: grid; place-items: center; border: 1.5px solid var(--t); background: rgba(6,7,14,.55); color: var(--t); box-shadow: 0 0 12px -3px var(--t); }
+  .ac-art-t { font-size: 15.5px; font-weight: 800; line-height: 1.15; text-shadow: 0 1px 8px rgba(0,0,0,.85); }
+  .ac-art-s { font-size: 12px; font-weight: 500; opacity: .9; margin-top: 3px; line-height: 1.3; text-shadow: 0 1px 6px rgba(0,0,0,.95); }
+  .ac-banner { height: 132px; cursor: default; background-position: 80% 40%; }
+  .ac-banner::before { background: linear-gradient(90deg, rgba(6,7,14,.94) 0%, rgba(6,7,14,.72) 42%, rgba(6,7,14,0) 72%); }
+  .ac-banner .ac-art-head { top: 50%; transform: translateY(-50%); left: 14px; gap: 12px; align-items: center; }
+  .ac-banner-chev { position: absolute; right: 12px; top: 12px; width: 30px; height: 30px; box-sizing: border-box; border-radius: 99px; display: grid; place-items: center; border: 1.5px solid var(--t); background: rgba(6,7,14,.6); color: #fff; font-size: 19px; line-height: 1; padding-bottom: 2px; box-shadow: 0 0 12px -3px var(--t); transition: transform .3s cubic-bezier(.2,.8,.3,1); }
+  .ac-sheet-head { cursor: grab; }
+  .ac-sheet-head:active { cursor: grabbing; }
+  /* Timer */
+  @keyframes acTfSpin { to { transform: rotate(360deg); } }
+  @keyframes acTfBlink { 0%,100% { opacity: 1; transform: scale(1); } 50% { opacity: .35; transform: scale(.7); } }
+  @keyframes acTfDrift1 { 0%,100% { transform: translate(-12%,-6%) scale(1); } 50% { transform: translate(14%,8%) scale(1.18); } }
+  @keyframes acTfDrift2 { 0%,100% { transform: translate(10%,6%) scale(1.1); } 50% { transform: translate(-14%,-10%) scale(.92); } }
+  @keyframes acTfHalo { 0%,100% { opacity: .75; transform: scale(1); } 50% { opacity: 1; transform: scale(1.06); } }
+  @keyframes acTfPop { 0% { transform: scale(.3); opacity: 0; } 60% { transform: scale(1.14); opacity: 1; } 100% { transform: scale(1); } }
+  @keyframes acTfDraw { from { stroke-dashoffset: 24; } to { stroke-dashoffset: 0; } }
+  @keyframes acTfColon { 0%,100% { opacity: 1; } 50% { opacity: .35; } }
+  .ac-tf { position: relative; flex: 1; display: flex; flex-direction: column; align-items: center; color: #fff; min-height: 0; }
+  .ac-tf-glass { background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.14); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); }
+  .ac-tf-blob { position: absolute; width: 72%; aspect-ratio: 1; border-radius: 50%; filter: blur(56px); opacity: .32; pointer-events: none; z-index: 0; }
+  .ac-tf-blob.b1 { top: 8%; left: -18%; animation: acTfDrift1 16s ease-in-out infinite; }
+  .ac-tf-blob.b2 { bottom: 16%; right: -20%; animation: acTfDrift2 20s ease-in-out infinite; }
+  .ac-tf-chip { position: relative; z-index: 1; display: inline-flex; align-items: center; gap: 8px; padding: 7px 13px; border-radius: 99px; font-size: 12px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
+  .ac-tf-dot { width: 7px; height: 7px; border-radius: 50%; box-shadow: 0 0 10px currentColor; }
+  .ac-tf-dot.live { animation: acTfBlink 1.6s ease-in-out infinite; }
+  .ac-tf-stage { position: relative; z-index: 1; flex: 1; width: 100%; display: grid; place-items: center; padding: 14px 0 20px; }
+  .ac-tf-dial { position: relative; width: min(86vw, 360px, 50vh); aspect-ratio: 1 / 1; }
+  .ac-tf-svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+  .ac-tf-halo { position: absolute; inset: -8%; border-radius: 50%; animation: acTfHalo 5s ease-in-out infinite; }
+  .ac-tf-spin { position: absolute; inset: 19%; border-radius: 50%; animation: acTfSpin 10s linear infinite; filter: blur(2px); }
+  .ac-tf-core { position: absolute; inset: 21%; border-radius: 50%; background: radial-gradient(circle at 50% 35%, rgba(20,22,36,.75), rgba(6,7,14,.92) 70%); box-shadow: inset 0 1px 0 rgba(255,255,255,.08), inset 0 0 30px rgba(0,0,0,.6); }
+  .ac-tf-orb { position: absolute; left: 50%; top: 50%; width: 88%; aspect-ratio: 1; border-radius: 50%; transition: transform 1s linear; filter: blur(1px); }
+  .ac-tf-orb ~ .ac-tf-core { background: radial-gradient(circle, rgba(6,7,14,.05), rgba(6,7,14,.4) 75%); box-shadow: none; }
+  .ac-tf-center { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+  .ac-tf-time { font-size: clamp(54px, 18vw, 80px); font-weight: 200; letter-spacing: -.04em; line-height: 1; font-variant-numeric: tabular-nums; text-shadow: 0 0 24px var(--c1); }
+  .ac-tf-colon { display: inline-block; margin: 0 .02em; animation: acTfColon 2s ease-in-out infinite; }
+  .ac-tf-paused .ac-tf-colon, .ac-tf-paused .ac-tf-spin, .ac-tf-paused .ac-tf-halo, .ac-tf-paused .ac-tf-blob { animation-play-state: paused; }
+  .ac-tf-paused .ac-tf-time { opacity: .72; }
+  .ac-tf-sub { margin-top: 10px; font-size: 12px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: rgba(255,255,255,.6); }
+  .ac-tf-breath { font-size: 13px; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; margin-bottom: 8px; transition: color .4s; }
+  .ac-tf-pop { display: flex; flex-direction: column; align-items: center; animation: acTfPop .6s cubic-bezier(.2,.9,.3,1.2) both; filter: drop-shadow(0 0 18px #34D399); }
+  .ac-tf-check { stroke-dasharray: 24; animation: acTfDraw .5s ease .25s both; }
+  .ac-tf-ctrl { position: relative; z-index: 1; display: flex; align-items: flex-start; justify-content: center; gap: 30px; }
+  .ac-tf-btn { width: 58px; height: 58px; border-radius: 50%; display: grid; place-items: center; padding: 0; color: #fff; cursor: pointer; font-family: inherit; }
+  .ac-tf-main { width: 82px; height: 82px; border: none; color: #0a0b12; }
+  .ac-tf-main svg { width: 30px; height: 30px; fill: currentColor; }
+  .ac-tf-lab { font-size: 11px; font-weight: 600; color: rgba(255,255,255,.55); min-height: 14px; }
+  .ac-tf-done { position: relative; z-index: 1; width: 100%; padding: 16px 0; border: none; border-radius: 18px; color: #06120d; font-size: 16px; font-weight: 800; font-family: inherit; cursor: pointer; box-shadow: 0 12px 30px -10px #34D399; }
+  .ac-tf-note { position: relative; z-index: 1; margin-top: 20px; font-size: 12px; line-height: 1.55; text-align: center; color: rgba(255,255,255,.42); max-width: 300px; }
+  #boot { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; color: #7A87A8; font: 14px system-ui, -apple-system, sans-serif; text-align: center; }
+  #boot .b-mark { font-size: 30px; color: #9FB4FF; animation: bootPulse 1.8s ease-in-out infinite; }
+  #boot .b-line { font: italic 14px/1.5 ui-serif, "New York", Georgia, serif; letter-spacing: .02em; opacity: .75; }
+  @keyframes bootPulse { 0%,100% { opacity: .45; transform: scale(.94); } 50% { opacity: 1; transform: scale(1.04); } }
+</style>
+</head>
+<body>
+<div id="root"><div id="boot"><div class="b-mark">⟡</div><div class="b-line">Advanced nurturing, one day at a time.</div></div></div>
+<script>
+// Called by the app whenever the surface changes.
+window.__acTheme = function (light, bg) {
+  try { localStorage.setItem("ascend:ui_light", light ? "1" : "0"); } catch (e) {}
+  var m = document.querySelector('meta[name="theme-color"]');
+  if (m && bg) m.setAttribute("content", bg);
+  if (bg) document.documentElement.style.background = document.body.style.background = bg;
+};
+
+// A Home Screen app can sit suspended overnight. If it comes back on a new day,
+// reload so Today, streaks and the day counter move forward.
+(function () {
+  function key() { var d = new Date(); return d.getFullYear() + "-" + d.getMonth() + "-" + d.getDate(); }
+  var day = key();
+  document.addEventListener("visibilitychange", function () {
+    if (document.visibilityState !== "visible" || key() === day) return;
+    var a = document.activeElement;
+    if (a && (a.tagName === "INPUT" || a.tagName === "TEXTAREA")) return;
+    location.reload();
+  });
+})();
+</script>
+<script src="fx.js?v=2026.09.26.4"></script>
+<script src="celebrate.js?v=2026.09.26.4"></script>
+<script src="books.js?v=2026.09.26.4"></script>
+<script src="recipes.js?v=2026.09.26.4"></script>
+<script src="app.js?v=2026.09.26.4"></script>
+<script>
+if ("serviceWorker" in navigator) {
+  var reloading = false;
+  navigator.serviceWorker.addEventListener("controllerchange", function () {
+    if (reloading) return; reloading = true; location.reload();
+  });
+  addEventListener("load", function () {
+    navigator.serviceWorker.register("sw.js").then(function (reg) {
+      reg.update();
+      setInterval(function () { reg.update(); }, 3600000);
+    }).catch(function () {});
+  });
+}
+</script>
+</body>
+</html>

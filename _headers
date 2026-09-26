@@ -1,0 +1,26 @@
+/*
+  Cache-Control: public, max-age=0, must-revalidate
+
+/sw.js
+  Cache-Control: no-cache, no-store, must-revalidate
+
+/index.html
+  Cache-Control: no-cache, no-store, must-revalidate
+
+/app.js
+  Cache-Control: no-cache, no-store, must-revalidate
+
+/celebrate.js
+  Cache-Control: no-cache, no-store, must-revalidate
+
+/books.js
+  Cache-Control: no-cache, no-store, must-revalidate
+
+/ascend.css
+  Cache-Control: no-cache, no-store, must-revalidate
+
+/fx.js
+  Cache-Control: no-cache, no-store, must-revalidate
+
+/recipes.js
+  Cache-Control: no-cache, no-store, must-revalidate

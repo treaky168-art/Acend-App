@@ -1,0 +1,148 @@
+/* Ascend visual layer: ambient light, glass surfaces, motion. Theme colours come from the
+   CSS variables the app sets on .ac-root (--acc, --acc2, --text, --dim, --line, --sheen, --amb). */
+
+@keyframes acAurora { 0% { transform: translate3d(-4%, -3%, 0) rotate(0deg) scale(1); } 50% { transform: translate3d(3%, 2%, 0) rotate(8deg) scale(1.08); } 100% { transform: translate3d(-2%, 4%, 0) rotate(-6deg) scale(1.03); } }
+/* Only "from" states, so elements settle back to their own inline opacity/transform. */
+@keyframes acUp { from { opacity: 0; transform: translate3d(0, 14px, 0); } }
+@keyframes acDown { from { opacity: 0; transform: translate3d(0, -10px, 0); } }
+@keyframes acBar { from { transform: scaleY(0); } to { transform: scaleY(1); } }
+@keyframes acTitle { 0%, 100% { background-position: 100% 0; } 50% { background-position: 0% 0; } }
+@keyframes acFlame { 0%, 100% { box-shadow: 0 0 0 0 rgba(255,170,60,0), 0 0 10px -4px rgba(255,170,60,.5); } 50% { box-shadow: 0 0 0 3px rgba(255,170,60,.08), 0 0 16px -2px rgba(255,170,60,.55); } }
+@keyframes acNavPop { 0% { transform: scale(.7) translateY(3px); } 60% { transform: scale(1.18) translateY(-2px); } 100% { transform: none; } }
+@keyframes acFlash { 0% { box-shadow: 0 0 0 0 var(--accFaint); transform: scale(1); } 25% { box-shadow: 0 0 0 8px var(--accFaint); transform: scale(1.02); } 60% { box-shadow: 0 0 0 0 transparent; transform: scale(1); } 80% { box-shadow: 0 0 0 6px var(--accFaint); } 100% { box-shadow: 0 0 0 0 transparent; } }
+@keyframes acNeon { 0%, 100% { box-shadow: 0 0 14px -6px var(--t), inset 0 0 18px -12px var(--t); } 50% { box-shadow: 0 0 24px -4px var(--t), inset 0 0 26px -10px var(--t); } }
+@keyframes acGlint { from { transform: translateX(-120%) skewX(-16deg); } to { transform: translateX(260%) skewX(-16deg); } }
+@keyframes acRipple { from { transform: translate(-50%, -50%) scale(0); opacity: .35; } to { transform: translate(-50%, -50%) scale(1); opacity: 0; } }
+@keyframes acSpark { from { transform: translate(-50%, -50%) scale(1); opacity: 1; } to { transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) scale(.2); opacity: 0; } }
+@keyframes acFloat { 0% { transform: translate(-50%, 0) scale(.8); opacity: 0; } 20% { transform: translate(-50%, -14px) scale(1.05); opacity: 1; } 100% { transform: translate(-50%, -64px) scale(1); opacity: 0; } }
+@keyframes acEpi { from { opacity: 0; letter-spacing: .04em; filter: blur(3px); } to { opacity: 1; letter-spacing: 0; filter: none; } }
+@keyframes acRule { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+
+/* Ambient light drifting behind the whole app. */
+.ac-root::before {
+  content: ""; position: fixed; inset: -30%; z-index: 0; pointer-events: none;
+  background:
+    radial-gradient(38% 30% at 22% 22%, var(--accFaint), transparent 70%),
+    radial-gradient(34% 28% at 78% 68%, var(--acc2Faint), transparent 70%),
+    radial-gradient(26% 22% at 60% 12%, var(--acc2Faint), transparent 70%);
+  opacity: var(--amb, .5); filter: blur(34px);
+  animation: acAurora 36s ease-in-out infinite alternate;
+}
+
+/* Header row. */
+.ac-hdr { animation: acDown .5s cubic-bezier(.2,.8,.3,1) both; }
+.ac-hdr > div > .ac-btn { -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); }
+.ac-hdr > div > .ac-btn:first-child { animation: acFlame 3.2s ease-in-out infinite; }
+.ac-hdr > .ac-btn > div:first-child { transition: transform .3s cubic-bezier(.2,.8,.3,1), box-shadow .3s ease; box-shadow: 0 0 16px -6px var(--acc); }
+.ac-hdr > .ac-btn:active > div:first-child { transform: rotate(-6deg) scale(.94); }
+
+/* Page entrance: children rise in, one after another. */
+.ac-tab { animation: acUp .45s cubic-bezier(.2,.8,.3,1) both !important; }
+.ac-tab > div > :not(.ac-item):not(.ac-sheet) { animation: acUp .55s cubic-bezier(.2,.8,.3,1) both; }
+.ac-tab > div > :nth-child(1) { animation-delay: 0ms; }
+.ac-tab > div > :nth-child(2) { animation-delay: 40ms; }
+.ac-tab > div > :nth-child(3) { animation-delay: 80ms; }
+.ac-tab > div > :nth-child(4) { animation-delay: 120ms; }
+.ac-tab > div > :nth-child(5) { animation-delay: 160ms; }
+.ac-tab > div > :nth-child(6) { animation-delay: 200ms; }
+.ac-tab > div > :nth-child(7) { animation-delay: 240ms; }
+.ac-tab > div > :nth-child(8) { animation-delay: 280ms; }
+.ac-tab > div > :nth-child(n+9) { animation-delay: 320ms; }
+
+/* Page titles: a slow sheen of the accent colour through the letters. */
+.ac-tab [style*="font-size: 30px"][style*="font-weight: 800"],
+.ac-tab [style*="font-size: 44px"][style*="font-weight: 800"] {
+  background-image: linear-gradient(100deg, var(--text) 0%, var(--text) 38%, var(--acc) 50%, var(--acc2) 56%, var(--text) 68%, var(--text) 100%);
+  background-size: 260% 100%; -webkit-background-clip: text; background-clip: text; color: transparent;
+  animation: acTitle 12s ease-in-out infinite;
+  /* The gradient only paints inside the box, so give descenders (the y in Day) room without moving anything. */
+  padding-bottom: .16em; margin-bottom: -.16em;
+}
+
+/* Section headings: the accent bar grows in. */
+.ac-tab h2 > span:first-child, .ac-btn > h2 > span:first-child { transform-origin: bottom; animation: acBar .6s cubic-bezier(.2,.8,.3,1) .15s both; box-shadow: 0 0 10px var(--accFaint); }
+
+/* Panels: a soft top-lit sheen and a finer edge. */
+.ac-panel { background-image: linear-gradient(165deg, var(--sheen), transparent 46%) !important; box-shadow: inset 0 1px 0 var(--hi), 0 1px 2px rgba(0,0,0,.06); }
+.ac-panel.ac-card { overflow: hidden; }
+.ac-panel.ac-row { transition: background .3s ease, border-color .3s ease, transform .25s cubic-bezier(.2,.8,.3,1), box-shadow .3s ease; }
+
+/* Task cards: a single glint as they arrive. */
+.ac-card:not(.ac-panel)::after {
+  content: ""; position: absolute; top: 0; bottom: 0; left: 0; width: 38%; pointer-events: none;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,.14), transparent);
+  animation: acGlint 1.4s cubic-bezier(.4,0,.2,1) .35s both;
+}
+
+/* Everyday artwork tiles: the neon edge breathes. */
+.ac-art.ac-item { animation: acIn .45s cubic-bezier(.2,.8,.3,1) both, acNeon 5.5s ease-in-out 1s infinite; }
+.ac-art.ac-banner { animation: acIn .45s cubic-bezier(.2,.8,.3,1) both, acNeon 6.5s ease-in-out .5s infinite; }
+.ac-art:active { filter: brightness(1.12); }
+
+/* Progress bars glow a little. */
+.ac-fill { box-shadow: 0 0 12px -3px var(--acc); }
+
+/* Inputs: a calm focus ring. */
+.ac-root input:focus, .ac-root textarea:focus, .ac-sheet input:focus, .ac-sheet textarea:focus { border-color: var(--acc) !important; box-shadow: 0 0 0 3px var(--accFaint); transition: box-shadow .25s ease, border-color .25s ease; }
+
+/* Bottom nav: deeper glass, the active icon pops and glows. */
+.ac-nav { -webkit-backdrop-filter: saturate(1.6) blur(20px) !important; backdrop-filter: saturate(1.6) blur(20px) !important; box-shadow: 0 16px 40px -12px rgba(0,0,0,.45), inset 0 1px 0 var(--hi) !important; animation: acUp .6s cubic-bezier(.2,.8,.3,1) .1s both; }
+.ac-nav button svg { transition: transform .3s cubic-bezier(.2,.8,.3,1); }
+.ac-nav button:has(.ac-navdot) svg { animation: acNavPop .5s cubic-bezier(.2,.9,.3,1.3) both; filter: drop-shadow(0 0 8px var(--accFaint)); }
+
+/* Toasts and sheets. */
+.ac-toast { -webkit-backdrop-filter: saturate(1.5) blur(18px) !important; backdrop-filter: saturate(1.5) blur(18px) !important; }
+.ac-sheet { box-shadow: 0 -24px 60px -24px rgba(0,0,0,.55), inset 0 1px 0 var(--hi); }
+
+/* Streak tiles flash when the header chip sends you here. */
+.ac-flash { animation: acFlash 1.6s cubic-bezier(.2,.8,.3,1); }
+
+/* Epigraph: a quiet chapter card that opens each day. */
+.ac-epi { margin: 18px 4px 2px; padding: 0; text-align: center; animation: acEpi 1.4s cubic-bezier(.2,.8,.3,1) both; }
+.ac-epi::before, .ac-epi::after { content: ""; display: block; height: 1px; margin: 0 auto; width: 56px; background: linear-gradient(90deg, transparent, var(--dim), transparent); opacity: .5; transform-origin: center; animation: acRule 1.2s cubic-bezier(.2,.8,.3,1) .3s both; }
+.ac-epi-q { margin: 12px 0 8px; font-family: ui-serif, "New York", "Iowan Old Style", Georgia, serif; font-style: italic; font-size: 15px; line-height: 1.55; color: var(--text); opacity: .82; }
+.ac-epi-a { margin-bottom: 12px; font-size: 10.5px; font-weight: 600; letter-spacing: .22em; text-transform: uppercase; color: var(--dim); }
+
+/* Press ripple and completion sparks (added by fx.js). */
+.ac-ripple { position: absolute; border-radius: 50%; pointer-events: none; background: currentColor; animation: acRipple .6s ease-out forwards; z-index: 0; }
+.ac-spark { position: fixed; width: 6px; height: 6px; border-radius: 50%; pointer-events: none; z-index: 120; animation: acSpark .75s cubic-bezier(.2,.8,.3,1) forwards; }
+.ac-float { position: fixed; z-index: 121; pointer-events: none; font: 800 15px system-ui, -apple-system, sans-serif; letter-spacing: .02em; animation: acFloat 1.2s cubic-bezier(.2,.8,.3,1) forwards; text-shadow: 0 2px 12px rgba(0,0,0,.35); }
+
+/* Sleep week: tap a bar to read that night. */
+@keyframes acTip { from { opacity: 0; transform: translate(-50%, 6px) scale(.9); } to { opacity: 1; transform: translate(-50%, 0) scale(1); } }
+.ac-sleepbar { -webkit-tap-highlight-color: transparent; }
+.ac-sleepbar:not(:disabled):active > span:last-child { filter: brightness(1.15); }
+.ac-sleeptip { position: absolute; left: 50%; transform: translateX(-50%); padding: 3px 7px; border-radius: 7px; font-size: 11px; font-weight: 800; color: #0B0D14; white-space: nowrap; pointer-events: none; box-shadow: 0 4px 14px -4px rgba(0,0,0,.35); animation: acTip .28s cubic-bezier(.2,.9,.3,1.2) both; z-index: 2; }
+.ac-epi { cursor: pointer; -webkit-tap-highlight-color: transparent; }
+.ac-epi:active .ac-epi-q { opacity: .6; }
+
+/* Everyday hub sections. */
+.ac-sec { margin: 24px 2px 10px; font-size: 11.5px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; color: var(--dim); display: flex; align-items: center; gap: 10px; }
+.ac-sec::after { content: ""; flex: 1; height: 1px; background: linear-gradient(90deg, var(--line), transparent); }
+.ac-tab > div > .ac-sec:first-of-type { margin-top: 20px; }
+
+/* Compact hub cards for Shifts and Deadlines. */
+.ac-mini { transition: transform .25s cubic-bezier(.2,.8,.3,1), border-color .3s ease; }
+.ac-mini:active { transform: scale(.975); }
+
+/* Edge-swipe back on sub-pages (fx.js moves the page while you drag). */
+.ac-swiping { transition: none !important; will-change: transform; }
+.ac-swipe-back { transition: transform .22s cubic-bezier(.2,.8,.3,1), opacity .22s ease !important; }
+
+/* Wide artwork banners (Shifts, Deadlines): icon top left, label bottom left like the mockup. */
+.ac-wide { aspect-ratio: 724 / 262; background-position: 70% center; }
+.ac-wide::before { background: linear-gradient(90deg, rgba(6,7,14,.82) 0%, rgba(6,7,14,.45) 42%, rgba(6,7,14,0) 68%), linear-gradient(0deg, rgba(6,7,14,.6) 0%, transparent 55%); }
+.ac-wide-ic { position: absolute; left: 12px; top: 12px; width: 44px; height: 44px; border-radius: 13px; }
+.ac-wide-txt { position: absolute; left: 14px; right: 14px; bottom: 12px; }
+.ac-wide .ac-art-t { font-size: 20px; }
+.ac-wide .ac-art-s { font-size: 13px; margin-top: 4px; }
+.ac-art.ac-wide.ac-item { animation: acIn .45s cubic-bezier(.2,.8,.3,1) both, acNeon 6s ease-in-out 1s infinite; }
+
+/* Everyday sections fold. The label is a button; the line and chevron sit after it. */
+.ac-sec-btn { width: 100%; box-sizing: border-box; padding: 6px 0; background: none; border: none; cursor: pointer; font-family: inherit; text-align: left; -webkit-tap-highlight-color: transparent; }
+.ac-sec-btn::after { order: 1; }
+.ac-sec-chev { order: 2; font-size: 17px; line-height: 1; letter-spacing: 0; color: var(--dim); transform: rotate(90deg); transition: transform .3s cubic-bezier(.2,.8,.3,1); }
+.ac-hsec.closed .ac-sec-chev { transform: none; }
+.ac-hsec .ac-sec { margin: 18px 2px 6px; }
+.ac-hsec.closed .ac-sec { opacity: .75; }
+.ac-hsec-body { padding-top: 4px; }
