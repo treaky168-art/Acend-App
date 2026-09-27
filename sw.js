@@ -1,4 +1,4 @@
-const CACHE = "ascend-2026.09.27.3";
+const CACHE = "ascend-2026.09.27.5";
 const CORE = ["./", "./index.html", "./app.js", "./celebrate.js", "./ascend.css", "./fx.js", "./books.js", "./recipes.js", "./lqip.js", "./art/timer.jpg", "./art/focus.jpg", "./art/deep.jpg", "./art/meditate.jpg", "./art/breathe.jpg", "./art/train.jpg", "./art/goals.jpg", "./art/books.jpg", "./art/todo.jpg", "./art/shifts.jpg", "./art/deadlines.jpg", "./art/food-breakfast.jpg", "./art/food-lunch.jpg", "./art/food-dinner.jpg", "./art/food-prep.jpg", "./art/food-snack.jpg", "./art/food-mine.jpg", "./manifest.webmanifest", "./icon-180.png", "./icon-192.png", "./icon-512.png"];
 
 self.addEventListener("install", (e) => {

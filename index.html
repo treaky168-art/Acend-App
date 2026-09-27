@@ -17,10 +17,10 @@
 <meta name="apple-mobile-web-app-title" content="Ascend">
 <meta name="theme-color" content="#05060B">
 <meta name="color-scheme" content="dark light">
-<meta name="build" content="2026.09.27.3">
+<meta name="build" content="2026.09.27.5">
 <link rel="apple-touch-icon" href="icon-180.png">
 <link rel="manifest" href="manifest.webmanifest">
-<link rel="stylesheet" href="ascend.css?v=2026.09.27.3">
+<link rel="stylesheet" href="ascend.css?v=2026.09.27.5">
 <style>
   html, body { margin:0; padding:0; background:#05060B; overscroll-behavior:none; }
   body { -webkit-tap-highlight-color: transparent; -webkit-touch-callout: none; -webkit-text-size-adjust: 100%; }
@@ -91,8 +91,11 @@
   .ac-tf-center { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
   .ac-tf-kick { display: flex; align-items: center; gap: 8px; min-height: 16px; margin-bottom: 8px; font-size: 11px; font-weight: 800; letter-spacing: .22em; text-transform: uppercase; color: rgba(255,255,255,.55); transition: color .4s; }
   .ac-tf-count { display: inline-grid; place-items: center; width: 20px; height: 20px; border-radius: 50%; border: 1px solid currentColor; font-size: 11px; letter-spacing: 0; }
-  .ac-tf-time { font-size: clamp(56px, 19vw, 84px); font-weight: 200; letter-spacing: -.045em; line-height: 1; font-variant-numeric: tabular-nums; text-shadow: 0 0 28px var(--c1); }
-  .ac-tf-time.long { font-size: clamp(42px, 14vw, 62px); }
+  .ac-tf-time { font-family: ui-rounded, "SF Pro Rounded", -apple-system, system-ui, sans-serif; font-size: clamp(62px, 21vw, 94px); font-weight: 500; letter-spacing: -.03em; line-height: 1; font-variant-numeric: tabular-nums; }
+  .ac-tf-time.long { font-size: clamp(46px, 15vw, 68px); }
+  .ac-tf-sweep { position: absolute; inset: 12.5%; border-radius: 50%; transition: transform 1s linear; pointer-events: none; }
+  .ac-tf-sweep::after { content: ""; position: absolute; left: calc(50% - 1px); top: 0; width: 2px; height: 50%; background: linear-gradient(to top, transparent, var(--c1)); opacity: .9; }
+  .ac-tf-focus .ac-tf-core { inset: 12.5%; background: radial-gradient(circle at 50% 40%, #0e1019, #05060b 72%); box-shadow: inset 0 0 34px rgba(0,0,0,.75); }
   .ac-tf-colon { display: inline-block; margin: 0 .02em; animation: acTfColon 2s ease-in-out infinite; }
   .ac-tf-sub { margin-top: 10px; font-size: 11.5px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: rgba(255,255,255,.58); }
   .ac-tf-paused .ac-tf-colon, .ac-tf-paused .ac-tf-spin, .ac-tf-paused .ac-tf-orbit, .ac-tf-paused .ac-tf-ripple, .ac-tf-paused .ac-tf-halo, .ac-tf-paused .ac-tf-blob, .ac-tf-paused .ac-tf-ping { animation-play-state: paused; }
@@ -148,12 +151,12 @@ window.__acTheme = function (light, bg) {
   });
 })();
 </script>
-<script src="fx.js?v=2026.09.27.3"></script>
-<script src="celebrate.js?v=2026.09.27.3"></script>
-<script src="books.js?v=2026.09.27.3"></script>
-<script src="recipes.js?v=2026.09.27.3"></script>
-<script src="lqip.js?v=2026.09.27.3"></script>
-<script src="app.js?v=2026.09.27.3"></script>
+<script src="fx.js?v=2026.09.27.5"></script>
+<script src="celebrate.js?v=2026.09.27.5"></script>
+<script src="books.js?v=2026.09.27.5"></script>
+<script src="recipes.js?v=2026.09.27.5"></script>
+<script src="lqip.js?v=2026.09.27.5"></script>
+<script src="app.js?v=2026.09.27.5"></script>
 <script>
 // Warm the artwork once the app has drawn, so the Everyday tiles paint straight away.
 (function () {
