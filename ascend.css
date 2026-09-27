@@ -146,3 +146,7 @@
 .ac-hsec .ac-sec { margin: 18px 2px 6px; }
 .ac-hsec.closed .ac-sec { opacity: .75; }
 .ac-hsec-body { padding-top: 4px; }
+/* Live caffeine reading */
+@keyframes acLiveDot { 0%,100% { box-shadow: 0 0 0 0 currentColor; opacity: 1; } 50% { box-shadow: 0 0 0 4px transparent; opacity: .55; } }
+.ac-live-dot { animation: acLiveDot 2s ease-in-out infinite; }
+@media (prefers-reduced-motion: reduce) { .ac-live-dot { animation: none; } }
