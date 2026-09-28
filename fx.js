@@ -50,19 +50,23 @@
     return [cs && cs.getPropertyValue("--acc").trim() || "#4CC2FF", cs && cs.getPropertyValue("--acc2").trim() || "#8A6BFF"];
   }
 
-  // Ripple from the point of contact.
+  // Ripple from the point of contact. Artwork tiles let their glow spill outside their edges,
+  // so their ripple goes in a clipping layer of its own.
   document.addEventListener("pointerdown", function (e) {
     var el = e.target.closest && e.target.closest(".ac-btn, .ac-art, .ac-card, .ac-row");
-    if (!el || el.closest(".ac-nav") || getComputedStyle(el).overflow !== "hidden") return;
+    if (!el || el.closest(".ac-nav")) return;
+    var art = el.classList.contains("ac-art");
+    if (!art && getComputedStyle(el).overflow !== "hidden") return;
     var r = el.getBoundingClientRect();
     var size = Math.max(r.width, r.height) * 2.2;
-    var dot = document.createElement("span");
+    var dot = document.createElement("span"), host = el;
     dot.className = "ac-ripple";
     dot.style.width = dot.style.height = size + "px";
     dot.style.left = e.clientX - r.left + "px";
     dot.style.top = e.clientY - r.top + "px";
-    el.appendChild(dot);
-    setTimeout(function () { dot.remove(); }, 650);
+    if (art) { host = document.createElement("span"); host.className = "ac-ripple-clip"; el.appendChild(host); }
+    host.appendChild(dot);
+    setTimeout(function () { (art ? host : dot).remove(); }, 650);
   }, { passive: true });
 
   function burst(x, y, colors, n, spread) {
@@ -108,4 +112,103 @@
       burst(x, y, [c[0], c[1], "#ffffff"], 14, 60);
     }
   }, true);
+
+  // Pages slide in from the direction you're heading: along the nav bar left or right,
+  // deeper into Everyday from the right, and back out from the left.
+  var html = document.documentElement;
+  function navIndex(b) { return Array.prototype.indexOf.call(b.parentNode.querySelectorAll("button"), b); }
+  document.addEventListener("click", function (e) {
+    var t = e.target.closest && e.target;
+    if (!t) return;
+    var nb = t.closest(".ac-nav button");
+    if (nb) {
+      var cur = document.querySelector(".ac-nav button .ac-navdot");
+      cur = cur && cur.closest("button");
+      if (cur && cur !== nb) html.setAttribute("data-acdir", navIndex(nb) > navIndex(cur) ? "r" : "l");
+      return;
+    }
+    if (t.closest(".ac-back")) { html.setAttribute("data-acdir", "l"); return; }
+    if (t.closest(".ac-tab .ac-art, .ac-tab .ac-mini")) html.setAttribute("data-acdir", "in");
+  }, true);
+
+  // A number that changes gives a small bump, so ticks, XP and totals feel alive.
+  var root = document.getElementById("root");
+  var skip = ".ac-tf, .ac-tp, .ac-toast, input, textarea, select, .ac-float";
+  // Changes are collected and handled once per frame: all reads first, then the class changes a
+  // frame later, so nothing forces an extra layout in the middle of React's update.
+  if (root && window.MutationObserver) {
+    var bumps = [], bumpQueued = false;
+    var flushBumps = function () {
+      bumpQueued = false;
+      var plan = [];
+      for (var i = 0; i < bumps.length; i++) {
+        var el = bumps[i];
+        if (!el.isConnected || plan.some(function (p) { return p[0] === el; })) continue;
+        plan.push([el, getComputedStyle(el).display === "inline" || el.offsetWidth > 170 ? "ac-bump-g" : "ac-bump"]);
+        el.classList.remove("ac-bump", "ac-bump-g");
+      }
+      bumps = [];
+      requestAnimationFrame(function () {
+        plan.forEach(function (p) {
+          p[0].classList.add(p[1]);
+          setTimeout(function () { p[0].classList.remove(p[1]); }, 750);
+        });
+      });
+    };
+    new MutationObserver(function (list) {
+      for (var i = 0; i < list.length; i++) {
+        var m = list[i], el = m.target.parentElement, v = m.target.nodeValue || "";
+        if (!el || m.oldValue === v || !/\d/.test(v) || v.length > 14 || el.closest(skip)) continue;
+        bumps.push(el);
+      }
+      if (bumps.length && !bumpQueued) { bumpQueued = true; requestAnimationFrame(flushBumps); }
+    }).observe(root, { characterData: true, characterDataOldValue: true, subtree: true });
+  }
+
+  // Cards below the fold rise in as they scroll into view. Cards already on screen when they
+  // appear are left alone (they have their own entrance).
+  if (root && window.IntersectionObserver) {
+    var seen = new WeakSet();
+    var io = new IntersectionObserver(function (ents) {
+      ents.forEach(function (en) {
+        var el = en.target;
+        if (!seen.has(el)) {
+          seen.add(el);
+          if (en.isIntersecting || en.boundingClientRect.top < innerHeight) { io.unobserve(el); return; }
+          el.classList.add("ac-rv");
+          return;
+        }
+        if (en.isIntersecting) {
+          io.unobserve(el);
+          el.classList.add("ac-rv-in");
+          setTimeout(function () { el.classList.remove("ac-rv", "ac-rv-in"); }, 700);
+        }
+      });
+    }, { rootMargin: "0px 0px -6% 0px", threshold: 0.01 });
+    // Only newly added nodes are searched, once per frame.
+    var SEL = ".ac-panel, .ac-art", added = [], queued = false;
+    var consider = function (el) {
+      if (el.__acRv || !el.closest(".ac-tab") || el.closest(".ac-sheet")) return;
+      el.__acRv = 1; io.observe(el);
+    };
+    var scan = function () {
+      queued = false;
+      var nodes = added; added = [];
+      for (var i = 0; i < nodes.length; i++) {
+        var n = nodes[i];
+        if (!n.isConnected) continue;
+        if (n.matches(SEL)) consider(n);
+        var inner = n.querySelectorAll(SEL);
+        for (var j = 0; j < inner.length; j++) consider(inner[j]);
+      }
+    };
+    new MutationObserver(function (list) {
+      for (var i = 0; i < list.length; i++) {
+        var a = list[i].addedNodes;
+        for (var j = 0; j < a.length; j++) if (a[j].nodeType === 1) added.push(a[j]);
+      }
+      if (added.length && !queued) { queued = true; requestAnimationFrame(scan); }
+    }).observe(root, { childList: true, subtree: true });
+    added.push(root); scan();
+  }
 })();
