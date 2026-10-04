@@ -378,3 +378,14 @@ html[data-acdir="in"] .ac-tab { animation: acDeeper .5s cubic-bezier(.2,.85,.25,
 .ac-qprompt { display: block; width: 100%; box-sizing: border-box; margin: 0 0 10px; padding: 10px 12px; border-radius: 12px; border: 1px dashed var(--line); background: transparent; color: var(--dim); font-size: 13px; line-height: 1.45; font-family: inherit; text-align: left; cursor: pointer; }
 
 @media (prefers-reduced-motion: reduce) { .ac-qa, .ac-qa-back, .ac-qa-tile, .ac-qa-sub, .ac-ring-draw, .ac-ins-card, .ac-dl-row.next .ac-dl-dot::after { animation: none !important; } }
+
+/* Health: picture widgets that open each tracker, and the matching page heroes. */
+.ac-htiles { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.ac-art.ac-hart { aspect-ratio: 712 / 448; border-radius: 16px; background-position: center; background-size: cover; }
+.ac-art.ac-hart::before { display: none; }
+.ac-hchip { position: absolute; left: 7px; bottom: 7px; max-width: calc(100% - 14px); box-sizing: border-box; display: inline-flex; align-items: center; gap: 6px; padding: 4px 9px 4px 7px; border-radius: 99px; background: rgba(5,7,12,.74); border: 1px solid rgba(255,255,255,.14); color: #fff; font-size: 11.5px; font-weight: 800; line-height: 1.2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-variant-numeric: tabular-nums; pointer-events: none; }
+.ac-hchip i { flex: 0 0 auto; width: 6px; height: 6px; border-radius: 99px; box-shadow: 0 0 6px var(--t); }
+.ac-hhero { position: relative; width: 100%; box-sizing: border-box; aspect-ratio: 712 / 448; margin-top: 10px; border-radius: 18px; border: 1.5px solid var(--t); background: #080a14 center / cover no-repeat; box-shadow: 0 0 18px -5px var(--t), inset 0 0 20px -10px var(--t); animation: acIn .45s cubic-bezier(.2,.8,.3,1) both; }
+.ac-fchip { display: inline-flex; align-items: baseline; gap: 6px; padding: 8px 12px; border-radius: 99px; border: 1px solid var(--line); background: var(--chip); color: var(--text); font-family: inherit; font-size: 13px; font-weight: 700; cursor: pointer; }
+.ac-fchip span { color: var(--dim); font-weight: 600; font-size: 12px; }
+@media (prefers-reduced-motion: reduce) { .ac-hhero { animation: none !important; } }
