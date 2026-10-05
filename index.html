@@ -17,7 +17,7 @@
 <meta name="apple-mobile-web-app-title" content="Ascend">
 <meta name="theme-color" content="#07080D">
 <meta name="color-scheme" content="dark light">
-<meta name="build" content="2026.10.05.5">
+<meta name="build" content="2026.10.05.6">
 <link rel="apple-touch-icon" href="icon-180.png?v=2">
 <link rel="preload" href="art/cover.jpg" as="image" fetchpriority="high">
 <link rel="apple-touch-startup-image" media="screen and (device-width: 440px) and (device-height: 956px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="splash/1320x2868.jpg">
@@ -32,7 +32,7 @@
 <link rel="apple-touch-startup-image" media="screen and (device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="splash/750x1334.jpg">
 <link rel="apple-touch-startup-image" media="screen and (device-width: 360px) and (device-height: 780px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="splash/1080x2340.jpg">
 <link rel="manifest" href="manifest.webmanifest">
-<link rel="stylesheet" href="ascend.css?v=2026.10.05.5">
+<link rel="stylesheet" href="ascend.css?v=2026.10.05.6">
 <style>
   html, body { margin:0; padding:0; background:#07080D; overscroll-behavior:none; }
   body { -webkit-tap-highlight-color: transparent; -webkit-touch-callout: none; -webkit-text-size-adjust: 100%; }
@@ -121,12 +121,12 @@
   .ac-range::-moz-range-thumb { width: 26px; height: 26px; border-radius: 50%; background: #fff; border: none; box-shadow: 0 2px 10px rgba(0,0,0,.45); }
   @media (prefers-reduced-motion: reduce) { .ac-tf *, .ac-tf-ping { animation: none !important; } .ac-tf-burst { display: none; } }
   /* Loading screen: the cover art, drifting in slightly, with a thin loading line. */
-  #splash { position: fixed; inset: 0; z-index: 10000; overflow: hidden; pointer-events: none; background: linear-gradient(180deg, #0c1531 0%, #1a2a58 44%, #d9864a 62%, #1a120d 100%); transition: opacity .6s ease; }
+  #splash { position: fixed; inset: 0; z-index: 10000; overflow: hidden; pointer-events: none; background: linear-gradient(180deg, #0c1531 0%, #1a2a58 44%, #d9864a 62%, #1a120d 100%); transition: opacity .55s cubic-bezier(.4,0,.2,1), visibility 0s linear .55s; }
   #splash .sp-img { position: absolute; inset: 0; background: url(art/cover.jpg) center 40% / cover no-repeat; animation: spZoom 5s cubic-bezier(.2,.7,.2,1) both; will-change: transform; }
   #splash .sp-bar { position: absolute; left: 50%; bottom: calc(46px + env(safe-area-inset-bottom)); width: 128px; height: 2px; margin-left: -64px; border-radius: 2px; overflow: hidden; background: rgba(255,255,255,.18); }
   #splash .sp-bar span { display: block; width: 45%; height: 100%; border-radius: 2px; background: linear-gradient(90deg, transparent, #FFE2B8, transparent); animation: spLoad 1.3s ease-in-out infinite; }
-  #splash.done { opacity: 0; }
-  #splash.done .sp-img { transform: scale(1.04); transition: transform .6s ease; }
+  #splash.done { opacity: 0; visibility: hidden; }
+  #splash.done .sp-bar { opacity: 0; transition: opacity .2s ease; }
   @keyframes spZoom { from { transform: scale(1.08); } to { transform: scale(1); } }
   @keyframes spLoad { from { transform: translateX(-110%); } to { transform: translateX(240%); } }
   @media (prefers-reduced-motion: reduce) { #splash .sp-img, #splash .sp-bar span { animation: none; } }
@@ -157,20 +157,24 @@ window.__acTheme = function (light, bg) {
   });
 })();
 </script>
-<script src="fx.js?v=2026.10.05.5"></script>
-<script src="celebrate.js?v=2026.10.05.5"></script>
-<script src="books.js?v=2026.10.05.5"></script>
-<script src="recipes.js?v=2026.10.05.5"></script>
-<script src="foods.js?v=2026.10.05.5"></script>
-<script src="lqip.js?v=2026.10.05.5"></script>
-<script src="app.js?v=2026.10.05.5"></script>
+<script src="fx.js?v=2026.10.05.6"></script>
+<script src="celebrate.js?v=2026.10.05.6"></script>
+<script src="books.js?v=2026.10.05.6"></script>
+<script src="recipes.js?v=2026.10.05.6"></script>
+<script src="foods.js?v=2026.10.05.6"></script>
+<script src="lqip.js?v=2026.10.05.6"></script>
+<script src="app.js?v=2026.10.05.6"></script>
 <script>
 (function () {
   var sp = document.getElementById("splash"), root = document.getElementById("root"), gone = false;
   if (!sp) return;
+  // Fade out once, after the app has painted its first frame underneath, so the loading
+  // screen hands over in a single dissolve instead of cutting away.
   function hide() {
     if (gone) return; gone = true;
-    setTimeout(function () { sp.classList.add("done"); setTimeout(function () { sp.remove(); }, 650); }, Math.max(0, 900 - performance.now()));
+    requestAnimationFrame(function () { requestAnimationFrame(function () {
+      setTimeout(function () { sp.classList.add("done"); setTimeout(function () { sp.remove(); }, 600); }, Math.max(0, 700 - performance.now()));
+    }); });
   }
   if (root.querySelector(".ac-root")) hide();
   else new MutationObserver(function (m, o) { if (root.querySelector(".ac-root")) { o.disconnect(); hide(); } }).observe(root, { childList: true, subtree: true });
@@ -191,11 +195,10 @@ window.__acTheme = function (light, bg) {
   var go = function () { (window.requestIdleCallback || function (f) { setTimeout(f, 300); })(warm, { timeout: 1200 }); };
   document.readyState === "complete" ? go() : addEventListener("load", go);
 })();
+// The service worker serves the app network-first, so this launch already runs the newest
+// files. It is not reloaded when a new worker takes over: that reload is what made the
+// loading screen and Today flash back and forth after every deploy and on first install.
 if ("serviceWorker" in navigator) {
-  var reloading = false;
-  navigator.serviceWorker.addEventListener("controllerchange", function () {
-    if (reloading) return; reloading = true; location.reload();
-  });
   addEventListener("load", function () {
     navigator.serviceWorker.register("sw.js").then(function (reg) {
       reg.update();
