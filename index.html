@@ -15,9 +15,9 @@
 })();
 </script>
 <meta name="apple-mobile-web-app-title" content="Ascend">
-<meta name="theme-color" content="#05060B">
+<meta name="theme-color" content="#07080D">
 <meta name="color-scheme" content="dark light">
-<meta name="build" content="2026.10.05.4">
+<meta name="build" content="2026.10.05.5">
 <link rel="apple-touch-icon" href="icon-180.png?v=2">
 <link rel="preload" href="art/cover.jpg" as="image" fetchpriority="high">
 <link rel="apple-touch-startup-image" media="screen and (device-width: 440px) and (device-height: 956px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="splash/1320x2868.jpg">
@@ -32,9 +32,9 @@
 <link rel="apple-touch-startup-image" media="screen and (device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="splash/750x1334.jpg">
 <link rel="apple-touch-startup-image" media="screen and (device-width: 360px) and (device-height: 780px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="splash/1080x2340.jpg">
 <link rel="manifest" href="manifest.webmanifest">
-<link rel="stylesheet" href="ascend.css?v=2026.10.05.4">
+<link rel="stylesheet" href="ascend.css?v=2026.10.05.5">
 <style>
-  html, body { margin:0; padding:0; background:#05060B; overscroll-behavior:none; }
+  html, body { margin:0; padding:0; background:#07080D; overscroll-behavior:none; }
   body { -webkit-tap-highlight-color: transparent; -webkit-touch-callout: none; -webkit-text-size-adjust: 100%; }
   /* 16px or larger stops iOS zooming in when a field is focused. !important beats the app's inline sizes. */
   input, textarea { -webkit-user-select: text; user-select: text; font-size: 16px !important; }
@@ -48,19 +48,6 @@
   .ac-toast { top: calc(14px + env(safe-area-inset-top)) !important; }
   /* Scrolling inside a sheet should not drag the page behind it. */
   .ac-sheet { padding-bottom: calc(46px + env(safe-area-inset-bottom)) !important; overscroll-behavior: contain; -webkit-overflow-scrolling: touch; max-height: 90dvh !important; }
-  /* Everyday tab artwork tiles. --t is the tile's neon tint. */
-  .ac-art { position: relative; display: block; width: 100%; box-sizing: border-box; overflow: hidden; border-radius: 18px; border: 1.5px solid var(--t); background: #080a14 center / cover no-repeat; padding: 0; margin: 0; cursor: pointer; color: #fff; text-align: left; font-family: inherit; box-shadow: 0 0 16px -5px var(--t), inset 0 0 20px -10px var(--t); -webkit-user-select: none; user-select: none; }
-  .ac-art::before { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(6,7,14,.8) 0%, rgba(6,7,14,.5) 28%, rgba(6,7,14,0) 52%); pointer-events: none; }
-  .ac-art-head { position: absolute; left: 10px; top: 10px; right: 8px; display: flex; gap: 9px; align-items: flex-start; }
-  .ac-art-ic { flex: 0 0 auto; width: 36px; height: 36px; box-sizing: border-box; border-radius: 11px; display: grid; place-items: center; border: 1.5px solid var(--t); background: rgba(6,7,14,.55); color: var(--t); box-shadow: 0 0 12px -3px var(--t); }
-  .ac-art-t { font-size: 15.5px; font-weight: 800; line-height: 1.15; text-shadow: 0 1px 8px rgba(0,0,0,.85); }
-  .ac-art-s { font-size: 12px; font-weight: 500; opacity: .9; margin-top: 3px; line-height: 1.3; text-shadow: 0 1px 6px rgba(0,0,0,.95); }
-  .ac-banner { height: 132px; cursor: default; background-position: 80% 40%; }
-  .ac-banner::before { background: linear-gradient(90deg, rgba(6,7,14,.94) 0%, rgba(6,7,14,.72) 42%, rgba(6,7,14,0) 72%); }
-  .ac-banner .ac-art-head { top: 50%; transform: translateY(-50%); left: 14px; gap: 12px; align-items: center; }
-  .ac-banner-chev { position: absolute; right: 12px; top: 12px; width: 30px; height: 30px; box-sizing: border-box; border-radius: 99px; display: grid; place-items: center; border: 1.5px solid var(--t); background: rgba(6,7,14,.6); color: #fff; font-size: 19px; line-height: 1; padding-bottom: 2px; box-shadow: 0 0 12px -3px var(--t); transition: transform .3s cubic-bezier(.2,.8,.3,1); }
-  .ac-sheet-head { cursor: grab; }
-  .ac-sheet-head:active { cursor: grabbing; }
   /* Timer */
   @keyframes acTfSpin { to { transform: rotate(360deg); } }
   @keyframes acTfBlink { 0%,100% { opacity: 1; transform: scale(1); } 50% { opacity: .35; transform: scale(.7); } }
@@ -170,13 +157,13 @@ window.__acTheme = function (light, bg) {
   });
 })();
 </script>
-<script src="fx.js?v=2026.10.05.4"></script>
-<script src="celebrate.js?v=2026.10.05.4"></script>
-<script src="books.js?v=2026.10.05.4"></script>
-<script src="recipes.js?v=2026.10.05.4"></script>
-<script src="foods.js?v=2026.10.05.4"></script>
-<script src="lqip.js?v=2026.10.05.4"></script>
-<script src="app.js?v=2026.10.05.4"></script>
+<script src="fx.js?v=2026.10.05.5"></script>
+<script src="celebrate.js?v=2026.10.05.5"></script>
+<script src="books.js?v=2026.10.05.5"></script>
+<script src="recipes.js?v=2026.10.05.5"></script>
+<script src="foods.js?v=2026.10.05.5"></script>
+<script src="lqip.js?v=2026.10.05.5"></script>
+<script src="app.js?v=2026.10.05.5"></script>
 <script>
 (function () {
   var sp = document.getElementById("splash"), root = document.getElementById("root"), gone = false;

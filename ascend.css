@@ -1,406 +1,326 @@
-/* Ascend visual layer: ambient light, glass surfaces, motion. Theme colours come from the
-   CSS variables the app sets on .ac-root (--acc, --acc2, --text, --dim, --line, --sheen, --amb). */
+/* =====================================================================
+   Ascend design layer
+   Colours, radii and elevation come from the variables the app sets on .ac-root:
+     --acc --acc2      accent pair           --text --dim --dimmer   text, three levels
+     --line            hairline separators   --panel --fill --elev  surfaces
+     --track           empty progress        --shadow --float       elevation
+     --accFaint        focus rings           --accSoft              tinted fills
+   One typeface (the system font), sentence-case headings, hairline borders and soft
+   elevation. Accent colour is kept for actions, selection and progress.
+   ===================================================================== */
 
-@keyframes acAurora { 0% { transform: translate3d(-4%, -3%, 0) rotate(0deg) scale(1); } 50% { transform: translate3d(3%, 2%, 0) rotate(8deg) scale(1.08); } 100% { transform: translate3d(-2%, 4%, 0) rotate(-6deg) scale(1.03); } }
+/* ---------- Motion ---------- */
 /* Only "from" states, so elements settle back to their own inline opacity/transform. */
-@keyframes acUp { from { opacity: 0; transform: translate3d(0, 14px, 0); } }
-@keyframes acDown { from { opacity: 0; transform: translate3d(0, -10px, 0); } }
-@keyframes acBar { from { transform: scaleY(0); } to { transform: scaleY(1); } }
-@keyframes acTitle { 0%, 100% { background-position: 100% 0; } 50% { background-position: 0% 0; } }
-@keyframes acTitleStep { 0%, 100% { background-position: 100% 0; } 10%, 90% { background-position: 92% 0; } 20%, 80% { background-position: 66% 0; } 30%, 70% { background-position: 34% 0; } 40%, 60% { background-position: 8% 0; } 50% { background-position: 0% 0; } }
-@keyframes acNavPop { 0% { transform: scale(.7) translateY(3px); } 60% { transform: scale(1.18) translateY(-2px); } 100% { transform: none; } }
-@keyframes acFlash { 0% { box-shadow: 0 0 0 0 var(--accFaint); transform: scale(1); } 25% { box-shadow: 0 0 0 8px var(--accFaint); transform: scale(1.02); } 60% { box-shadow: 0 0 0 0 transparent; transform: scale(1); } 80% { box-shadow: 0 0 0 6px var(--accFaint); } 100% { box-shadow: 0 0 0 0 transparent; } }
-@keyframes acGlint { from { transform: translateX(-120%) skewX(-16deg); } to { transform: translateX(260%) skewX(-16deg); } }
-@keyframes acRipple { from { transform: translate(-50%, -50%) scale(0); opacity: .35; } to { transform: translate(-50%, -50%) scale(1); opacity: 0; } }
+@keyframes acUp { from { opacity: 0; transform: translate3d(0, 10px, 0); } }
+@keyframes acDown { from { opacity: 0; transform: translate3d(0, -6px, 0); } }
+@keyframes acNavPop { 0% { transform: scale(.88); } 60% { transform: scale(1.06); } 100% { transform: none; } }
+@keyframes acFlash { 0% { box-shadow: 0 0 0 0 var(--accFaint); } 30% { box-shadow: 0 0 0 6px var(--accFaint); } 65% { box-shadow: 0 0 0 0 transparent; } 85% { box-shadow: 0 0 0 4px var(--accFaint); } 100% { box-shadow: 0 0 0 0 transparent; } }
+@keyframes acRipple { from { transform: translate(-50%, -50%) scale(0); opacity: .16; } to { transform: translate(-50%, -50%) scale(1); opacity: 0; } }
 @keyframes acSpark { from { transform: translate(-50%, -50%) scale(1); opacity: 1; } to { transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) scale(.2); opacity: 0; } }
 @keyframes acFloat { 0% { transform: translate(-50%, 0) scale(.8); opacity: 0; } 20% { transform: translate(-50%, -14px) scale(1.05); opacity: 1; } 100% { transform: translate(-50%, -64px) scale(1); opacity: 0; } }
-@keyframes acEpi { from { opacity: 0; transform: scaleX(1.035); filter: blur(3px); } to { opacity: 1; transform: none; filter: none; } }
-@keyframes acRule { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+@keyframes acEpi { from { opacity: 0; transform: translate3d(0, 4px, 0); } }
+@keyframes acGrow { from { transform: scaleX(0); } }
+@keyframes acBump { 0% { transform: none; } 35% { transform: scale(1.1); } 100% { transform: none; } }
+@keyframes acBumpGlow { 0% { color: inherit; } 30% { color: var(--acc); } 100% { color: inherit; } }
+@keyframes acPick { 0% { transform: scale(1); } 40% { transform: scale(1.05); } 100% { transform: scale(1); } }
+@keyframes acCardSwap { from { opacity: 0; transform: translate3d(0, 8px, 0); } }
+@keyframes acToastIn { 0% { opacity: 0; transform: translate(-50%, -20px) scale(.96); } 60% { opacity: 1; transform: translate(-50%, 2px) scale(1); } 100% { opacity: 1; transform: translate(-50%, 0) scale(1); } }
+@keyframes acFromR { from { opacity: 0; transform: translate3d(28px, 0, 0); } }
+@keyframes acFromL { from { opacity: 0; transform: translate3d(-28px, 0, 0); } }
+@keyframes acDeeper { from { opacity: 0; transform: translate3d(0, 6px, 0) scale(.98); } }
+@keyframes acTip { from { opacity: 0; transform: translate(-50%, 4px) scale(.94); } to { opacity: 1; transform: translate(-50%, 0) scale(1); } }
+@keyframes acTipIn { from { opacity: 0; transform: translate(-50%, 3px); } to { opacity: 1; transform: translate(-50%, 0); } }
+@keyframes acLiveDot { 0%, 100% { opacity: 1; } 50% { opacity: .55; } }
+@keyframes acLivePing { from { transform: scale(1); opacity: .45; } to { transform: scale(2.2); opacity: 0; } }
+@keyframes acRingDraw { from { stroke-dashoffset: var(--len); } }
 
-/* Ambient light drifting behind the whole app. */
-.ac-root::before {
-  content: ""; position: fixed; inset: -30%; z-index: 0; pointer-events: none;
-  background:
-    radial-gradient(42% 34% at 22% 22%, var(--accFaint), transparent 76%),
-    radial-gradient(38% 32% at 78% 68%, var(--acc2Faint), transparent 76%),
-    radial-gradient(30% 26% at 60% 12%, var(--acc2Faint), transparent 76%);
-  opacity: var(--amb, .5); will-change: transform;
-  animation: acAurora 36s steps(270) infinite alternate;
-}
+/* ---------- Canvas ---------- */
+.ac-root { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; text-rendering: optimizeLegibility; }
+.ac-root ::placeholder { color: var(--dimmer); opacity: 1; }
+::selection { background: var(--accFaint); }
 
-/* Header row. */
-.ac-hdr { animation: acDown .5s cubic-bezier(.2,.8,.3,1) both; }
-.ac-hdr > div > .ac-btn { -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); }
-.ac-hdr > div > .ac-btn:first-child { overflow: visible; box-shadow: 0 0 10px -4px rgba(255,170,60,.5); }
-.ac-hdr > div > .ac-btn:first-child::after { content: ""; position: absolute; inset: -1px; border-radius: inherit; pointer-events: none; box-shadow: 0 0 0 3px rgba(255,170,60,.08), 0 0 16px -2px rgba(255,170,60,.55); opacity: 0; animation: acGlowPulse 3.2s ease-in-out infinite; }
-@keyframes acGlowPulse { 0%, 100% { opacity: 0; } 50% { opacity: 1; } }
-.ac-hdr > .ac-btn > div:first-child { transition: transform .3s cubic-bezier(.2,.8,.3,1), box-shadow .3s ease; box-shadow: 0 0 16px -6px var(--acc); }
-.ac-hdr > .ac-btn:active > div:first-child { transform: rotate(-6deg) scale(.94); }
+/* ---------- Header ---------- */
+.ac-hdr { animation: acDown .4s cubic-bezier(.2,.8,.3,1) both; }
 
-/* Page entrance: children rise in, one after another. */
-.ac-tab { animation: acUp .45s cubic-bezier(.2,.8,.3,1) both !important; }
-.ac-tab > div > :not(.ac-item):not(.ac-sheet) { animation: acUp .55s cubic-bezier(.2,.8,.3,1) both; }
+.ac-hud { display: inline-flex; align-items: center; gap: 10px; min-height: 40px; box-sizing: border-box; padding: 4px 14px 4px 4px; border-radius: 99px; border: 1px solid var(--line); background: var(--fill); color: var(--text); cursor: pointer; font-family: inherit; }
+.ac-hud-plus { width: 32px; height: 32px; flex-shrink: 0; border-radius: 50%; display: grid; place-items: center; color: var(--on-acc); background: linear-gradient(135deg, var(--acc), var(--acc2)); box-shadow: inset 0 1px 0 rgba(255,255,255,.28); transition: transform .35s cubic-bezier(.3,1.5,.5,1); }
+.ac-hud:active .ac-hud-plus { transform: rotate(90deg) scale(.92); }
+.ac-hud-txt { display: flex; flex-direction: column; align-items: flex-start; line-height: 1.1; }
+.ac-hud-d { font-size: 11px; font-weight: 500; color: var(--dim); }
+.ac-hud-t { margin-top: 2px; font-size: 14px; font-weight: 600; letter-spacing: -.01em; font-variant-numeric: tabular-nums; }
+
+/* ---------- Page entrance ---------- */
+.ac-tab { animation: acUp .4s cubic-bezier(.2,.8,.3,1) both !important; }
+.ac-tab > div > :not(.ac-item):not(.ac-sheet) { animation: acUp .45s cubic-bezier(.2,.8,.3,1) both; }
 .ac-tab > div > :nth-child(1) { animation-delay: 0ms; }
-.ac-tab > div > :nth-child(2) { animation-delay: 40ms; }
-.ac-tab > div > :nth-child(3) { animation-delay: 80ms; }
-.ac-tab > div > :nth-child(4) { animation-delay: 120ms; }
-.ac-tab > div > :nth-child(5) { animation-delay: 160ms; }
-.ac-tab > div > :nth-child(6) { animation-delay: 200ms; }
-.ac-tab > div > :nth-child(7) { animation-delay: 240ms; }
-.ac-tab > div > :nth-child(8) { animation-delay: 280ms; }
-.ac-tab > div > :nth-child(n+9) { animation-delay: 320ms; }
+.ac-tab > div > :nth-child(2) { animation-delay: 30ms; }
+.ac-tab > div > :nth-child(3) { animation-delay: 60ms; }
+.ac-tab > div > :nth-child(4) { animation-delay: 90ms; }
+.ac-tab > div > :nth-child(5) { animation-delay: 120ms; }
+.ac-tab > div > :nth-child(6) { animation-delay: 150ms; }
+.ac-tab > div > :nth-child(7) { animation-delay: 180ms; }
+.ac-tab > div > :nth-child(8) { animation-delay: 210ms; }
+.ac-tab > div > :nth-child(n+9) { animation-delay: 240ms; }
+/* Pages slide in from the side you're heading towards (fx.js sets data-acdir on <html>). */
+html[data-acdir="r"] .ac-tab { animation: acFromR .42s cubic-bezier(.2,.85,.25,1) both !important; }
+html[data-acdir="l"] .ac-tab { animation: acFromL .42s cubic-bezier(.2,.85,.25,1) both !important; }
+html[data-acdir="in"] .ac-tab { animation: acDeeper .45s cubic-bezier(.2,.85,.25,1) both !important; }
 
-/* Page titles: a slow sheen of the accent colour through the letters. */
-.ac-tab [style*="font-size: 30px"][style*="font-weight: 800"],
-.ac-tab [style*="font-size: 44px"][style*="font-weight: 800"] {
-  background-image: linear-gradient(100deg, var(--text) 0%, var(--text) 38%, var(--acc) 50%, var(--acc2) 56%, var(--text) 68%, var(--text) 100%);
-  background-size: 260% 100%; -webkit-background-clip: text; background-clip: text; color: transparent;
-  animation: acTitleStep 12s steps(30) infinite;
-  /* The gradient only paints inside the box, so give descenders (the y in Day) room without moving anything. */
-  padding-bottom: .16em; margin-bottom: -.16em;
-}
-
-/* Section headings: the accent bar grows in. */
-.ac-tab h2 > span:first-child, .ac-btn > h2 > span:first-child { transform-origin: bottom; animation: acBar .6s cubic-bezier(.2,.8,.3,1) .15s both; box-shadow: 0 0 10px var(--accFaint); }
-
-/* Panels: a soft top-lit sheen and a finer edge. */
-.ac-panel { background-image: linear-gradient(165deg, var(--sheen), transparent 46%) !important; box-shadow: inset 0 1px 0 var(--hi), 0 1px 2px rgba(0,0,0,.06); }
+/* ---------- Surfaces ---------- */
+.ac-panel { box-shadow: var(--shadow); }
 .ac-panel.ac-card { overflow: hidden; }
-.ac-panel.ac-row { transition: background .3s ease, border-color .3s ease, transform .25s cubic-bezier(.2,.8,.3,1), box-shadow .3s ease; }
-
-/* Task cards: a single glint as they arrive. */
-.ac-card:not(.ac-panel)::after {
-  content: ""; position: absolute; top: 0; bottom: 0; left: 0; width: 38%; pointer-events: none;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,.14), transparent);
-  animation: acGlint 1.4s cubic-bezier(.4,0,.2,1) .35s both;
-}
-
-/* Everyday artwork tiles: the neon edge breathes. */
-.ac-art.ac-item, .ac-art.ac-banner { animation: acIn .45s cubic-bezier(.2,.8,.3,1) both; }
-.ac-btn.ac-art { overflow: visible; box-shadow: 0 0 14px -6px var(--t), inset 0 0 18px -12px var(--t); }
-.ac-art::before { border-radius: inherit; }
-.ac-art::after { content: ""; position: absolute; inset: -1.5px; border-radius: inherit; pointer-events: none; box-shadow: 0 0 24px -4px var(--t), inset 0 0 26px -10px var(--t); opacity: 0; animation: acGlowPulse 5.5s ease-in-out 1s infinite; }
-.ac-art.ac-banner::after { animation-duration: 6.5s; animation-delay: .5s; }
-.ac-art.ac-wide::after { animation-duration: 6s; }
-.ac-art:active { filter: brightness(1.12); }
-
-/* Progress bars glow a little. */
-.ac-fill { box-shadow: 0 0 12px -3px var(--acc); }
-
-/* Inputs: a calm focus ring. */
-.ac-root input:focus, .ac-root textarea:focus, .ac-sheet input:focus, .ac-sheet textarea:focus { border-color: var(--acc) !important; box-shadow: 0 0 0 3px var(--accFaint); transition: box-shadow .25s ease, border-color .25s ease; }
-
-/* Bottom nav: deeper glass, the active icon pops and glows. */
-.ac-nav { -webkit-backdrop-filter: saturate(1.6) blur(20px) !important; backdrop-filter: saturate(1.6) blur(20px) !important; box-shadow: 0 16px 40px -12px rgba(0,0,0,.45), inset 0 1px 0 var(--hi) !important; animation: acUp .6s cubic-bezier(.2,.8,.3,1) .1s both; }
-.ac-nav button svg { transition: transform .3s cubic-bezier(.2,.8,.3,1); }
-.ac-nav button:has(.ac-navdot) svg { animation: acNavPop .5s cubic-bezier(.2,.9,.3,1.3) both; filter: drop-shadow(0 0 8px var(--accFaint)); }
-
-/* Toasts and sheets. */
-.ac-toast { -webkit-backdrop-filter: saturate(1.5) blur(18px) !important; backdrop-filter: saturate(1.5) blur(18px) !important; }
-.ac-sheet { box-shadow: 0 -24px 60px -24px rgba(0,0,0,.55), inset 0 1px 0 var(--hi); }
-
+.ac-panel.ac-row { transition: background .25s ease, border-color .25s ease, transform .2s cubic-bezier(.2,.8,.3,1), box-shadow .25s ease; }
+.ac-mini { transition: transform .25s cubic-bezier(.2,.8,.3,1), border-color .3s ease; }
+.ac-mini:active { transform: scale(.975); }
 /* Streak tiles flash when the header chip sends you here. */
 .ac-flash { animation: acFlash 1.6s cubic-bezier(.2,.8,.3,1); }
 
-/* Epigraph: a quiet chapter card that opens each day. */
-.ac-epi { margin: 18px 4px 2px; padding: 0; text-align: center; animation: acEpi 1.4s cubic-bezier(.2,.8,.3,1) both; }
-.ac-epi::before, .ac-epi::after { content: ""; display: block; height: 1px; margin: 0 auto; width: 56px; background: linear-gradient(90deg, transparent, var(--dim), transparent); opacity: .5; transform-origin: center; animation: acRule 1.2s cubic-bezier(.2,.8,.3,1) .3s both; }
-.ac-epi-q { margin: 12px 0 8px; font-family: ui-serif, "New York", "Iowan Old Style", Georgia, serif; font-style: italic; font-size: 15px; line-height: 1.55; color: var(--text); opacity: .82; }
-.ac-epi-a { margin-bottom: 12px; font-size: 10.5px; font-weight: 600; letter-spacing: .22em; text-transform: uppercase; color: var(--dim); }
+/* Small uppercase labels above values. */
+.ac-eyebrow { font-size: 11.5px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--dim); }
 
-/* Press ripple and completion sparks (added by fx.js). */
-.ac-ripple { position: absolute; border-radius: 50%; pointer-events: none; background: currentColor; animation: acRipple .6s ease-out forwards; z-index: 0; }
-.ac-spark { position: fixed; width: 6px; height: 6px; border-radius: 50%; pointer-events: none; z-index: 120; animation: acSpark .75s cubic-bezier(.2,.8,.3,1) forwards; }
-.ac-float { position: fixed; z-index: 121; pointer-events: none; font: 800 15px system-ui, -apple-system, sans-serif; letter-spacing: .02em; animation: acFloat 1.2s cubic-bezier(.2,.8,.3,1) forwards; text-shadow: 0 2px 12px rgba(0,0,0,.35); }
-
-/* Sleep week: tap a bar to read that night. */
-@keyframes acTip { from { opacity: 0; transform: translate(-50%, 6px) scale(.9); } to { opacity: 1; transform: translate(-50%, 0) scale(1); } }
-.ac-sleepbar { -webkit-tap-highlight-color: transparent; }
-.ac-sleepbar:not(:disabled):active > span:last-child { filter: brightness(1.15); }
-.ac-sleeptip { position: absolute; left: 50%; transform: translateX(-50%); padding: 3px 7px; border-radius: 7px; font-size: 11px; font-weight: 800; color: #0B0D14; white-space: nowrap; pointer-events: none; box-shadow: 0 4px 14px -4px rgba(0,0,0,.35); animation: acTip .28s cubic-bezier(.2,.9,.3,1.2) both; z-index: 2; }
-.ac-epi { cursor: pointer; -webkit-tap-highlight-color: transparent; }
-.ac-epi:active .ac-epi-q { opacity: .6; }
-
-/* Everyday hub sections. */
-.ac-sec { margin: 30px 0 10px; font-size: 13px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--dim); display: flex; align-items: center; gap: 8px; }
-.ac-sec::before { content: ""; flex-shrink: 0; width: 3px; height: 13px; border-radius: 2px; background: linear-gradient(var(--acc), var(--acc2)); box-shadow: 0 0 10px var(--accFaint); }
+/* ---------- Section headings ---------- */
+/* Everyday hub sections fold; they match the app's section headings. */
+.ac-sec { margin: 34px 0 12px; font-size: 20px; font-weight: 700; letter-spacing: -.015em; line-height: 1.2; color: var(--text); display: flex; align-items: center; gap: 8px; }
 .ac-sec::after { content: ""; flex: 1; }
-.ac-tab > div > .ac-sec:first-of-type { margin-top: 20px; }
-
-/* Compact hub cards for Shifts and Deadlines. */
-.ac-mini { transition: transform .25s cubic-bezier(.2,.8,.3,1), border-color .3s ease; }
-.ac-mini:active { transform: scale(.975); }
-
-/* Edge-swipe back on sub-pages (fx.js moves the page while you drag). */
-.ac-swiping { transition: none !important; will-change: transform; }
-.ac-swipe-back { transition: transform .22s cubic-bezier(.2,.8,.3,1), opacity .22s ease !important; }
-
-/* Wide artwork banners (Shifts, Deadlines): icon top left, label bottom left like the mockup. */
-.ac-wide { aspect-ratio: 724 / 262; background-position: 70% center; }
-.ac-wide::before { background: linear-gradient(90deg, rgba(6,7,14,.82) 0%, rgba(6,7,14,.45) 42%, rgba(6,7,14,0) 68%), linear-gradient(0deg, rgba(6,7,14,.6) 0%, transparent 55%); }
-.ac-wide-ic { position: absolute; left: 12px; top: 12px; width: 44px; height: 44px; border-radius: 13px; }
-.ac-wide-txt { position: absolute; left: 14px; right: 14px; bottom: 12px; }
-.ac-wide .ac-art-t { font-size: 20px; }
-.ac-wide .ac-art-s { font-size: 13px; margin-top: 4px; }
-
-
-/* Everyday sections fold. The label is a button; the line and chevron sit after it. */
-.ac-sec-btn { width: 100%; box-sizing: border-box; padding: 6px 0; background: none; border: none; cursor: pointer; font-family: inherit; text-align: left; -webkit-tap-highlight-color: transparent; }
+.ac-tab > div > .ac-sec:first-of-type { margin-top: 22px; }
+.ac-sec-btn { width: 100%; box-sizing: border-box; padding: 2px 0; background: none; border: none; cursor: pointer; font-family: inherit; text-align: left; -webkit-tap-highlight-color: transparent; }
 .ac-sec-btn::after { order: 1; }
-.ac-sec-chev { order: 2; font-size: 18px; line-height: 1; letter-spacing: 0; color: var(--dim); opacity: .7; transform: rotate(90deg); transition: transform .3s cubic-bezier(.2,.8,.3,1); }
+.ac-sec-chev { order: 2; width: 28px; height: 28px; border-radius: 99px; display: grid; place-items: center; background: var(--fill); font-size: 17px; font-weight: 600; line-height: 1; letter-spacing: 0; color: var(--dim); transform: rotate(90deg); transition: transform .4s cubic-bezier(.3,1.4,.5,1); }
 .ac-hsec.closed .ac-sec-chev { transform: none; }
-.ac-hsec .ac-sec { margin: 28px 0 10px; }
-.ac-hsec.closed .ac-sec { opacity: .75; }
-.ac-hsec-body { padding-top: 4px; }
-/* Live caffeine reading */
-@keyframes acLiveDot { 0%,100% { opacity: 1; } 50% { opacity: .55; } }
-@keyframes acLivePing { from { transform: scale(1); opacity: .5; } to { transform: scale(2.2); opacity: 0; } }
-.ac-live-dot { position: relative; animation: acLiveDot 2s ease-in-out infinite; }
-.ac-live-dot::after { content: ""; position: absolute; inset: 0; border-radius: inherit; background: inherit; animation: acLivePing 2s ease-out infinite; }
-@media (prefers-reduced-motion: reduce) { .ac-live-dot { animation: none; } }
-/* Time picker sheet */
-@keyframes acTpIn { from { transform: translateY(100%); } to { transform: none; } }
-@keyframes acTpFade { from { opacity: 0; } to { opacity: 1; } }
-.ac-tp-back { position: fixed; inset: 0; z-index: 9999; display: flex; align-items: flex-end; justify-content: center; background: rgba(0,0,0,.55); -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px); animation: acTpFade .2s ease both; }
-.ac-tp { width: 100%; max-width: 520px; box-sizing: border-box; padding: 10px 18px calc(22px + env(safe-area-inset-bottom)); border-radius: 26px 26px 0 0; box-shadow: 0 -20px 50px rgba(0,0,0,.5); animation: acTpIn .32s cubic-bezier(.2,.8,.3,1) both; }
-.ac-tp-grab { width: 38px; height: 5px; border-radius: 3px; margin: 0 auto 12px; }
-.ac-tp-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 12px; margin-bottom: 6px; }
-.ac-tp-cap { font-size: 11.5px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; margin: 14px 0 7px; }
-.ac-tp-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 6px; }
-.ac-tp-row { display: flex; gap: 6px; margin-top: 14px; }
-.ac-tp-row .ac-tp-cell { flex: 1; }
-.ac-tp-cell { height: 44px; padding: 0; border-radius: 12px; font-size: 15px; font-weight: 700; font-variant-numeric: tabular-nums; cursor: pointer; transition: background .15s, border-color .15s, color .15s; }
-@media (prefers-reduced-motion: reduce) { .ac-tp, .ac-tp-back { animation: none; } }
+.ac-hsec .ac-sec { margin: 30px 0 12px; }
+.ac-hsec.closed .ac-sec > span:first-child { color: var(--dim); }
+.ac-hsec-body { padding-top: 2px; }
 
-/* ---------- Motion pass ---------- */
 /* Sections open and close by animating their height (grid rows 0fr -> 1fr), with the content
    drifting in slightly behind it. */
-.ac-col { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .44s cubic-bezier(.2,.8,.2,1); }
+.ac-col { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .42s cubic-bezier(.2,.8,.2,1); }
 .ac-col.open { grid-template-rows: 1fr; }
 .ac-col-in { min-height: 0; overflow: hidden; }
 .ac-col.settled > .ac-col-in { overflow: visible; }
-.ac-col-in > * { opacity: 0; transform: translate3d(0, -8px, 0) scale(.985); transform-origin: top center; transition: opacity .26s ease, transform .44s cubic-bezier(.2,.8,.2,1); }
-.ac-col.open > .ac-col-in > * { opacity: 1; transform: none; transition-delay: .05s; }
-
+.ac-col-in > * { opacity: 0; transform: translate3d(0, -6px, 0); transform-origin: top center; transition: opacity .24s ease, transform .42s cubic-bezier(.2,.8,.2,1); }
+.ac-col.open > .ac-col-in > * { opacity: 1; transform: none; transition-delay: .04s; }
 /* Chevrons get a little overshoot. */
-[aria-expanded] span[aria-hidden="true"], .ac-sec-chev { transition: transform .45s cubic-bezier(.3,1.5,.5,1) !important; }
+[aria-expanded] span[aria-hidden="true"], .ac-sec-chev { transition: transform .42s cubic-bezier(.3,1.4,.5,1) !important; }
 
-/* Bottom nav: one highlight slides between tabs with a touch of spring. */
-.ac-navpill { position: absolute; top: 6px; bottom: 6px; z-index: 0; pointer-events: none; box-shadow: inset 0 0 0 1px var(--accFaint), 0 0 20px -8px var(--acc); transition: left .55s cubic-bezier(.3,1.3,.45,1), opacity .3s ease; }
-.ac-nav button .ac-navdot { transition: width .45s cubic-bezier(.3,1.4,.5,1) !important; }
-.ac-nav button span:nth-child(2) { transition: transform .35s cubic-bezier(.3,1.4,.5,1), color .3s ease; }
-.ac-nav button:has(.ac-navdot) span:nth-child(2) { transform: translateY(-1px); }
-
-/* Pages slide in from the side you're heading towards (fx.js sets data-acdir on <html>). */
-@keyframes acFromR { from { opacity: 0; transform: translate3d(38px, 0, 0); } }
-@keyframes acFromL { from { opacity: 0; transform: translate3d(-38px, 0, 0); } }
-@keyframes acDeeper { from { opacity: 0; transform: translate3d(0, 6px, 0) scale(.965); } }
-html[data-acdir="r"] .ac-tab { animation: acFromR .46s cubic-bezier(.2,.85,.25,1) both !important; }
-html[data-acdir="l"] .ac-tab { animation: acFromL .46s cubic-bezier(.2,.85,.25,1) both !important; }
-html[data-acdir="in"] .ac-tab { animation: acDeeper .5s cubic-bezier(.2,.85,.25,1) both !important; }
-
-/* Book card crossfades when you switch books; chips pop when picked. */
-@keyframes acCardSwap { from { opacity: 0; transform: translate3d(0, 10px, 0) scale(.98); filter: blur(3px); } }
-.ac-bookcard { animation: acCardSwap .5s cubic-bezier(.2,.85,.25,1) both; }
-@keyframes acPick { 0% { transform: scale(1); } 40% { transform: scale(1.08); } 100% { transform: scale(1); } }
-.ac-btn[aria-pressed="true"] { animation: acPick .38s cubic-bezier(.3,1.4,.5,1); }
-
-/* Progress bars grow in when they first appear. */
-@keyframes acGrow { from { transform: scaleX(0); } }
-.ac-fill { transform-origin: left center; animation: acGrow .9s cubic-bezier(.2,.85,.25,1) .1s both; }
-
-/* Numbers that change give a small bump (fx.js adds these classes). */
-@keyframes acBump { 0% { transform: none; } 35% { transform: scale(1.14); } 100% { transform: none; } }
-@keyframes acBumpGlow { 0% { text-shadow: none; } 30% { text-shadow: 0 0 14px var(--acc), 0 0 2px var(--acc); } 100% { text-shadow: none; } }
-.ac-bump { animation: acBump .45s cubic-bezier(.3,1.4,.5,1); }
-.ac-bump-g { animation: acBumpGlow .7s ease; }
-
-/* Cards further down the page rise in as you scroll to them (fx.js). !important beats the
-   entrance animations, which would otherwise hold these at full opacity. */
-.ac-rv { opacity: 0 !important; transform: translate3d(0, 22px, 0) scale(.98) !important; }
-.ac-rv.ac-rv-in { opacity: 1 !important; transform: none !important; transition: opacity .5s ease, transform .6s cubic-bezier(.2,.85,.25,1) !important; }
-
-/* Toasts land with a little bounce. */
-@keyframes acToastIn { 0% { opacity: 0; transform: translate(-50%, -26px) scale(.92); } 60% { opacity: 1; transform: translate(-50%, 3px) scale(1.01); } 100% { opacity: 1; transform: translate(-50%, 0) scale(1); } }
-.ac-toast { animation: acToastIn .5s cubic-bezier(.2,.85,.25,1) both !important; }
-
-/* Artwork tiles tilt down slightly under your finger. */
-.ac-art { transition: transform .3s cubic-bezier(.3,1.4,.5,1), filter .2s ease; }
-.ac-art:active { transform: scale(.965); }
+/* ---------- Artwork tiles ---------- */
+/* Picture tiles: the art carries the colour, so the frame stays neutral. --t is the tile's tint. */
+.ac-art { position: relative; display: block; width: 100%; box-sizing: border-box; overflow: hidden; border-radius: 20px; border: none; background: #0B0D14 center / cover no-repeat; padding: 0; margin: 0; cursor: pointer; color: #fff; text-align: left; font-family: inherit; box-shadow: 0 1px 2px rgba(0,0,0,.2), 0 14px 30px -18px rgba(0,0,0,.8); -webkit-user-select: none; user-select: none; transition: transform .3s cubic-bezier(.3,1.4,.5,1), filter .2s ease; }
+.ac-art::before { content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; background: linear-gradient(180deg, rgba(6,7,12,.84) 0%, rgba(6,7,12,.5) 30%, rgba(6,7,12,0) 58%); }
+.ac-art::after { content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; box-shadow: inset 0 0 0 1px rgba(255,255,255,.1), inset 0 1px 0 rgba(255,255,255,.07); }
+.ac-art:active { transform: scale(.97); filter: brightness(1.06); }
+.ac-art-head { position: absolute; left: 12px; top: 12px; right: 10px; display: flex; gap: 10px; align-items: flex-start; }
+.ac-art-ic { flex: 0 0 auto; width: 34px; height: 34px; box-sizing: border-box; border-radius: 10px; display: grid; place-items: center; background: rgba(10,12,20,.58); box-shadow: inset 0 0 0 1px rgba(255,255,255,.16); color: var(--t); color: color-mix(in srgb, var(--t) 72%, #fff); }
+.ac-art-ic svg { width: 18px; height: 18px; }
+.ac-art-t { font-size: 15.5px; font-weight: 700; letter-spacing: -.01em; line-height: 1.2; text-shadow: 0 1px 12px rgba(0,0,0,.55); }
+.ac-art-s { font-size: 12.5px; font-weight: 500; color: rgba(255,255,255,.8); margin-top: 3px; line-height: 1.3; text-shadow: 0 1px 8px rgba(0,0,0,.65); }
 .ac-ripple-clip { position: absolute; inset: 0; border-radius: inherit; overflow: hidden; pointer-events: none; z-index: 0; }
 
-/* =====================================================================
-   Refresh: lit glass edges, instrument-style labels, a quiet grid, and
-   styles for the new parts. Everything uses the theme variables, so the
-   light surfaces work too.
-   ===================================================================== */
-::selection { background: var(--accFaint); }
+/* Wide banner (Timer): label on the left over a dark fade. */
+.ac-banner { height: 128px; background-position: 80% 40%; }
+.ac-banner::before { background: linear-gradient(90deg, rgba(6,7,12,.94) 0%, rgba(6,7,12,.7) 42%, rgba(6,7,12,0) 74%); }
+.ac-banner .ac-art-head { top: 50%; transform: translateY(-50%); left: 16px; gap: 12px; align-items: center; }
+.ac-banner-chev { position: absolute; right: 12px; top: 12px; width: 28px; height: 28px; box-sizing: border-box; border-radius: 99px; display: grid; place-items: center; background: rgba(10,12,20,.55); box-shadow: inset 0 0 0 1px rgba(255,255,255,.16); color: #fff; font-size: 18px; line-height: 1; padding-bottom: 2px; transition: transform .3s cubic-bezier(.2,.8,.3,1); }
 
-/* Cards get a lit hairline: bright where the light hits the top left, a hint of accent
-   bottom right. Static, so it costs nothing per frame. */
-.ac-panel::before {
-  content: ""; position: absolute; inset: -1px; border-radius: inherit; padding: 1px; pointer-events: none;
-  background: linear-gradient(155deg, var(--edge) 0%, transparent 28%, transparent 70%, var(--accFaint) 125%);
-  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor;
-  mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
-}
+/* Wide artwork cards (Shifts, Deadlines): icon top left, label bottom left. */
+.ac-wide { aspect-ratio: 724 / 262; background-position: 70% center; }
+.ac-wide::before { background: linear-gradient(90deg, rgba(6,7,12,.86) 0%, rgba(6,7,12,.45) 44%, rgba(6,7,12,0) 70%), linear-gradient(0deg, rgba(6,7,12,.6) 0%, transparent 55%); }
+.ac-wide-ic { position: absolute; left: 14px; top: 14px; width: 40px; height: 40px; border-radius: 12px; }
+.ac-wide-txt { position: absolute; left: 16px; right: 16px; bottom: 14px; }
+.ac-wide .ac-art-t { font-size: 19px; }
+.ac-wide .ac-art-s { font-size: 13px; margin-top: 3px; }
 
-/* Small uppercase labels read like instrument markings. */
-.ac-root [style*="text-transform: uppercase"][style*="font-size: 9"],
-.ac-root [style*="text-transform: uppercase"][style*="font-size: 10"],
-.ac-root [style*="text-transform: uppercase"][style*="font-size: 11"],
-.ac-root [style*="text-transform: uppercase"][style*="font-size: 12px"],
-.ac-eyebrow, .ac-sec, .ac-tab h2 { font-family: ui-monospace, "SF Mono", SFMono-Regular, Menlo, monospace; }
-.ac-root [style*="text-transform: uppercase"][style*="font-size: 9"],
-.ac-root [style*="text-transform: uppercase"][style*="font-size: 10"],
-.ac-root [style*="text-transform: uppercase"][style*="font-size: 11"],
-.ac-root [style*="text-transform: uppercase"][style*="font-size: 12px"] { letter-spacing: .06em !important; }
-.ac-tab h2, .ac-sec { font-size: 12.5px !important; letter-spacing: .08em !important; }
-.ac-eyebrow { font-size: 11px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--dim); }
+/* Health: picture widgets that open each tracker, and the matching page heroes. */
+.ac-htiles { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+/* The tracker artwork has a caption printed across its top; crop below it and label the tile like the others. */
+.ac-art.ac-hart { aspect-ratio: 712 / 470; border-radius: 18px; background-position: 50% 100%; background-size: auto 168%; }
+.ac-art.ac-hart .ac-art-head { left: 10px; top: 10px; gap: 9px; align-items: center; }
+.ac-art.ac-hart .ac-art-ic { width: 30px; height: 30px; border-radius: 9px; }
+.ac-art.ac-hart .ac-art-ic svg { width: 16px; height: 16px; }
+.ac-art.ac-hart .ac-art-t { font-size: 15px; }
+.ac-hchip { position: absolute; left: 8px; bottom: 8px; max-width: calc(100% - 16px); box-sizing: border-box; display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px 4px 8px; border-radius: 99px; background: rgba(8,10,16,.72); box-shadow: inset 0 0 0 1px rgba(255,255,255,.14); color: #fff; font-size: 11.5px; font-weight: 600; line-height: 1.25; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-variant-numeric: tabular-nums; pointer-events: none; }
+.ac-hchip i { flex: 0 0 auto; width: 6px; height: 6px; border-radius: 99px; }
+.ac-hhero { position: relative; width: 100%; box-sizing: border-box; aspect-ratio: 712 / 380; margin-top: 10px; overflow: hidden; border-radius: 20px; background: #0B0D14 50% 100% / auto 180% no-repeat; box-shadow: 0 1px 2px rgba(0,0,0,.2), 0 14px 30px -18px rgba(0,0,0,.8); color: #fff; animation: acUp .45s cubic-bezier(.2,.8,.3,1) both; }
+.ac-hhero::before { content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; background: linear-gradient(180deg, rgba(6,7,12,.82) 0%, rgba(6,7,12,.45) 34%, rgba(6,7,12,0) 62%); }
+.ac-hhero::after { content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; box-shadow: inset 0 0 0 1px rgba(255,255,255,.1); }
+.ac-hhero .ac-art-head { left: 16px; top: 16px; gap: 12px; align-items: center; }
+.ac-hhero .ac-art-ic { width: 42px; height: 42px; border-radius: 12px; }
+.ac-hhero .ac-art-ic svg { width: 21px; height: 21px; }
+.ac-hhero .ac-art-t { font-size: 22px; letter-spacing: -.02em; }
+.ac-hhero .ac-art-s { font-size: 13.5px; }
 
-/* A faint grid that fades out down the screen. Static. */
-.ac-root::after {
-  content: ""; position: fixed; inset: 0; z-index: 0; pointer-events: none;
-  background-image: radial-gradient(circle at 1px 1px, var(--line) 1px, transparent 1.6px); background-size: 22px 22px;
-  -webkit-mask-image: linear-gradient(180deg, #000 0%, rgba(0,0,0,.35) 32%, transparent 64%);
-  mask-image: linear-gradient(180deg, #000 0%, rgba(0,0,0,.35) 32%, transparent 64%);
-  opacity: .5;
-}
-
-/* Nav: a thin light line along the top edge. */
-.ac-nav::after { content: ""; position: absolute; left: 20%; right: 20%; top: -1px; height: 1px; pointer-events: none; background: linear-gradient(90deg, transparent, var(--acc), var(--acc2), transparent); opacity: .6; }
-
-/* Header: date, time and the quick actions button. */
-.ac-hud { display: inline-flex; align-items: center; gap: 9px; padding: 4px 13px 4px 4px; border-radius: 99px; border: 1px solid var(--line); background: var(--hi); color: var(--text); cursor: pointer; font-family: inherit; -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); }
-.ac-hud-plus { width: 30px; height: 30px; flex-shrink: 0; border-radius: 50%; display: grid; place-items: center; color: var(--on-acc); background: linear-gradient(135deg, var(--acc), var(--acc2)); box-shadow: 0 4px 14px -4px var(--acc), inset 0 1px 0 rgba(255,255,255,.35); transition: transform .35s cubic-bezier(.3,1.5,.5,1); }
-.ac-hud:active .ac-hud-plus { transform: rotate(90deg) scale(.92); }
-.ac-hud-txt { display: flex; flex-direction: column; align-items: flex-start; line-height: 1.05; }
-.ac-hud-d { font: 700 9.5px ui-monospace, "SF Mono", Menlo, monospace; letter-spacing: .07em; text-transform: uppercase; color: var(--dim); }
-.ac-hud-t { margin-top: 3px; font-size: 13px; font-weight: 700; font-variant-numeric: tabular-nums; }
-
-/* Quick actions sheet (rendered outside the app, so it carries its own colours). */
-@keyframes acQaIn { from { transform: translate3d(0, 100%, 0); } }
-@keyframes acQaFade { from { opacity: 0; } }
-@keyframes acQaTile { from { opacity: 0; transform: translate3d(0, 10px, 0) scale(.96); } }
-.ac-qa-back { position: fixed; inset: 0; z-index: 9998; display: flex; align-items: flex-end; justify-content: center; background: rgba(0,0,0,.55); animation: acQaFade .22s ease both; transition: opacity .22s ease; }
-.ac-qa-back.out { opacity: 0; }
-.ac-qa { width: 100%; max-width: 520px; max-height: 88vh; overflow-y: auto; box-sizing: border-box; padding: 10px 16px calc(22px + env(safe-area-inset-bottom)); border-radius: 26px 26px 0 0; border-top: 1px solid var(--line); box-shadow: 0 -24px 60px rgba(0,0,0,.5); animation: acQaIn .38s cubic-bezier(.2,.85,.25,1) both; transition: transform .23s cubic-bezier(.4,0,.2,1); }
-.ac-qa-back.out .ac-qa { transform: translate3d(0, 100%, 0); }
-.ac-qa-grab { width: 38px; height: 5px; border-radius: 3px; margin: 0 auto 12px; background: var(--line); }
-.ac-qa-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 12px; margin-bottom: 14px; }
-.ac-qa-eyebrow { font: 700 10.5px ui-monospace, "SF Mono", Menlo, monospace; letter-spacing: .07em; text-transform: uppercase; color: var(--dim); }
-.ac-qa-title { margin-top: 3px; font-size: 24px; font-weight: 800; letter-spacing: -.02em; }
-.ac-qa-x { width: 40px; height: 40px; flex-shrink: 0; border-radius: 12px; border: 1px solid var(--line); background: var(--chip); color: var(--text); font-size: 17px; cursor: pointer; }
-.ac-qa-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
-.ac-qa-tile { position: relative; display: flex; flex-direction: column; align-items: flex-start; gap: 3px; min-height: 96px; padding: 11px 11px 12px; border-radius: 16px; border: 1px solid var(--line); background: var(--chip); color: var(--text); text-align: left; cursor: pointer; animation: acQaTile .4s cubic-bezier(.2,.85,.25,1) both; }
-.ac-qa-tile:nth-child(2) { animation-delay: 30ms; }
-.ac-qa-tile:nth-child(3) { animation-delay: 60ms; }
-.ac-qa-tile:nth-child(4) { animation-delay: 90ms; }
-.ac-qa-tile:nth-child(5) { animation-delay: 120ms; }
-.ac-qa-tile:nth-child(6) { animation-delay: 150ms; }
-.ac-qa-tile:nth-child(n+7) { animation-delay: 180ms; }
-.ac-qa-ic { width: 34px; height: 34px; margin-bottom: 7px; border-radius: 11px; border: 1px solid; display: grid; place-items: center; }
-.ac-qa-t { font-size: 13.5px; font-weight: 800; }
-.ac-qa-s { font-size: 11px; color: var(--dim); line-height: 1.3; }
-.ac-qa-cap { margin-bottom: 8px; font: 700 10.5px ui-monospace, "SF Mono", Menlo, monospace; letter-spacing: .07em; text-transform: uppercase; color: var(--dim); }
-.ac-qa-chips { display: flex; flex-wrap: wrap; gap: 7px; }
-.ac-qa-chip { display: inline-flex; align-items: baseline; gap: 6px; padding: 9px 13px; border-radius: 99px; border: 1px solid var(--line); background: var(--chip); color: var(--text); font-size: 13px; font-weight: 700; cursor: pointer; }
-.ac-qa-chip span { font-size: 11.5px; font-weight: 600; color: var(--dim); }
-.ac-qa-sub { animation: acQaTile .35s cubic-bezier(.2,.85,.25,1) both; }
-.ac-qa-go { padding: 0 18px; border-radius: 12px; border: none; background: linear-gradient(135deg, var(--acc), var(--acc2)); color: var(--on); font-size: 15px; font-weight: 800; cursor: pointer; }
-.ac-qa-num { height: 44px; border-radius: 12px; border: 1px solid var(--line); background: var(--chip); color: var(--dim); font-size: 15px; font-weight: 800; cursor: pointer; }
-.ac-qa-num.on { border-color: var(--acc); color: var(--text); box-shadow: inset 0 0 0 1px var(--acc), 0 0 16px -6px var(--acc); }
-
-/* Readiness. */
-.ac-ready-ring { position: relative; width: 84px; height: 84px; flex-shrink: 0; }
-.ac-ready-ring.idle { border-radius: 50%; box-shadow: inset 0 0 0 7px var(--line); }
-.ac-ready-num { position: absolute; inset: 0; display: grid; place-items: center; font: 800 27px ui-rounded, "SF Pro Rounded", system-ui, sans-serif; font-variant-numeric: tabular-nums; letter-spacing: -.02em; }
-@keyframes acRingDraw { from { stroke-dashoffset: var(--len); } }
-.ac-ring-draw { animation: acRingDraw 1.1s cubic-bezier(.2,.85,.25,1) .1s both; }
-.ac-chip-ready { display: inline-flex; align-items: center; gap: 7px; margin-top: 12px; padding: 6px 12px; border-radius: 99px; border: 1px solid; background: transparent; font-size: 12.5px; font-weight: 700; font-family: inherit; cursor: pointer; }
+/* ---------- Controls ---------- */
+/* Inputs: a calm focus ring. */
+.ac-root input:focus, .ac-root textarea:focus, .ac-root select:focus { border-color: var(--acc) !important; box-shadow: 0 0 0 3px var(--accFaint); transition: box-shadow .2s ease, border-color .2s ease; }
+.ac-link { padding: 4px 0; background: none; border: none; color: var(--acc); font-size: 13.5px; font-weight: 600; font-family: inherit; cursor: pointer; }
+.ac-pill { padding: 7px 13px; border-radius: 99px; border: 1px solid var(--line); background: var(--fill); color: var(--text); font-size: 13px; font-weight: 600; font-family: inherit; cursor: pointer; }
+.ac-fchip { display: inline-flex; align-items: baseline; gap: 6px; padding: 8px 12px; border-radius: 99px; border: 1px solid var(--line); background: var(--fill); color: var(--text); font-family: inherit; font-size: 13px; font-weight: 600; cursor: pointer; }
+.ac-fchip span { color: var(--dim); font-weight: 500; font-size: 12px; }
+.ac-btn[aria-pressed="true"] { animation: acPick .34s cubic-bezier(.3,1.4,.5,1); }
+.ac-chip-ready { display: inline-flex; align-items: center; gap: 8px; margin-top: 14px; padding: 6px 12px 6px 10px; border-radius: 99px; border: 1px solid; background: transparent; font-size: 13px; font-weight: 600; font-family: inherit; cursor: pointer; }
 .ac-dot { width: 7px; height: 7px; flex-shrink: 0; border-radius: 50%; }
 
+/* Custom slider (timer length). */
+.ac-range::-webkit-slider-thumb { box-shadow: 0 1px 2px rgba(0,0,0,.3), 0 4px 12px rgba(0,0,0,.25) !important; }
+
+/* Progress bars grow in when they first appear. */
+.ac-fill { transform-origin: left center; animation: acGrow .8s cubic-bezier(.2,.85,.25,1) .05s both; }
+
+/* ---------- Bottom navigation ---------- */
+/* Floating glass bar; one highlight slides between tabs. */
+.ac-nav { -webkit-backdrop-filter: saturate(1.8) blur(24px) !important; backdrop-filter: saturate(1.8) blur(24px) !important; box-shadow: var(--float) !important; animation: acUp .5s cubic-bezier(.2,.8,.3,1) .05s both; }
+.ac-nav button svg { transition: transform .3s cubic-bezier(.2,.8,.3,1); }
+.ac-nav button:has(.ac-navdot) svg { animation: acNavPop .42s cubic-bezier(.2,.9,.3,1.3) both; }
+.ac-nav button span:nth-child(2) { transition: color .25s ease; }
+.ac-navpill { position: absolute; top: 5px; bottom: 5px; z-index: 0; pointer-events: none; transition: left .5s cubic-bezier(.3,1.25,.45,1), opacity .3s ease; }
+
+/* ---------- Toasts and sheets ---------- */
+.ac-toast { -webkit-backdrop-filter: saturate(1.6) blur(20px) !important; backdrop-filter: saturate(1.6) blur(20px) !important; box-shadow: var(--float) !important; animation: acToastIn .45s cubic-bezier(.2,.85,.25,1) both !important; }
+.ac-sheet { box-shadow: 0 -12px 40px -12px rgba(0,0,0,.4); }
+.ac-sheet-head { cursor: grab; }
+.ac-sheet-head:active { cursor: grabbing; }
+
+/* ---------- Today ---------- */
+/* Epigraph: a quiet line that opens each day. */
+.ac-epi { margin: 26px 12px 2px; padding: 0; text-align: center; cursor: pointer; -webkit-tap-highlight-color: transparent; animation: acEpi 1s cubic-bezier(.2,.8,.3,1) both; }
+.ac-epi-q { margin: 0 0 8px; font-family: ui-serif, "New York", "Iowan Old Style", Georgia, serif; font-style: italic; font-size: 16px; line-height: 1.5; color: var(--text); opacity: .86; text-wrap: balance; }
+.ac-epi-a { font-size: 11px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--dimmer); }
+.ac-epi:active .ac-epi-q { opacity: .6; }
+
+/* Readiness ring. */
+.ac-ready-ring { position: relative; width: 84px; height: 84px; flex-shrink: 0; }
+.ac-ready-ring.idle { border-radius: 50%; box-shadow: inset 0 0 0 7px var(--track); }
+.ac-ready-num { position: absolute; inset: 0; display: grid; place-items: center; font: 700 27px ui-rounded, "SF Pro Rounded", -apple-system, system-ui, sans-serif; font-variant-numeric: tabular-nums; letter-spacing: -.02em; }
+.ac-ring-draw { animation: acRingDraw 1.1s cubic-bezier(.2,.85,.25,1) .1s both; }
+
 /* Your day timeline. */
-.ac-dl-row { display: grid; grid-template-columns: 62px 18px 1fr; align-items: stretch; width: 100%; margin: 0; padding: 0; background: none; border: none; color: inherit; font-family: inherit; text-align: left; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+.ac-dl-row { display: grid; grid-template-columns: 64px 18px 1fr; align-items: stretch; width: 100%; margin: 0; padding: 0; background: none; border: none; color: inherit; font-family: inherit; text-align: left; cursor: pointer; -webkit-tap-highlight-color: transparent; }
 .ac-dl-row:active .ac-dl-body { opacity: .7; }
-.ac-dl-time { padding-top: 1px; font: 600 11px ui-monospace, "SF Mono", Menlo, monospace; color: var(--dim); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.ac-dl-time { padding-top: 1px; font-size: 12.5px; font-weight: 500; color: var(--dim); font-variant-numeric: tabular-nums; white-space: nowrap; }
 .ac-dl-rail { position: relative; display: flex; justify-content: center; }
 .ac-dl-rail::before { content: ""; position: absolute; top: 0; bottom: 0; width: 2px; border-radius: 2px; background: var(--line); }
 .ac-dl-row:first-child .ac-dl-rail::before { top: 6px; }
 .ac-dl-row:last-child .ac-dl-rail::before { bottom: auto; height: 6px; }
-.ac-dl-dot { position: relative; z-index: 1; width: 10px; height: 10px; margin-top: 3px; border-radius: 50%; background: var(--c); box-shadow: 0 0 10px var(--c); }
+.ac-dl-dot { position: relative; z-index: 1; width: 10px; height: 10px; margin-top: 4px; border-radius: 50%; background: var(--c); box-shadow: 0 0 0 3px var(--panel); }
 .ac-dl-row.past { opacity: .5; }
-.ac-dl-row.past .ac-dl-dot { background: transparent; box-shadow: inset 0 0 0 2px var(--c); }
-.ac-dl-row.next .ac-dl-dot::after { content: ""; position: absolute; inset: -4px; border-radius: 50%; border: 1.5px solid var(--c); animation: acLivePing 2s ease-out infinite; }
-.ac-dl-body { min-width: 0; padding: 0 0 15px 8px; }
-.ac-dl-lab { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; font-size: 14.5px; font-weight: 700; line-height: 1.3; }
-.ac-dl-sub { margin-top: 2px; font-size: 12px; color: var(--dim); line-height: 1.4; }
-.ac-dl-tag { padding: 2px 7px; border-radius: 99px; border: 1px solid; font: 700 10px ui-monospace, "SF Mono", Menlo, monospace; letter-spacing: .05em; text-transform: uppercase; }
-.ac-dl-now { display: flex; align-items: center; gap: 8px; margin: -4px 0 10px; font: 700 10px ui-monospace, "SF Mono", Menlo, monospace; letter-spacing: .07em; text-transform: uppercase; color: var(--acc); }
+.ac-dl-row.past .ac-dl-dot { background: var(--panel); box-shadow: inset 0 0 0 2px var(--c), 0 0 0 3px var(--panel); }
+.ac-dl-row.next .ac-dl-dot::after { content: ""; position: absolute; inset: -4px; border-radius: 50%; border: 1.5px solid var(--c); animation: acLivePing 2.4s ease-out infinite; }
+.ac-dl-body { min-width: 0; padding: 0 0 16px 8px; }
+.ac-dl-lab { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; font-size: 15px; font-weight: 600; line-height: 1.3; }
+.ac-dl-sub { margin-top: 2px; font-size: 13px; color: var(--dim); line-height: 1.4; }
+.ac-dl-tag { padding: 2px 8px; border-radius: 99px; border: none; background: color-mix(in srgb, currentColor 14%, transparent); font-size: 11px; font-weight: 600; letter-spacing: .02em; }
+.ac-dl-now { display: flex; align-items: center; gap: 8px; margin: -2px 0 12px; font-size: 11px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--acc); font-variant-numeric: tabular-nums; }
 .ac-dl-now::before { content: ""; width: 56px; height: 1px; background: linear-gradient(90deg, transparent, var(--acc)); }
 .ac-dl-now::after { content: ""; flex: 1; height: 1px; background: linear-gradient(90deg, var(--acc), transparent); }
 
 /* Insights. */
 .ac-ins { display: flex; gap: 10px; overflow-x: auto; margin: 0 -16px; padding: 2px 16px 8px; scroll-snap-type: x mandatory; scroll-padding: 0 16px; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
 .ac-ins::-webkit-scrollbar { display: none; }
-.ac-ins-card { position: relative; flex: 0 0 74%; min-height: 132px; box-sizing: border-box; padding: 15px 16px 16px; border-radius: 18px; border: 1px solid var(--line); color: var(--text); font-family: inherit; text-align: left; cursor: pointer; scroll-snap-align: start; animation: acIn .45s cubic-bezier(.2,.85,.25,1) both; }
-.ac-ins-big { margin-top: 9px; font-size: 24px; font-weight: 800; letter-spacing: -.02em; line-height: 1.1; }
-.ac-ins-line { margin-top: 7px; padding-right: 10px; font-size: 12.5px; color: var(--dim); line-height: 1.45; }
-.ac-ins-go { position: absolute; top: 12px; right: 14px; font-size: 18px; color: var(--dim); }
+.ac-ins-card { position: relative; flex: 0 0 76%; min-height: 128px; box-sizing: border-box; padding: 16px 16px 16px; border-radius: var(--r); border: 1px solid var(--line); color: var(--text); font-family: inherit; text-align: left; cursor: pointer; scroll-snap-align: start; box-shadow: var(--shadow); animation: acUp .45s cubic-bezier(.2,.85,.25,1) both; }
+.ac-ins-big { margin-top: 8px; font-size: 24px; font-weight: 700; letter-spacing: -.02em; line-height: 1.1; }
+.ac-ins-line { margin-top: 7px; padding-right: 10px; font-size: 13px; color: var(--dim); line-height: 1.45; }
+.ac-ins-go { position: absolute; top: 12px; right: 14px; font-size: 18px; color: var(--dimmer); }
 
-/* Key ideas: reading progress. */
+/* Live caffeine reading. */
+.ac-live-dot { position: relative; animation: acLiveDot 2.4s ease-in-out infinite; }
+.ac-live-dot::after { content: ""; position: absolute; inset: 0; border-radius: inherit; background: inherit; animation: acLivePing 2.4s ease-out infinite; }
+
+/* ---------- Charts ---------- */
+.ac-sleepbar { -webkit-tap-highlight-color: transparent; }
+.ac-sleepbar:not(:disabled):active > span:last-child { filter: brightness(1.12); }
+.ac-sleeptip, .ac-bartip { position: absolute; left: 50%; transform: translateX(-50%); z-index: 2; padding: 4px 8px; border-radius: 8px; font-size: 11.5px; font-weight: 600; white-space: nowrap; pointer-events: none; font-variant-numeric: tabular-nums; }
+.ac-sleeptip { color: #0B0D14; box-shadow: 0 4px 14px -4px rgba(0,0,0,.35); animation: acTip .26s cubic-bezier(.2,.9,.3,1.2) both; }
+.ac-bartip { background: var(--elev); border: 1px solid var(--line); color: var(--text); box-shadow: var(--float); animation: acTipIn .18s ease both; }
+.ac-bar:focus-visible > span:last-child { outline: 2px solid var(--acc); outline-offset: 2px; }
+
+/* ---------- Key ideas ---------- */
+.ac-bookcard { animation: acCardSwap .45s cubic-bezier(.2,.85,.25,1) both; }
 .ac-kprog { display: flex; align-items: center; gap: 12px; margin-top: 16px; }
-.ac-kprog-bar { flex: 1; height: 4px; border-radius: 4px; background: var(--line); overflow: hidden; }
-.ac-kprog-bar > span { display: block; height: 100%; border-radius: 4px; background: linear-gradient(90deg, var(--acc), var(--acc2)); box-shadow: 0 0 10px var(--accFaint); transition: width .8s cubic-bezier(.2,.85,.25,1); }
+.ac-kprog-bar { flex: 1; height: 4px; border-radius: 4px; background: var(--track); overflow: hidden; }
+.ac-kprog-bar > span { display: block; height: 100%; border-radius: 4px; background: linear-gradient(90deg, var(--acc), var(--acc2)); transition: width .8s cubic-bezier(.2,.85,.25,1); }
 .ac-bchip { position: relative; }
-.ac-bchip-bar { position: absolute; left: 10px; right: 10px; bottom: 4px; height: 2px; border-radius: 2px; background: var(--line); overflow: hidden; }
+.ac-bchip-bar { position: absolute; left: 12px; right: 12px; bottom: 4px; height: 2px; border-radius: 2px; background: var(--track); overflow: hidden; }
 .ac-bchip-bar > span { display: block; height: 100%; border-radius: 2px; transition: width .6s ease; }
-.ac-idx { min-width: 20px; padding-top: 2px; font: 800 12.5px ui-monospace, "SF Mono", Menlo, monospace; font-variant-numeric: tabular-nums; }
+.ac-idx { min-width: 20px; padding-top: 1px; font-size: 13px; font-weight: 700; font-variant-numeric: tabular-nums; }
 .ac-idea-acts { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
-.ac-link { padding: 4px 0; background: none; border: none; color: var(--acc); font-size: 13px; font-weight: 700; font-family: inherit; cursor: pointer; }
-.ac-pill { padding: 7px 13px; border-radius: 99px; border: 1px solid var(--line); background: transparent; color: var(--text); font-size: 12.5px; font-weight: 700; font-family: inherit; cursor: pointer; }
 
-/* Checklists: deadline steps and the shopping list. */
-.ac-step { display: flex; align-items: center; gap: 11px; padding: 9px 0; border-bottom: 1px solid var(--line); }
+/* ---------- Checklists: deadline steps and the shopping list ---------- */
+.ac-step { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--line); }
 .ac-step:last-of-type { border-bottom: none; }
-.ac-step-box { flex-shrink: 0; width: 24px; height: 24px; padding: 0; border-radius: 8px; border: 1.5px solid var(--line); background: transparent; color: #08101A; font-size: 13px; font-weight: 900; display: grid; place-items: center; cursor: pointer; transition: background .2s ease, border-color .2s ease; }
+.ac-step-box { flex-shrink: 0; width: 24px; height: 24px; padding: 0; border-radius: 8px; border: 1.5px solid var(--dimmer); background: transparent; color: #08101A; font-size: 13px; font-weight: 800; display: grid; place-items: center; cursor: pointer; transition: background .2s ease, border-color .2s ease; }
 .ac-step.done .ac-step-box { background: var(--c); border-color: var(--c); }
-.ac-step-t { flex: 1; min-width: 0; font-size: 14px; line-height: 1.4; transition: color .2s ease; }
+.ac-step-t { flex: 1; min-width: 0; font-size: 15px; line-height: 1.4; transition: color .2s ease; }
 .ac-step.done .ac-step-t { color: var(--dim); text-decoration: line-through; }
 .ac-step-x { flex-shrink: 0; padding: 4px 6px; background: none; border: none; color: var(--dim); font-size: 13px; opacity: .6; cursor: pointer; }
 
 /* Recipe ingredients you can tap onto the shopping list. */
-.ac-ing { width: 100%; display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 8px 0; background: none; border: none; border-bottom: 1px dashed var(--line); color: var(--text); font-family: inherit; font-size: 14px; line-height: 1.45; text-align: left; cursor: pointer; }
-.ac-ing-add { flex-shrink: 0; width: 24px; height: 24px; border-radius: 50%; border: 1px solid var(--line); display: grid; place-items: center; font-size: 13px; font-weight: 800; color: var(--dim); transition: background .2s ease, color .2s ease, border-color .2s ease; }
-.ac-ing.on .ac-ing-add { background: var(--acc); border-color: var(--acc); color: var(--on-acc); }
+.ac-ing { width: 100%; display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 10px 0; background: none; border: none; border-bottom: 1px solid var(--line); color: var(--text); font-family: inherit; font-size: 15px; line-height: 1.45; text-align: left; cursor: pointer; }
+.ac-ing-add { flex-shrink: 0; width: 26px; height: 26px; border-radius: 50%; border: none; background: var(--fill); display: grid; place-items: center; font-size: 14px; font-weight: 700; color: var(--dim); transition: background .2s ease, color .2s ease; }
+.ac-ing.on .ac-ing-add { background: var(--acc); color: var(--on-acc); }
 
 /* Journal: the question of the day as a tap-to-insert line. */
-.ac-qprompt { display: block; width: 100%; box-sizing: border-box; margin: 0 0 10px; padding: 10px 12px; border-radius: 12px; border: 1px dashed var(--line); background: transparent; color: var(--dim); font-size: 13px; line-height: 1.45; font-family: inherit; text-align: left; cursor: pointer; }
+.ac-qprompt { display: block; width: 100%; box-sizing: border-box; margin: 0 0 10px; padding: 11px 13px; border-radius: 12px; border: 1px dashed var(--line); background: transparent; color: var(--dim); font-size: 14px; line-height: 1.45; font-family: inherit; text-align: left; cursor: pointer; }
 
-@media (prefers-reduced-motion: reduce) { .ac-qa, .ac-qa-back, .ac-qa-tile, .ac-qa-sub, .ac-ring-draw, .ac-ins-card, .ac-dl-row.next .ac-dl-dot::after { animation: none !important; } }
+/* ---------- Quick actions sheet (rendered outside the app, so it carries its own colours) ---------- */
+@keyframes acQaIn { from { transform: translate3d(0, 100%, 0); } }
+@keyframes acQaFade { from { opacity: 0; } }
+@keyframes acQaTile { from { opacity: 0; transform: translate3d(0, 8px, 0) scale(.97); } }
+.ac-qa-back { position: fixed; inset: 0; z-index: 9998; display: flex; align-items: flex-end; justify-content: center; background: rgba(0,0,0,.45); animation: acQaFade .22s ease both; transition: opacity .22s ease; }
+.ac-qa-back.out { opacity: 0; }
+.ac-qa { width: 100%; max-width: 520px; max-height: 88vh; overflow-y: auto; box-sizing: border-box; padding: 8px 16px calc(22px + env(safe-area-inset-bottom)); border-radius: 28px 28px 0 0; border-top: 1px solid var(--line); box-shadow: 0 -12px 40px -12px rgba(0,0,0,.45); animation: acQaIn .38s cubic-bezier(.2,.85,.25,1) both; transition: transform .23s cubic-bezier(.4,0,.2,1); }
+.ac-qa-back.out .ac-qa { transform: translate3d(0, 100%, 0); }
+.ac-qa-grab { width: 36px; height: 5px; border-radius: 3px; margin: 0 auto 14px; background: var(--line); }
+.ac-qa-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 16px; }
+.ac-qa-eyebrow { font-size: 12px; font-weight: 500; color: var(--dim); }
+.ac-qa-title { margin-top: 2px; font-size: 24px; font-weight: 700; letter-spacing: -.02em; }
+.ac-qa-x { width: 32px; height: 32px; flex-shrink: 0; border-radius: 50%; border: none; background: var(--chip); color: var(--dim); font-size: 14px; font-weight: 600; cursor: pointer; }
+.ac-qa-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.ac-qa-tile { position: relative; display: flex; flex-direction: column; align-items: flex-start; gap: 2px; min-height: 100px; padding: 12px 12px 13px; border-radius: 18px; border: 1px solid var(--line); background: var(--chip); color: var(--text); text-align: left; cursor: pointer; animation: acQaTile .38s cubic-bezier(.2,.85,.25,1) both; }
+.ac-qa-tile:nth-child(2) { animation-delay: 25ms; }
+.ac-qa-tile:nth-child(3) { animation-delay: 50ms; }
+.ac-qa-tile:nth-child(4) { animation-delay: 75ms; }
+.ac-qa-tile:nth-child(5) { animation-delay: 100ms; }
+.ac-qa-tile:nth-child(6) { animation-delay: 125ms; }
+.ac-qa-tile:nth-child(n+7) { animation-delay: 150ms; }
+.ac-qa-ic { width: 34px; height: 34px; margin-bottom: 8px; border-radius: 10px; border: none !important; display: grid; place-items: center; }
+.ac-qa-t { font-size: 14px; font-weight: 600; }
+.ac-qa-s { font-size: 11.5px; color: var(--dim); line-height: 1.3; }
+.ac-qa-cap { margin-bottom: 8px; font-size: 13px; font-weight: 600; color: var(--dim); }
+.ac-qa-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.ac-qa-chip { display: inline-flex; align-items: baseline; gap: 6px; padding: 9px 14px; border-radius: 99px; border: 1px solid var(--line); background: var(--chip); color: var(--text); font-size: 13.5px; font-weight: 600; cursor: pointer; }
+.ac-qa-chip span { font-size: 12px; font-weight: 500; color: var(--dim); }
+.ac-qa-sub { animation: acQaTile .32s cubic-bezier(.2,.85,.25,1) both; }
+.ac-qa-go { padding: 0 18px; border-radius: 12px; border: none; background: linear-gradient(135deg, var(--acc), var(--acc2)); color: var(--on); font-size: 15px; font-weight: 600; cursor: pointer; }
+.ac-qa-num { height: 44px; border-radius: 12px; border: 1px solid var(--line); background: var(--chip); color: var(--dim); font-size: 15px; font-weight: 600; cursor: pointer; }
+.ac-qa-num.on { border-color: var(--acc); color: var(--text); background: color-mix(in srgb, var(--acc) 16%, transparent); }
 
-/* Health: picture widgets that open each tracker, and the matching page heroes. */
-.ac-htiles { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-.ac-art.ac-hart { aspect-ratio: 712 / 448; border-radius: 16px; background-position: center; background-size: cover; }
-.ac-art.ac-hart::before { display: none; }
-.ac-hchip { position: absolute; left: 7px; bottom: 7px; max-width: calc(100% - 14px); box-sizing: border-box; display: inline-flex; align-items: center; gap: 6px; padding: 4px 9px 4px 7px; border-radius: 99px; background: rgba(5,7,12,.74); border: 1px solid rgba(255,255,255,.14); color: #fff; font-size: 11.5px; font-weight: 800; line-height: 1.2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-variant-numeric: tabular-nums; pointer-events: none; }
-.ac-hchip i { flex: 0 0 auto; width: 6px; height: 6px; border-radius: 99px; box-shadow: 0 0 6px var(--t); }
-.ac-hhero { position: relative; width: 100%; box-sizing: border-box; aspect-ratio: 712 / 448; margin-top: 10px; border-radius: 18px; border: 1.5px solid var(--t); background: #080a14 center / cover no-repeat; box-shadow: 0 0 18px -5px var(--t), inset 0 0 20px -10px var(--t); animation: acIn .45s cubic-bezier(.2,.8,.3,1) both; }
-.ac-fchip { display: inline-flex; align-items: baseline; gap: 6px; padding: 8px 12px; border-radius: 99px; border: 1px solid var(--line); background: var(--chip); color: var(--text); font-family: inherit; font-size: 13px; font-weight: 700; cursor: pointer; }
-.ac-fchip span { color: var(--dim); font-weight: 600; font-size: 12px; }
-@media (prefers-reduced-motion: reduce) { .ac-hhero { animation: none !important; } }
+/* ---------- Time picker sheet ---------- */
+@keyframes acTpIn { from { transform: translateY(100%); } to { transform: none; } }
+@keyframes acTpFade { from { opacity: 0; } to { opacity: 1; } }
+.ac-tp-back { position: fixed; inset: 0; z-index: 9999; display: flex; align-items: flex-end; justify-content: center; background: rgba(0,0,0,.45); animation: acTpFade .2s ease both; }
+.ac-tp { width: 100%; max-width: 520px; box-sizing: border-box; padding: 8px 18px calc(22px + env(safe-area-inset-bottom)); border-radius: 28px 28px 0 0; box-shadow: 0 -12px 40px -12px rgba(0,0,0,.45); animation: acTpIn .32s cubic-bezier(.2,.8,.3,1) both; }
+.ac-tp-grab { width: 36px; height: 5px; border-radius: 3px; margin: 0 auto 14px; }
+.ac-tp-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 12px; margin-bottom: 6px; }
+.ac-tp-cap { font-size: 12.5px; font-weight: 600; margin: 16px 0 8px; }
+.ac-tp-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 6px; }
+.ac-tp-row { display: flex; gap: 6px; margin-top: 14px; }
+.ac-tp-row .ac-tp-cell { flex: 1; }
+.ac-tp-cell { height: 44px; padding: 0; border-radius: 12px; font-size: 15px; font-weight: 600; font-variant-numeric: tabular-nums; cursor: pointer; transition: background .15s, border-color .15s, color .15s; }
 
-/* ---------- Polish pass: calmer chrome that costs less to draw ---------- */
-/* Page titles: solid text instead of a shimmer that repaints the title over and over. */
-.ac-tab [style*="font-size: 30px"][style*="font-weight: 800"],
-.ac-tab [style*="font-size: 44px"][style*="font-weight: 800"] { animation: none; background-image: none; -webkit-background-clip: border-box; background-clip: border-box; color: var(--text); }
-/* Glows hold still instead of pulsing forever. */
-.ac-art::after { animation: none; opacity: .4; }
-.ac-hdr > div > .ac-btn:first-child::after { animation: none; opacity: .45; }
-/* The header chips are already solid, so they don't need a live blur behind them. */
-.ac-hdr > div > .ac-btn { -webkit-backdrop-filter: none; backdrop-filter: none; }
-/* Bar charts: the value of the tapped bar. */
-.ac-bartip { position: absolute; left: 50%; transform: translateX(-50%); z-index: 2; padding: 3px 7px; border-radius: 7px; background: rgba(12,14,22,.94); border: 1px solid var(--line); color: #fff; font-size: 11px; font-weight: 800; white-space: nowrap; pointer-events: none; box-shadow: 0 4px 14px -6px rgba(0,0,0,.6); animation: acTipIn .18s ease both; }
-@keyframes acTipIn { from { opacity: 0; transform: translate(-50%, 3px); } to { opacity: 1; transform: translate(-50%, 0); } }
-.ac-bar:focus-visible > span:last-child { outline: 2px solid var(--acc); outline-offset: 2px; }
-@media (prefers-reduced-motion: reduce) { .ac-bartip { animation: none; } }
+/* ---------- Effects added by fx.js ---------- */
+.ac-ripple { position: absolute; border-radius: 50%; pointer-events: none; background: currentColor; animation: acRipple .6s ease-out forwards; z-index: 0; }
+.ac-spark { position: fixed; width: 6px; height: 6px; border-radius: 50%; pointer-events: none; z-index: 120; animation: acSpark .75s cubic-bezier(.2,.8,.3,1) forwards; }
+.ac-float { position: fixed; z-index: 121; pointer-events: none; font: 700 15px -apple-system, system-ui, sans-serif; letter-spacing: .01em; animation: acFloat 1.2s cubic-bezier(.2,.8,.3,1) forwards; text-shadow: 0 2px 12px rgba(0,0,0,.35); }
+/* Numbers that change give a small bump. */
+.ac-bump { animation: acBump .42s cubic-bezier(.3,1.4,.5,1); }
+.ac-bump-g { animation: acBumpGlow .6s ease; }
+/* Cards further down the page rise in as you scroll to them. !important beats the entrance
+   animations, which would otherwise hold these at full opacity. */
+.ac-rv { opacity: 0 !important; transform: translate3d(0, 18px, 0) !important; }
+.ac-rv.ac-rv-in { opacity: 1 !important; transform: none !important; transition: opacity .45s ease, transform .55s cubic-bezier(.2,.85,.25,1) !important; }
+/* Edge-swipe back on sub-pages (fx.js moves the page while you drag). */
+.ac-swiping { transition: none !important; will-change: transform; }
+.ac-swipe-back { transition: transform .22s cubic-bezier(.2,.8,.3,1), opacity .22s ease !important; }
+
+@media (prefers-reduced-motion: reduce) {
+  .ac-qa, .ac-qa-back, .ac-qa-tile, .ac-qa-sub, .ac-tp, .ac-tp-back, .ac-ring-draw, .ac-ins-card, .ac-hhero, .ac-bartip, .ac-live-dot, .ac-live-dot::after, .ac-dl-row.next .ac-dl-dot::after { animation: none !important; }
+}
