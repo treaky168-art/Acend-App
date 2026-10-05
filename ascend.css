@@ -43,7 +43,7 @@
 .ac-hdr { animation: acDown .4s cubic-bezier(.2,.8,.3,1) both; }
 
 .ac-hud { display: inline-flex; align-items: center; gap: 10px; min-height: 40px; box-sizing: border-box; padding: 4px 14px 4px 4px; border-radius: 99px; border: 1px solid var(--line); background: var(--fill); color: var(--text); cursor: pointer; font-family: inherit; }
-.ac-hud-plus { width: 32px; height: 32px; flex-shrink: 0; border-radius: 50%; display: grid; place-items: center; color: var(--on-acc); background: linear-gradient(135deg, var(--acc), var(--acc2)); box-shadow: inset 0 1px 0 rgba(255,255,255,.28); transition: transform .35s cubic-bezier(.3,1.5,.5,1); }
+.ac-hud-plus { width: 32px; height: 32px; flex-shrink: 0; border-radius: 50%; display: grid; place-items: center; color: var(--on-acc); background: var(--acc); transition: transform .35s cubic-bezier(.3,1.5,.5,1); }
 .ac-hud:active .ac-hud-plus { transform: rotate(90deg) scale(.92); }
 .ac-hud-txt { display: flex; flex-direction: column; align-items: flex-start; line-height: 1.1; }
 .ac-hud-d { font-size: 11px; font-weight: 500; color: var(--dim); }
@@ -76,7 +76,7 @@ html[data-acdir="in"] .ac-tab { animation: acDeeper .45s cubic-bezier(.2,.85,.25
 .ac-flash { animation: acFlash 1.6s cubic-bezier(.2,.8,.3,1); }
 
 /* Small uppercase labels above values. */
-.ac-eyebrow { font-size: 11.5px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--dim); }
+.ac-eyebrow { font-size: 13px; font-weight: 500; color: var(--dim); }
 
 /* ---------- Section headings ---------- */
 /* Everyday hub sections fold; they match the app's section headings. */
@@ -182,8 +182,8 @@ html[data-acdir="in"] .ac-tab { animation: acDeeper .45s cubic-bezier(.2,.85,.25
 /* ---------- Today ---------- */
 /* Epigraph: a quiet line that opens each day. */
 .ac-epi { margin: 26px 12px 2px; padding: 0; text-align: center; cursor: pointer; -webkit-tap-highlight-color: transparent; animation: acEpi 1s cubic-bezier(.2,.8,.3,1) both; }
-.ac-epi-q { margin: 0 0 8px; font-family: ui-serif, "New York", "Iowan Old Style", Georgia, serif; font-style: italic; font-size: 16px; line-height: 1.5; color: var(--text); opacity: .86; text-wrap: balance; }
-.ac-epi-a { font-size: 11px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--dimmer); }
+.ac-epi-q { margin: 0 0 6px; font-family: ui-serif, "New York", "Iowan Old Style", Georgia, serif; font-style: italic; font-size: 15px; line-height: 1.5; color: var(--dim); text-wrap: balance; }
+.ac-epi-a { font-size: 12px; font-weight: 500; color: var(--dimmer); }
 .ac-epi:active .ac-epi-q { opacity: .6; }
 
 /* Readiness ring. */
@@ -208,7 +208,7 @@ html[data-acdir="in"] .ac-tab { animation: acDeeper .45s cubic-bezier(.2,.85,.25
 .ac-dl-lab { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; font-size: 15px; font-weight: 600; line-height: 1.3; }
 .ac-dl-sub { margin-top: 2px; font-size: 13px; color: var(--dim); line-height: 1.4; }
 .ac-dl-tag { padding: 2px 8px; border-radius: 99px; border: none; background: color-mix(in srgb, currentColor 14%, transparent); font-size: 11px; font-weight: 600; letter-spacing: .02em; }
-.ac-dl-now { display: flex; align-items: center; gap: 8px; margin: -2px 0 12px; font-size: 11px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--acc); font-variant-numeric: tabular-nums; }
+.ac-dl-now { display: flex; align-items: center; gap: 8px; margin: -2px 0 12px; font-size: 12px; font-weight: 600; color: var(--acc); font-variant-numeric: tabular-nums; }
 .ac-dl-now::before { content: ""; width: 56px; height: 1px; background: linear-gradient(90deg, transparent, var(--acc)); }
 .ac-dl-now::after { content: ""; flex: 1; height: 1px; background: linear-gradient(90deg, var(--acc), transparent); }
 
@@ -236,7 +236,7 @@ html[data-acdir="in"] .ac-tab { animation: acDeeper .45s cubic-bezier(.2,.85,.25
 .ac-bookcard { animation: acCardSwap .45s cubic-bezier(.2,.85,.25,1) both; }
 .ac-kprog { display: flex; align-items: center; gap: 12px; margin-top: 16px; }
 .ac-kprog-bar { flex: 1; height: 4px; border-radius: 4px; background: var(--track); overflow: hidden; }
-.ac-kprog-bar > span { display: block; height: 100%; border-radius: 4px; background: linear-gradient(90deg, var(--acc), var(--acc2)); transition: width .8s cubic-bezier(.2,.85,.25,1); }
+.ac-kprog-bar > span { display: block; height: 100%; border-radius: 4px; background: var(--acc); transition: width .8s cubic-bezier(.2,.85,.25,1); }
 .ac-bchip { position: relative; }
 .ac-bchip-bar { position: absolute; left: 12px; right: 12px; bottom: 4px; height: 2px; border-radius: 2px; background: var(--track); overflow: hidden; }
 .ac-bchip-bar > span { display: block; height: 100%; border-radius: 2px; transition: width .6s ease; }
@@ -289,7 +289,7 @@ html[data-acdir="in"] .ac-tab { animation: acDeeper .45s cubic-bezier(.2,.85,.25
 .ac-qa-chip { display: inline-flex; align-items: baseline; gap: 6px; padding: 9px 14px; border-radius: 99px; border: 1px solid var(--line); background: var(--chip); color: var(--text); font-size: 13.5px; font-weight: 600; cursor: pointer; }
 .ac-qa-chip span { font-size: 12px; font-weight: 500; color: var(--dim); }
 .ac-qa-sub { animation: acQaTile .32s cubic-bezier(.2,.85,.25,1) both; }
-.ac-qa-go { padding: 0 18px; border-radius: 12px; border: none; background: linear-gradient(135deg, var(--acc), var(--acc2)); color: var(--on); font-size: 15px; font-weight: 600; cursor: pointer; }
+.ac-qa-go { padding: 0 18px; border-radius: 12px; border: none; background: var(--acc); color: var(--on); font-size: 15px; font-weight: 600; cursor: pointer; }
 .ac-qa-num { height: 44px; border-radius: 12px; border: 1px solid var(--line); background: var(--chip); color: var(--dim); font-size: 15px; font-weight: 600; cursor: pointer; }
 .ac-qa-num.on { border-color: var(--acc); color: var(--text); background: color-mix(in srgb, var(--acc) 16%, transparent); }
 
@@ -324,3 +324,6 @@ html[data-acdir="in"] .ac-tab { animation: acDeeper .45s cubic-bezier(.2,.85,.25
 @media (prefers-reduced-motion: reduce) {
   .ac-qa, .ac-qa-back, .ac-qa-tile, .ac-qa-sub, .ac-tp, .ac-tp-back, .ac-ring-draw, .ac-ins-card, .ac-hhero, .ac-bartip, .ac-live-dot, .ac-live-dot::after, .ac-dl-row.next .ac-dl-dot::after { animation: none !important; }
 }
+
+/* The day's question already shows as the journal box's placeholder. */
+.ac-qprompt { display: none; }
