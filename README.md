@@ -25,12 +25,11 @@ your progress carry across.
 
 ### Making the phone pick it up
 
-The app caches itself so it works offline, so a new version lands on the
-**second** launch after a deploy. To force it now:
+The app loads its files from the network whenever it can, so a new version shows
+up the next time you open it after a deploy. If it still shows the old build:
 
 1. Swipe up from the App Switcher to fully close Ascend (not just background it).
-2. Open it again. It may still show the old build.
-3. Close and open once more. The new build is live.
+2. Open it again.
 
 Check Profile → Program → **Build**. That number changes with every deploy, so
 you can tell instantly whether the update landed.
