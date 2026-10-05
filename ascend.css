@@ -341,3 +341,14 @@ html[data-acdir="in"] .ac-tab { animation: acDeeper .45s cubic-bezier(.2,.85,.25
 
 /* The day's question already shows as the journal box's placeholder. */
 .ac-qprompt { display: none; }
+
+/* Quick actions button: your picture with a small + badge. */
+.ac-hud-av { position: relative; width: 32px; height: 32px; flex-shrink: 0; display: grid; place-items: center; transition: transform .35s cubic-bezier(.3,1.5,.5,1); }
+.ac-hud-av > img, .ac-hud-av > div { border-radius: 50% !important; }
+.ac-hud-badge { position: absolute; right: -3px; bottom: -3px; width: 15px; height: 15px; border-radius: 50%; display: grid; place-items: center; background: var(--acc); color: var(--on-acc); box-shadow: 0 0 0 2px var(--bg); }
+.ac-hud:active .ac-hud-av { transform: scale(.92); }
+
+/* Page header: title and its context share a line, with a hairline beneath. */
+.ac-ph { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; margin: 14px 0 0; padding-bottom: 12px; border-bottom: 1px solid var(--line); }
+.ac-ph-t { margin: 0; font-size: 28px; font-weight: 700; letter-spacing: -.03em; line-height: 1.1; color: var(--text); }
+.ac-ph-s { flex-shrink: 1; min-width: 0; font-size: 13.5px; font-weight: 500; color: var(--dim); text-align: right; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-variant-numeric: tabular-nums; }
