@@ -389,3 +389,18 @@ html[data-acdir="in"] .ac-tab { animation: acDeeper .5s cubic-bezier(.2,.85,.25,
 .ac-fchip { display: inline-flex; align-items: baseline; gap: 6px; padding: 8px 12px; border-radius: 99px; border: 1px solid var(--line); background: var(--chip); color: var(--text); font-family: inherit; font-size: 13px; font-weight: 700; cursor: pointer; }
 .ac-fchip span { color: var(--dim); font-weight: 600; font-size: 12px; }
 @media (prefers-reduced-motion: reduce) { .ac-hhero { animation: none !important; } }
+
+/* ---------- Polish pass: calmer chrome that costs less to draw ---------- */
+/* Page titles: solid text instead of a shimmer that repaints the title over and over. */
+.ac-tab [style*="font-size: 30px"][style*="font-weight: 800"],
+.ac-tab [style*="font-size: 44px"][style*="font-weight: 800"] { animation: none; background-image: none; -webkit-background-clip: border-box; background-clip: border-box; color: var(--text); }
+/* Glows hold still instead of pulsing forever. */
+.ac-art::after { animation: none; opacity: .4; }
+.ac-hdr > div > .ac-btn:first-child::after { animation: none; opacity: .45; }
+/* The header chips are already solid, so they don't need a live blur behind them. */
+.ac-hdr > div > .ac-btn { -webkit-backdrop-filter: none; backdrop-filter: none; }
+/* Bar charts: the value of the tapped bar. */
+.ac-bartip { position: absolute; left: 50%; transform: translateX(-50%); z-index: 2; padding: 3px 7px; border-radius: 7px; background: rgba(12,14,22,.94); border: 1px solid var(--line); color: #fff; font-size: 11px; font-weight: 800; white-space: nowrap; pointer-events: none; box-shadow: 0 4px 14px -6px rgba(0,0,0,.6); animation: acTipIn .18s ease both; }
+@keyframes acTipIn { from { opacity: 0; transform: translate(-50%, 3px); } to { opacity: 1; transform: translate(-50%, 0); } }
+.ac-bar:focus-visible > span:last-child { outline: 2px solid var(--acc); outline-offset: 2px; }
+@media (prefers-reduced-motion: reduce) { .ac-bartip { animation: none; } }
