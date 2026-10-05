@@ -139,14 +139,15 @@ html[data-acdir="in"] .ac-tab { animation: acDeeper .45s cubic-bezier(.2,.85,.25
 .ac-art.ac-hart .ac-art-t { font-size: 15px; }
 .ac-hchip { position: absolute; left: 8px; bottom: 8px; max-width: calc(100% - 16px); box-sizing: border-box; display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px 4px 8px; border-radius: 99px; background: rgba(8,10,16,.72); box-shadow: inset 0 0 0 1px rgba(255,255,255,.14); color: #fff; font-size: 11.5px; font-weight: 600; line-height: 1.25; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-variant-numeric: tabular-nums; pointer-events: none; }
 .ac-hchip i { flex: 0 0 auto; width: 6px; height: 6px; border-radius: 99px; }
-.ac-hhero { position: relative; width: 100%; box-sizing: border-box; aspect-ratio: 712 / 380; margin-top: 10px; overflow: hidden; border-radius: 20px; background: #0B0D14 50% 100% / auto 180% no-repeat; box-shadow: 0 0 16px -6px var(--t, transparent), 0 14px 30px -18px rgba(0,0,0,.8); color: #fff; animation: acUp .45s cubic-bezier(.2,.8,.3,1) both; }
-.ac-hhero::before { content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; background: linear-gradient(180deg, rgba(6,7,12,.82) 0%, rgba(6,7,12,.45) 34%, rgba(6,7,12,0) 62%); }
+/* Health page header: a slim picture strip with the title on it. */
+.ac-hhero { position: relative; width: 100%; box-sizing: border-box; aspect-ratio: 10 / 3; max-height: 120px; margin-top: 10px; overflow: hidden; border-radius: 18px; background: #0B0D14 50% 85% / cover no-repeat; box-shadow: 0 0 16px -6px var(--t, transparent), 0 14px 30px -18px rgba(0,0,0,.8); color: #fff; animation: acUp .45s cubic-bezier(.2,.8,.3,1) both; }
+.ac-hhero::before { content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; background: linear-gradient(90deg, rgba(6,7,12,.82) 0%, rgba(6,7,12,.5) 45%, rgba(6,7,12,.05) 80%); }
 .ac-hhero::after { content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; box-shadow: inset 0 0 0 1.5px var(--t, rgba(255,255,255,.1)); }
-.ac-hhero .ac-art-head { left: 16px; top: 16px; gap: 12px; align-items: center; }
-.ac-hhero .ac-art-ic { width: 42px; height: 42px; border-radius: 12px; }
-.ac-hhero .ac-art-ic svg { width: 21px; height: 21px; }
-.ac-hhero .ac-art-t { font-size: 22px; letter-spacing: -.02em; }
-.ac-hhero .ac-art-s { font-size: 13.5px; }
+.ac-hhero .ac-art-head { left: 14px; top: 50%; transform: translateY(-50%); gap: 12px; align-items: center; }
+.ac-hhero .ac-art-ic { width: 38px; height: 38px; border-radius: 11px; }
+.ac-hhero .ac-art-ic svg { width: 19px; height: 19px; }
+.ac-hhero .ac-art-t { font-size: 20px; letter-spacing: -.02em; }
+.ac-hhero .ac-art-s { font-size: 13px; }
 
 /* ---------- Controls ---------- */
 /* Inputs: a calm focus ring. */
