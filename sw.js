@@ -1,4 +1,4 @@
-const CACHE = "ascend-2026.10.05.14";
+const CACHE = "ascend-2026.10.05.15";
 const CORE = ["./", "./index.html", "./app.js", "./celebrate.js", "./ascend.css", "./fx.js", "./books.js", "./recipes.js", "./lqip.js", "./foods.js", "./art/task-water.webp", "./art/task-wake.webp", "./art/task-run.webp", "./art/task-str.webp", "./art/task-med.webp", "./art/task-read.webp", "./art/task-study.webp", "./art/task-chess.webp", "./art/task-cold.webp", "./art/tex-goldvein.webp", "./art/tex-onyx.webp", "./art/h-weight.jpg", "./art/h-sleep.jpg", "./art/h-caf.jpg", "./art/h-cal.jpg", "./art/cover.jpg", "./art/timer.jpg", "./art/focus.jpg", "./art/deep.jpg", "./art/meditate.jpg", "./art/breathe.jpg", "./art/train.jpg", "./art/goals.jpg", "./art/books.jpg", "./art/todo.jpg", "./art/shifts.jpg", "./art/deadlines.jpg", "./art/food-breakfast.jpg", "./art/food-lunch.jpg", "./art/food-dinner.jpg", "./art/food-prep.jpg", "./art/food-snack.jpg", "./art/food-mine.jpg", "./manifest.webmanifest", "./icon-180.png", "./icon-192.png", "./icon-512.png"];
 
 self.addEventListener("install", (e) => {
