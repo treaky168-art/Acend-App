@@ -17,7 +17,7 @@
 <meta name="apple-mobile-web-app-title" content="Ascend">
 <meta name="theme-color" content="#07080D">
 <meta name="color-scheme" content="dark light">
-<meta name="build" content="2026.10.05.22">
+<meta name="build" content="2026.10.06.01">
 <link rel="apple-touch-icon" href="icon-180.png?v=3">
 <link rel="preload" href="art/cover.jpg" as="image" fetchpriority="high">
 <link rel="apple-touch-startup-image" media="screen and (device-width: 440px) and (device-height: 956px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="splash/1320x2868.jpg">
@@ -32,12 +32,12 @@
 <link rel="apple-touch-startup-image" media="screen and (device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="splash/750x1334.jpg">
 <link rel="apple-touch-startup-image" media="screen and (device-width: 360px) and (device-height: 780px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="splash/1080x2340.jpg">
 <link rel="manifest" href="manifest.webmanifest">
-<link rel="stylesheet" href="ascend.css?v=2026.10.05.22">
+<link rel="stylesheet" href="ascend.css?v=2026.10.06.01">
 <style>
   html, body { margin:0; padding:0; background:#07080D; overscroll-behavior:none; }
   body { -webkit-tap-highlight-color: transparent; -webkit-touch-callout: none; -webkit-text-size-adjust: 100%; }
   /* 16px or larger stops iOS zooming in when a field is focused. !important beats the app's inline sizes. */
-  input, textarea { -webkit-user-select: text; user-select: text; font-size: 16px !important; }
+  input, textarea { -webkit-user-select: text; user-select: text; font-size: 17px !important; }
   input[type="time"] { line-height: normal; }
   input[type="time"]::-webkit-date-and-time-value { text-align: center; margin: 0; }
   input[type="time"]::-webkit-calendar-picker-indicator { display: none; }
@@ -67,7 +67,7 @@
   .ac-tf-blob.b1 { top: 8%; left: -18%; animation: acTfDrift1 16s ease-in-out infinite; }
   .ac-tf-blob.b2 { bottom: 16%; right: -20%; animation: acTfDrift2 20s ease-in-out infinite; }
   .ac-tf-top { position: relative; z-index: 1; display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
-  .ac-tf-chip { display: inline-flex; align-items: center; gap: 8px; padding: 7px 13px; border-radius: 99px; font-size: 11.5px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
+  .ac-tf-chip { display: inline-flex; align-items: center; gap: 8px; padding: 7px 13px; border-radius: 99px; font-size: 13px; font-weight: 600; letter-spacing: .08em; }
   .ac-tf-chip.soft { color: rgba(255,255,255,.62); font-weight: 600; }
   .ac-tf-dot { width: 7px; height: 7px; border-radius: 50%; box-shadow: 0 0 10px currentColor; }
   .ac-tf-dot.live { animation: acTfBlink 1.6s ease-in-out infinite; }
@@ -88,33 +88,33 @@
   .ac-tf-burst { position: absolute; inset: 6%; border-radius: 50%; border: 2px solid #34D399; box-shadow: 0 0 30px #34D399; animation: acTfBurst 1.1s ease-out both; pointer-events: none; }
   .ac-tf-ping { transform-box: fill-box; transform-origin: center; animation: acTfPing 2s ease-out infinite; }
   .ac-tf-center { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
-  .ac-tf-kick { display: flex; align-items: center; gap: 8px; min-height: 16px; margin-bottom: 8px; font-size: 11px; font-weight: 800; letter-spacing: .22em; text-transform: uppercase; color: rgba(255,255,255,.55); transition: color .4s; }
+  .ac-tf-kick { display: flex; align-items: center; gap: 8px; min-height: 16px; margin-bottom: 8px; font-size: 11px; font-weight: 600; letter-spacing: .22em; color: rgba(255,255,255,.55); transition: color .4s; }
   .ac-tf-count { display: inline-grid; place-items: center; width: 20px; height: 20px; border-radius: 50%; border: 1px solid currentColor; font-size: 11px; letter-spacing: 0; }
-  .ac-tf-time { font-family: ui-rounded, "SF Pro Rounded", -apple-system, system-ui, sans-serif; font-size: clamp(62px, 21vw, 94px); font-weight: 500; letter-spacing: -.03em; line-height: 1; font-variant-numeric: tabular-nums; }
+  .ac-tf-time { font-family: ui-rounded, "SF Pro Rounded", -apple-system, system-ui, sans-serif; font-size: clamp(62px, 21vw, 94px); font-weight: 400; letter-spacing: -.03em; line-height: 1; font-variant-numeric: tabular-nums; }
   .ac-tf-time.long { font-size: clamp(46px, 15vw, 68px); }
   .ac-tf-sweep { position: absolute; inset: 12.5%; border-radius: 50%; transition: transform 1s linear; pointer-events: none; }
   .ac-tf-sweep::after { content: ""; position: absolute; left: calc(50% - 1px); top: 0; width: 2px; height: 50%; background: linear-gradient(to top, transparent, var(--c1)); opacity: .9; }
   .ac-tf-focus .ac-tf-core { inset: 12.5%; background: radial-gradient(circle at 50% 40%, #0e1019, #05060b 72%); box-shadow: inset 0 0 34px rgba(0,0,0,.75); }
   .ac-tf-colon { display: inline-block; margin: 0 .02em; animation: acTfColon 2s ease-in-out infinite; }
-  .ac-tf-sub { margin-top: 10px; font-size: 11.5px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: rgba(255,255,255,.58); }
+  .ac-tf-sub { margin-top: 10px; font-size: 13px; font-weight: 600; color: rgba(255,255,255,.58); }
   .ac-tf-paused .ac-tf-colon, .ac-tf-paused .ac-tf-spin, .ac-tf-paused .ac-tf-orbit, .ac-tf-paused .ac-tf-ripple, .ac-tf-paused .ac-tf-halo, .ac-tf-paused .ac-tf-blob, .ac-tf-paused .ac-tf-ping { animation-play-state: paused; }
   .ac-tf-paused .ac-tf-time { opacity: .7; }
   .ac-tf-pop { display: flex; flex-direction: column; align-items: center; animation: acTfPop .6s cubic-bezier(.2,.9,.3,1.2) both; filter: drop-shadow(0 0 18px #34D399); }
   .ac-tf-check { stroke-dasharray: 24; animation: acTfDraw .5s ease .25s both; }
-  .ac-tf-stats { position: relative; z-index: 1; width: 100%; box-sizing: border-box; display: grid; grid-template-columns: repeat(3, 1fr); border-radius: 18px; margin-bottom: 18px; }
+  .ac-tf-stats { position: relative; z-index: 1; width: 100%; box-sizing: border-box; display: grid; grid-template-columns: repeat(3, 1fr); border-radius: 16px; margin-bottom: 18px; }
   .ac-tf-stat { padding: 11px 4px 10px; text-align: center; }
   .ac-tf-stat + .ac-tf-stat { border-left: 1px solid rgba(255,255,255,.1); }
-  .ac-tf-stat b { display: block; font-size: 16px; font-weight: 700; font-variant-numeric: tabular-nums; }
-  .ac-tf-stat span { display: block; margin-top: 3px; font-size: 10px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: rgba(255,255,255,.5); }
+  .ac-tf-stat b { display: block; font-size: 17px; font-weight: 600; font-variant-numeric: tabular-nums; }
+  .ac-tf-stat span { display: block; margin-top: 3px; font-size: 11px; font-weight: 600; color: rgba(255,255,255,.5); }
   .ac-tf-ctrl { position: relative; z-index: 1; display: flex; align-items: center; justify-content: space-between; gap: 18px; width: min(100%, 290px); box-sizing: border-box; padding: 9px; border-radius: 99px; }
   .ac-tf-btn { width: 54px; height: 54px; border-radius: 50%; display: grid; place-items: center; padding: 0; color: #fff; cursor: pointer; font-family: inherit; background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.12); }
   .ac-tf-main { width: 76px; height: 76px; border: none; color: #0a0b12; }
   .ac-tf-main svg { width: 30px; height: 30px; }
   .ac-tf-result { position: relative; z-index: 1; text-align: center; margin-bottom: 18px; animation: acTfRise .5s .2s cubic-bezier(.2,.8,.3,1) both; }
-  .ac-tf-result-t { font-size: 22px; font-weight: 800; letter-spacing: -.01em; color: #6EE7B7; }
+  .ac-tf-result-t { font-size: 20px; font-weight: 700; letter-spacing: -.01em; color: #6EE7B7; }
   .ac-tf-result-s { margin-top: 5px; font-size: 13px; color: rgba(255,255,255,.6); }
-  .ac-tf-done { position: relative; z-index: 1; width: 100%; padding: 16px 0; border: none; border-radius: 18px; background: linear-gradient(135deg, #34D399, #22D3EE); color: #06120d; font-size: 16px; font-weight: 800; font-family: inherit; cursor: pointer; box-shadow: 0 12px 30px -10px #34D399; animation: acTfRise .5s .3s cubic-bezier(.2,.8,.3,1) both; }
-  .ac-tf-note { position: relative; z-index: 1; margin-top: 18px; font-size: 12px; line-height: 1.55; text-align: center; color: rgba(255,255,255,.4); max-width: 300px; }
+  .ac-tf-done { position: relative; z-index: 1; width: 100%; padding: 16px 0; border: none; border-radius: 16px; background: linear-gradient(135deg, #34D399, #22D3EE); color: #06120d; font-size: 17px; font-weight: 600; font-family: inherit; cursor: pointer; box-shadow: 0 12px 30px -10px #34D399; animation: acTfRise .5s .3s cubic-bezier(.2,.8,.3,1) both; }
+  .ac-tf-note { position: relative; z-index: 1; margin-top: 18px; font-size: 13px; line-height: 1.55; text-align: center; color: rgba(255,255,255,.4); max-width: 300px; }
   /* Custom timer length */
   .ac-range { -webkit-appearance: none; appearance: none; display: block; width: 100%; height: 6px; margin: 0; border-radius: 99px; outline: none; background: linear-gradient(90deg, var(--acc, #4CC2FF), var(--acc2, #8A6BFF) var(--p), rgba(127,127,127,.22) var(--p)); }
   .ac-range::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 26px; height: 26px; border-radius: 50%; background: #fff; border: none; box-shadow: 0 2px 10px rgba(0,0,0,.45), 0 0 0 5px rgba(255,255,255,.12); cursor: pointer; }
@@ -157,13 +157,13 @@ window.__acTheme = function (light, bg) {
   });
 })();
 </script>
-<script src="fx.js?v=2026.10.05.22"></script>
-<script src="celebrate.js?v=2026.10.05.22"></script>
-<script src="books.js?v=2026.10.05.22"></script>
-<script src="recipes.js?v=2026.10.05.22"></script>
-<script src="foods.js?v=2026.10.05.22"></script>
-<script src="lqip.js?v=2026.10.05.22"></script>
-<script src="app.js?v=2026.10.05.22"></script>
+<script src="fx.js?v=2026.10.06.01"></script>
+<script src="celebrate.js?v=2026.10.06.01"></script>
+<script src="books.js?v=2026.10.06.01"></script>
+<script src="recipes.js?v=2026.10.06.01"></script>
+<script src="foods.js?v=2026.10.06.01"></script>
+<script src="lqip.js?v=2026.10.06.01"></script>
+<script src="app.js?v=2026.10.06.01"></script>
 <script>
 (function () {
   var sp = document.getElementById("splash"), root = document.getElementById("root"), gone = false;
