@@ -1,5 +1,6 @@
 // Epigraphs for the Today tab and level-ups: [quote, author].
-// The first block are the quotes the Classroom of the Elite episodes open with (seasons 1 to 3).
+// The first block are the quotes the Classroom of the Elite episodes open with (seasons 1 to 3);
+// lines spoken by the show's characters come last.
 window.__acEpigraphs = [
   ["What is evil? Whatever springs from weakness.", "Friedrich Nietzsche"],
   ["It takes a great talent and skill to conceal one's talent and skill.", "François de La Rochefoucauld"],
@@ -54,7 +55,9 @@ window.__acEpigraphs = [
   ["Victorious warriors win first and then go to war.", "Sun Tzu"],
   ["Silence is a source of great strength.", "Lao Tzu"],
   ["Waste no more time arguing what a good man should be. Be one.", "Marcus Aurelius"],
-  ["We suffer more often in imagination than in reality.", "Seneca"]
+  ["We suffer more often in imagination than in reality.", "Seneca"],
+  // Lines spoken by Classroom of the Elite characters, credited to the character.
+  ["It doesn't matter how I get there. It doesn't matter what I have to sacrifice. As long as I win in the end, that's all that matters.", "Kiyotaka Ayanokoji"]
 ];
 
 // Key ideas, summarised in plain words.
