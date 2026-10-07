@@ -105,3 +105,4 @@ html.ac-soft .ac-glass, .ac-glass { padding: 14px 16px 16px; }
 .ac-root .ac-glass-range:focus, .ac-glass-range:focus { border-color: transparent !important; box-shadow: none !important; outline: none; }
 .ac-glass-range:focus-visible { outline: 2px solid var(--acc) !important; outline-offset: 4px; border-radius: 8px; }
 .ac-glass-sep { height: 1px; margin: 14px 0 12px; background: var(--line); }
+html.ac-soft .ac-ph-btn { border-color: transparent; background: linear-gradient(rgba(255,255,255,calc(var(--ga) * .78)), rgba(255,255,255,calc(var(--ga) * .78))), linear-gradient(var(--gb, transparent), var(--gb, transparent)); }

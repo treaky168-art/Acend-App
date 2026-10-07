@@ -402,3 +402,8 @@ html[data-acdir="in"] .ac-tab { animation: acDeeper .25s cubic-bezier(.2,.85,.25
 
 /* Today's day number: white fading into a tint of the accent along its bottom edge (--dt from Customise, 0 to 1). The "/66" keeps its own grey. */
 .ac-dayno { background-image: linear-gradient(180deg, var(--text) 42%, color-mix(in srgb, var(--acc) calc(var(--dt, .62) * 100%), var(--text)) 100%); -webkit-background-clip: text; background-clip: text; color: transparent; padding-bottom: .12em; margin-bottom: -.12em; }
+
+/* Page header button (Status: settings), a round icon button on the title's line. */
+.ac-ph:has(.ac-ph-btn) { align-items: center; }
+.ac-ph-s:has(.ac-ph-btn) { overflow: visible; flex-shrink: 0; }
+.ac-ph-btn { width: 40px; height: 40px; padding: 0; border-radius: 50%; display: grid; place-items: center; border: 1px solid var(--line); background: var(--fill); color: var(--text); cursor: pointer; }
