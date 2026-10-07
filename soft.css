@@ -84,8 +84,8 @@ html.ac-soft .ac-kprog-bar, html.ac-soft .ac-kprog-bar > span { border-radius: 9
 /* ---------- Bottom bar: kept as the original glass bar ---------- */
 
 /* ---------- Sheets ---------- */
-html.ac-soft .ac-sheet { border-radius: 32px 32px 0 0 !important; border-color: transparent !important; background: linear-gradient(180deg, #1C1D26, #121319) !important; }
-html.ac-soft .ac-qa { border-radius: 32px 32px 0 0; border-top-color: transparent; background: linear-gradient(180deg, #1C1D26, #121319) !important; }
+html.ac-soft .ac-sheet { border-radius: 32px 32px 0 0 !important; border-color: transparent !important; box-shadow: inset 0 1px 0 rgba(255,255,255,.06), 0 -12px 40px -12px rgba(0,0,0,.5) !important; }
+html.ac-soft .ac-qa { border-radius: 32px 32px 0 0; border-top-color: transparent; box-shadow: inset 0 1px 0 rgba(255,255,255,.06), 0 -12px 40px -12px rgba(0,0,0,.5); }
 html.ac-soft .ac-qa-tile, html.ac-soft .ac-qa-act, html.ac-soft .ac-qa-links { border-radius: 24px; border-color: transparent; background: linear-gradient(180deg, rgba(255,255,255,calc(var(--ga) * 1.05)), rgba(255,255,255,calc(var(--ga) * .48))); }
 html.ac-soft .ac-qa-ic { border-radius: 50%; }
 html.ac-soft .ac-qa-x { border-radius: 50%; }
