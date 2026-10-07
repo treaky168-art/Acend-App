@@ -11,7 +11,9 @@
    - accent-gradient feature cards, fully rounded bars
    ===================================================================== */
 
-html.ac-soft { --soft-r: 28px; --soft-r-s: 18px; --ga: .115; }
+html.ac-soft { --soft-r: 28px; --soft-r-s: 18px; --ga: .115; --gs: 0; }
+/* --gs is glass solidity: the theme background mixed in underneath, 0 = clear, 1 = nothing shows through. */
+html.ac-soft .ac-root { --gb: color-mix(in srgb, var(--bg) calc(var(--gs) * 100%), transparent); }
 /* --ga is the glass strength from Customise; every see-through surface scales from it. */
 html.ac-soft .ac-root { --r: 28px; font-family: "Outfit", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif !important; letter-spacing: .005em; }
 html.ac-soft .ac-root * { font-family: inherit; }
@@ -21,14 +23,14 @@ html.ac-soft .ac-root input, html.ac-soft .ac-root textarea, html.ac-soft .ac-ro
 html.ac-soft .ac-panel {
   border-radius: var(--soft-r) !important;
   border-color: transparent !important;
-  background: linear-gradient(180deg, rgba(255,255,255,calc(var(--ga) * 1)) 0%, rgba(255,255,255,calc(var(--ga) * .52)) 55%, rgba(255,255,255,calc(var(--ga) * .39)) 100%) !important;
+  background: linear-gradient(180deg, rgba(255,255,255,calc(var(--ga) * 1)) 0%, rgba(255,255,255,calc(var(--ga) * .52)) 55%, rgba(255,255,255,calc(var(--ga) * .39)) 100%), linear-gradient(var(--gb, transparent), var(--gb, transparent)) !important;
   box-shadow: inset 0 1px 0 rgba(255,255,255,.07), 0 24px 40px -28px rgba(0,0,0,.9) !important;
 }
 html.ac-soft .ac-panel.ac-row:active { transform: scale(.985); }
 /* Grouped lists: one soft card; rows sit flat inside it. */
 html.ac-soft .ac-tab div[style^="display: grid; gap:"]:not([style*="columns"]):not([style="display: grid; gap: 10px; margin-top: 14px;"]):has(> .ac-panel + .ac-panel):not(:has(> :not(.ac-panel))) {
   border-radius: var(--soft-r); overflow: hidden;
-  background: linear-gradient(180deg, rgba(255,255,255,calc(var(--ga) * 1)), rgba(255,255,255,calc(var(--ga) * .43)));
+  background: linear-gradient(180deg, rgba(255,255,255,calc(var(--ga) * 1)), rgba(255,255,255,calc(var(--ga) * .43))), linear-gradient(var(--gb, transparent), var(--gb, transparent));
   box-shadow: inset 0 1px 0 rgba(255,255,255,.07), 0 24px 40px -28px rgba(0,0,0,.9);
 }
 html.ac-soft .ac-tab div[style^="display: grid; gap:"]:not([style*="columns"]):not([style="display: grid; gap: 10px; margin-top: 14px;"]):has(> .ac-panel + .ac-panel):not(:has(> :not(.ac-panel))) > .ac-panel {
@@ -57,17 +59,17 @@ html.ac-soft .ac-root button[aria-label^="Previous"], html.ac-soft .ac-root butt
 html.ac-soft .ac-back { padding: 6px 14px 6px 10px !important; margin-left: 0 !important; border-radius: 999px !important; background: rgba(255,255,255,.07) !important; }
 
 /* Tab switches: a soft track with a white pill for the selected tab. */
-html.ac-soft .ac-root [role="tablist"], html.ac-soft .ac-seg { border-radius: 999px !important; padding: 5px !important; border-color: transparent !important; background: rgba(255,255,255,calc(var(--ga) * .78)) !important; }
+html.ac-soft .ac-root [role="tablist"], html.ac-soft .ac-seg { border-radius: 999px !important; padding: 5px !important; border-color: transparent !important; background: linear-gradient(rgba(255,255,255,calc(var(--ga) * .78)), rgba(255,255,255,calc(var(--ga) * .78))), linear-gradient(var(--gb, transparent), var(--gb, transparent)) !important; }
 html.ac-soft .ac-root [role="tab"] { border-radius: 999px !important; min-height: 42px !important; box-shadow: none !important; }
 html.ac-soft .ac-root [role="tab"][aria-selected="true"], html.ac-soft .ac-seg button[aria-selected="true"] { background: #F7F7FA !important; color: #0B0C12 !important; }
 html.ac-soft .ac-root [role="tab"][aria-selected="true"] span { color: #4B4F5E !important; }
 
 /* Inputs: rounder and calmer. */
-html.ac-soft .ac-root input:not([type="range"]):not([type="checkbox"]), html.ac-soft .ac-root textarea, html.ac-soft .ac-root select { border-radius: var(--soft-r-s) !important; border-color: transparent !important; background: rgba(255,255,255,calc(var(--ga) * .74)) !important; }
+html.ac-soft .ac-root input:not([type="range"]):not([type="checkbox"]), html.ac-soft .ac-root textarea, html.ac-soft .ac-root select { border-radius: var(--soft-r-s) !important; border-color: transparent !important; background: linear-gradient(rgba(255,255,255,calc(var(--ga) * .74)), rgba(255,255,255,calc(var(--ga) * .74))), linear-gradient(var(--gb, transparent), var(--gb, transparent)) !important; }
 
 /* ---------- Header: round buttons ---------- */
-html.ac-soft .ac-hud { background: rgba(255,255,255,calc(var(--ga) * .78)); border-color: transparent; }
-html.ac-soft .ac-hdr .ac-hit { background: rgba(255,255,255,calc(var(--ga) * .78)) !important; border-color: transparent !important; min-height: 38px !important; }
+html.ac-soft .ac-hud { background: linear-gradient(rgba(255,255,255,calc(var(--ga) * .78)), rgba(255,255,255,calc(var(--ga) * .78))), linear-gradient(var(--gb, transparent), var(--gb, transparent)); border-color: transparent; }
+html.ac-soft .ac-hdr .ac-hit { background: linear-gradient(rgba(255,255,255,calc(var(--ga) * .78)), rgba(255,255,255,calc(var(--ga) * .78))), linear-gradient(var(--gb, transparent), var(--gb, transparent)) !important; border-color: transparent !important; min-height: 38px !important; }
 html.ac-soft .ac-chip-ready { border-radius: 999px; }
 
 /* ---------- Artwork: same pictures, rounder frames ---------- */
@@ -86,10 +88,10 @@ html.ac-soft .ac-kprog-bar, html.ac-soft .ac-kprog-bar > span { border-radius: 9
 /* ---------- Sheets ---------- */
 html.ac-soft .ac-sheet { border-radius: 32px 32px 0 0 !important; border-color: transparent !important; box-shadow: inset 0 1px 0 rgba(255,255,255,.06), 0 -12px 40px -12px rgba(0,0,0,.5) !important; }
 html.ac-soft .ac-qa { border-radius: 32px 32px 0 0; border-top-color: transparent; box-shadow: inset 0 1px 0 rgba(255,255,255,.06), 0 -12px 40px -12px rgba(0,0,0,.5); }
-html.ac-soft .ac-qa-tile, html.ac-soft .ac-qa-act, html.ac-soft .ac-qa-links { border-radius: 24px; border-color: transparent; background: linear-gradient(180deg, rgba(255,255,255,calc(var(--ga) * 1.05)), rgba(255,255,255,calc(var(--ga) * .48))); }
+html.ac-soft .ac-qa-tile, html.ac-soft .ac-qa-act, html.ac-soft .ac-qa-links { border-radius: 24px; border-color: transparent; background: linear-gradient(180deg, rgba(255,255,255,calc(var(--ga) * 1.05)), rgba(255,255,255,calc(var(--ga) * .48))), linear-gradient(var(--gb, transparent), var(--gb, transparent)); }
 html.ac-soft .ac-qa-ic { border-radius: 50%; }
 html.ac-soft .ac-qa-x { border-radius: 50%; }
-html.ac-soft .ac-lay { border-radius: 24px; border-color: transparent; background: linear-gradient(180deg, rgba(255,255,255,calc(var(--ga) * .95)), rgba(255,255,255,calc(var(--ga) * .43))); }
+html.ac-soft .ac-lay { border-radius: 24px; border-color: transparent; background: linear-gradient(180deg, rgba(255,255,255,calc(var(--ga) * .95)), rgba(255,255,255,calc(var(--ga) * .43))), linear-gradient(var(--gb, transparent), var(--gb, transparent)); }
 
 /* ---------- Today ---------- */
 html.ac-soft .ac-epi-q { font-family: ui-serif, "New York", Georgia, serif !important; }
@@ -102,3 +104,4 @@ html.ac-soft .ac-glass, .ac-glass { padding: 14px 16px 16px; }
 .ac-glass-range { width: 100%; height: 28px; margin: 8px 0 0; background: none; }
 .ac-root .ac-glass-range:focus, .ac-glass-range:focus { border-color: transparent !important; box-shadow: none !important; outline: none; }
 .ac-glass-range:focus-visible { outline: 2px solid var(--acc) !important; outline-offset: 4px; border-radius: 8px; }
+.ac-glass-sep { height: 1px; margin: 14px 0 12px; background: var(--line); }
