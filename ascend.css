@@ -395,3 +395,7 @@ html[data-acdir="in"] .ac-tab { animation: acDeeper .25s cubic-bezier(.2,.85,.25
 .ac-sw:disabled { opacity: .4; cursor: default; }
 .ac-sw:focus-visible { outline: 2px solid var(--acc); outline-offset: 2px; }
 .ac-lay-lock { width: 46px; margin-left: 8px; display: grid; place-items: center; color: var(--dimmer); }
+.ac-lay-tiles { margin-top: 24px; }
+.ac-lay-h { font-size: 17px; font-weight: 600; color: var(--text); }
+.ac-lay-cap { margin: 16px 0 8px; font-size: 13px; font-weight: 600; color: var(--dim); }
+.ac-lay-h + div > .ac-lay-cap { margin-top: 8px; }
