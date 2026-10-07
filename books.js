@@ -57,7 +57,36 @@ window.__acEpigraphs = [
   ["Waste no more time arguing what a good man should be. Be one.", "Marcus Aurelius"],
   ["We suffer more often in imagination than in reality.", "Seneca"],
   // Lines spoken by Classroom of the Elite characters, credited to the character.
-  ["It doesn't matter how I get there. It doesn't matter what I have to sacrifice. As long as I win in the end, that's all that matters.", "Kiyotaka Ayanokoji"]
+  // Ayanokoji lines: the Season 1 finale line is verbatim; the rest follow the English translation loosely.
+  ["It doesn't matter how I get there. It doesn't matter what I have to sacrifice. As long as I win in the end, that's all that matters.", "Kiyotaka Ayanokoji"],
+  ["Are all human beings truly equal? The world preaches equality, yet no two people are born with the same talents or the same chances.", "Kiyotaka Ayanokoji"],
+  ["All people are nothing but tools.", "Kiyotaka Ayanokoji"],
+  ["There is no such thing as true equality. What matters is what you do with what you were given.", "Kiyotaka Ayanokoji"],
+  ["Hiding your strength until it counts is a strength of its own.", "Kiyotaka Ayanokoji"],
+  ["Only the result matters. The process is just the road there.", "Kiyotaka Ayanokoji"],
+  ["Freedom means nothing if you don't know what you want to do with it.", "Kiyotaka Ayanokoji"],
+  ["People who refuse to see their own weaknesses never get any stronger.", "Kiyotaka Ayanokoji"],
+  // Greek philosophers.
+  ["The only true wisdom is in knowing you know nothing.", "Socrates"],
+  ["Be as you wish to seem.", "Socrates"],
+  ["No man ever steps in the same river twice, for it is not the same river and he is not the same man.", "Heraclitus"],
+  ["Character is destiny.", "Heraclitus"],
+  ["We are what we repeatedly do. Excellence, then, is not an act but a habit.", "Aristotle (as summarised by Will Durant)"],
+  ["Knowing yourself is the beginning of all wisdom.", "Aristotle"],
+  ["The roots of education are bitter, but the fruit is sweet.", "Aristotle"],
+  ["Courage is knowing what not to fear.", "Plato"],
+  ["First say to yourself what you would be, and then do what you have to do.", "Epictetus"],
+  ["It is not things that disturb us, but our judgements about things.", "Epictetus"],
+  ["The most difficult thing in life is to know yourself.", "Thales"],
+  ["Happiness resides not in possessions and not in gold; happiness dwells in the soul.", "Democritus"],
+  // Questions the Greek philosophers asked.
+  ["If you could never be seen or caught, would you still act justly?", "Plato, the Ring of Gyges"],
+  ["Is it worse to do wrong, or to suffer it?", "Socrates, in Plato's Gorgias"],
+  ["Can virtue be taught?", "Socrates, in Plato's Meno"],
+  ["Is something good because the gods love it, or do the gods love it because it is good?", "Socrates, in Plato's Euthyphro"],
+  ["What is the good life for a human being?", "Aristotle, Nicomachean Ethics"],
+  ["If every plank of a ship is replaced one by one, is it still the same ship?", "The Ship of Theseus, told by Plutarch"],
+  ["How should one live?", "Socrates"]
 ];
 
 // Key ideas, summarised in plain words.
