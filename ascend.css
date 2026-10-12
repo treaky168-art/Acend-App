@@ -407,3 +407,28 @@ html[data-acdir="in"] .ac-tab { animation: acDeeper .25s cubic-bezier(.2,.85,.25
 .ac-ph:has(.ac-ph-btn) { align-items: center; }
 .ac-ph-s:has(.ac-ph-btn) { overflow: visible; flex-shrink: 0; }
 .ac-ph-btn { width: 40px; height: 40px; padding: 0; border-radius: 50%; display: grid; place-items: center; border: 1px solid var(--line); background: var(--fill); color: var(--text); cursor: pointer; }
+
+/* ---------- Light theme (White Room) ----------
+   The light artwork is bright, so picture tiles fade to white at the top and carry dark text.
+   The --t tint border and glow stay, as on the dark themes. */
+html.ac-light .ac-art, html.ac-light .ac-hhero { background-color: #F3F5F8; color: var(--text); box-shadow: 0 0 14px -10px var(--t, transparent), 0 12px 26px -20px rgba(60,80,120,.2); }
+html.ac-light .ac-art::before { background: linear-gradient(180deg, rgba(255,255,255,.9) 0%, rgba(255,255,255,.55) 30%, rgba(255,255,255,0) 60%); }
+html.ac-light .ac-art-t { text-shadow: 0 1px 10px rgba(255,255,255,.95); }
+html.ac-light .ac-art-s { color: var(--dim); text-shadow: 0 1px 8px rgba(255,255,255,.95); }
+html.ac-light .ac-art-ic { background: rgba(255,255,255,.86); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--t) 40%, transparent); color: color-mix(in srgb, var(--t) 78%, #000); }
+html.ac-light .ac-banner::before { background: linear-gradient(90deg, rgba(255,255,255,.95) 0%, rgba(255,255,255,.75) 40%, rgba(255,255,255,0) 72%); }
+html.ac-light .ac-banner-chev { background: rgba(255,255,255,.86); box-shadow: inset 0 0 0 1px rgba(40,52,76,.12); color: var(--text); }
+html.ac-light .ac-wide::before { background: linear-gradient(90deg, rgba(255,255,255,.92) 0%, rgba(255,255,255,.55) 44%, rgba(255,255,255,0) 70%), linear-gradient(0deg, rgba(255,255,255,.75) 0%, transparent 55%); }
+html.ac-light .ac-hchip { background: rgba(255,255,255,.9); box-shadow: inset 0 0 0 1px rgba(40,52,76,.1); color: var(--text); }
+/* The light Health pictures have no caption to crop away, so they simply fill the tile. */
+html.ac-light .ac-art.ac-hart { background-size: cover; background-position: 55% 60%; }
+html.ac-light .ac-hhero { background-size: cover; background-position: 60% 60%; }
+html.ac-light .ac-hhero::before { background: linear-gradient(90deg, rgba(255,255,255,.9) 0%, rgba(255,255,255,.55) 45%, rgba(255,255,255,.05) 80%); }
+
+/* Light theme: no black anywhere. Dimming behind sheets is a pale blue-grey, shadows are soft. */
+html.ac-light .ac-qa-back, html.ac-light .ac-tp-back { background: rgba(60,72,96,.18); }
+html.ac-light .ac-qa, html.ac-light .ac-tp, html.ac-light .ac-sheet { box-shadow: 0 -10px 36px -16px rgba(60,80,120,.2); }
+html.ac-light .ac-step-box { color: #FFFFFF; }
+html.ac-light ::selection { background: color-mix(in srgb, var(--acc) 22%, transparent); }
+/* Small text on picture cards gets a soft white glow so it stays readable over busy art. */
+html.ac-light .ac-card div, html.ac-light .ac-card span { text-shadow: 0 1px 6px rgba(255,255,255,.9); }
