@@ -148,6 +148,22 @@ html[data-acdir="in"] .ac-tab { animation: acDeeper .25s cubic-bezier(.2,.85,.25
 .ac-hhero .ac-art-ic svg { width: 19px; height: 19px; }
 .ac-hhero .ac-art-t { font-size: 20px; letter-spacing: -.02em; }
 .ac-hhero .ac-art-s { font-size: 13px; }
+/* Health: blood alcohol banner. Glass art on the right, the live reading drawn over its far edge. */
+.ac-bac { background-position: right -24px center; }
+.ac-bac::before { background: linear-gradient(90deg, rgba(6,7,12,.6) 0%, rgba(6,7,12,.3) 38%, rgba(6,7,12,0) 58%); }
+.ac-bac .ac-art-head { right: 92px; }
+.ac-bac .ac-art-ic, .ac-bac-hero .ac-art-ic { background: rgba(8,16,32,.35); box-shadow: inset 0 0 0 1.5px color-mix(in srgb, var(--t) 85%, #fff); }
+.ac-bac .ac-art-ic { width: 42px; height: 42px; }
+.ac-bac .ac-art-ic svg { width: 22px; height: 22px; }
+.ac-bac .ac-art-t { font-size: 20px; }
+.ac-bac .ac-art-s { font-size: 13px; }
+.ac-bac .ac-art-s, .ac-bac-hero .ac-art-s { color: color-mix(in srgb, var(--t) 40%, #fff); }
+.ac-bac-read { position: absolute; right: 0; top: 20px; bottom: 20px; width: 76px; box-sizing: border-box; padding-left: 14px; border-left: 1px solid rgba(255,255,255,.14); display: flex; flex-direction: column; justify-content: center; pointer-events: none; }
+.ac-bac-l { font-size: 11px; font-weight: 600; letter-spacing: .04em; color: rgba(255,255,255,.72); }
+.ac-bac-v { font-size: 20px; font-weight: 600; line-height: 1.2; font-variant-numeric: tabular-nums; text-shadow: 0 1px 10px rgba(0,0,0,.5); }
+.ac-bac-bars { display: grid; gap: 4px; width: 32px; margin-top: 7px; }
+.ac-bac-bars i { display: block; height: 5px; border-radius: 99px; background: rgba(255,255,255,.16); }
+.ac-bac-bars i.on { background: color-mix(in srgb, var(--t) 78%, #fff); }
 
 /* ---------- Controls ---------- */
 /* Inputs: a calm focus ring. */
@@ -424,6 +440,14 @@ html.ac-light .ac-hchip { background: rgba(255,255,255,.9); box-shadow: inset 0 
 html.ac-light .ac-art.ac-hart { background-size: cover; background-position: 55% 60%; }
 html.ac-light .ac-hhero { background-size: cover; background-position: 60% 60%; }
 html.ac-light .ac-hhero::before { background: linear-gradient(90deg, rgba(255,255,255,.9) 0%, rgba(255,255,255,.55) 45%, rgba(255,255,255,.05) 80%); }
+html.ac-light .ac-bac::before { background: linear-gradient(90deg, rgba(255,255,255,.55) 0%, rgba(255,255,255,.25) 38%, rgba(255,255,255,0) 58%); }
+html.ac-light .ac-bac .ac-art-ic, html.ac-light .ac-bac-hero .ac-art-ic { background: #F0E2C8; box-shadow: none; color: #3A2E22; }
+html.ac-light .ac-bac .ac-art-s, html.ac-light .ac-bac-hero .ac-art-s { color: var(--dim); }
+html.ac-light .ac-bac-read { border-left-color: rgba(40,52,76,.12); }
+html.ac-light .ac-bac-l { color: var(--dim); }
+html.ac-light .ac-bac-v { text-shadow: 0 1px 8px rgba(255,255,255,.9); }
+html.ac-light .ac-bac-bars i { background: rgba(40,52,76,.1); }
+html.ac-light .ac-bac-bars i.on { background: #D4AE6A; }
 
 /* Light theme: no black anywhere. Dimming behind sheets is a pale blue-grey, shadows are soft. */
 html.ac-light .ac-qa-back, html.ac-light .ac-tp-back { background: rgba(60,72,96,.18); }
