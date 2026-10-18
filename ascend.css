@@ -449,6 +449,23 @@ html .ac-sheet .ac-btn.ac-primary.ac-mn-go { background: linear-gradient(100deg,
 .ac-lay-row + .ac-lay-row::before { content: ""; position: absolute; top: 0; left: 16px; right: 0; height: 1px; background: var(--line); }
 .ac-lay-t { flex: 1; min-width: 0; font-size: 15px; font-weight: 600; color: var(--text); transition: color .2s ease; }
 .ac-lay-row.off .ac-lay-t { color: var(--dim); }
+.ac-lay-sub { display: block; margin-top: 2px; font-size: 13px; font-weight: 400; color: var(--dim); }
+/* Morning sky picker: a swatch of each sky with a little sun. */
+.ac-sky-pick { display: grid; grid-template-columns: repeat(3, 1fr); gap: 9px; }
+.ac-sky-opt { padding: 10px 8px 11px; border-radius: calc(var(--r, 16px) - 4px); border: 1px solid var(--line); background: color-mix(in srgb, var(--text) 5%, transparent); color: var(--text); font-family: inherit; cursor: pointer; text-align: center; transition: border-color .2s, background .2s; }
+.ac-sky-opt.on { border-color: var(--acc); background: color-mix(in srgb, var(--acc) 12%, transparent); }
+.ac-sky-sw { position: relative; display: block; height: 40px; border-radius: 10px; overflow: hidden; margin-bottom: 8px; }
+.ac-sky-sw i { position: absolute; right: -6px; bottom: -12px; width: 30px; height: 30px; border-radius: 50%; background: radial-gradient(circle, #FFF6D6 0%, #FFD98A 45%, rgba(255,180,94,0) 72%); }
+.ac-sky-pink { background: linear-gradient(155deg, #2A2F78 0%, #7A3FA0 42%, #E0628A 72%, #F7A35C 100%); }
+.ac-sky-blue { background: linear-gradient(155deg, #173F8F 0%, #2C79C9 48%, #49A8E6 76%, #9ED8F5 100%); }
+.ac-sky-blue i { bottom: auto; top: -12px; }
+.ac-sky-auto { background: linear-gradient(100deg, #7A3FA0 0%, #E0628A 33%, #2C79C9 66%, #3D2478 100%); }
+.ac-sky-t { display: block; font-size: 15px; font-weight: 600; }
+.ac-sky-s { display: block; margin-top: 2px; font-size: 12px; color: var(--dim); }
+html.ac-soft .ac-sky-opt { border-radius: 20px; border-color: transparent; background: rgba(255,255,255,calc(var(--ga) * .9)); }
+html.ac-soft .ac-sky-opt.on { box-shadow: inset 0 0 0 1.5px var(--acc); }
+html.ac-soft .ac-sky-sw { border-radius: 14px; }
+html.ac-soft.ac-light .ac-sky-opt { background: rgba(255,255,255,.9); }
 .ac-lay-mv { width: 36px; height: 44px; padding: 0; border: 0; border-radius: 8px; background: none; color: var(--dim); display: grid; place-items: center; cursor: pointer; }
 .ac-lay-mv:disabled { opacity: .25; cursor: default; }
 .ac-lay-foot { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 10px; font-size: 13px; color: var(--dim); }
