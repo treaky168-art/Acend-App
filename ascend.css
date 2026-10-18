@@ -164,6 +164,18 @@ html[data-acdir="in"] .ac-tab { animation: acDeeper .25s cubic-bezier(.2,.85,.25
 .ac-bac-bars { display: grid; gap: 4px; width: 32px; margin-top: 7px; }
 .ac-bac-bars i { display: block; height: 5px; border-radius: 99px; background: rgba(255,255,255,.16); }
 .ac-bac-bars i.on { background: color-mix(in srgb, var(--t) 78%, #fff); }
+/* Focus habits picker: each habit's own artwork as a tile, the chosen ones ringed in their colour. */
+.ac-fp-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 16px; }
+.ac-art.ac-fp { aspect-ratio: 1 / 1.08; border-radius: 16px; background-size: cover; background-position: 62% 28%; transition: transform .3s cubic-bezier(.3,1.4,.5,1), filter .25s ease; }
+html.ac-soft .ac-art.ac-fp { border-radius: 20px; }
+.ac-art.ac-fp::before { background: linear-gradient(0deg, rgba(6,7,12,.88) 0%, rgba(6,7,12,.35) 42%, rgba(6,7,12,0) 66%); }
+.ac-art.ac-fp:not(.on) { filter: grayscale(.9) brightness(.6); }
+.ac-art.ac-fp:not(.on)::after { box-shadow: inset 0 0 0 1px rgba(255,255,255,.1); }
+.ac-art.ac-fp.on::after { box-shadow: inset 0 0 0 2px var(--t); }
+.ac-fp-t { position: absolute; left: 9px; right: 9px; bottom: 8px; font-size: 13px; font-weight: 700; line-height: 1.2; text-shadow: 0 1px 8px rgba(0,0,0,.6); }
+.ac-fp-ck { position: absolute; top: 7px; right: 7px; width: 22px; height: 22px; box-sizing: border-box; border-radius: 99px; display: grid; place-items: center; border: 1.5px solid rgba(255,255,255,.55); background: rgba(8,10,16,.35); color: #fff; }
+.ac-fp.on .ac-fp-ck { border-color: transparent; background: var(--t); }
+.ac-lay-hab { display: flex; align-items: center; gap: 10px; }
 
 /* ---------- Controls ---------- */
 /* Inputs: a calm focus ring. */
@@ -448,6 +460,11 @@ html.ac-light .ac-bac-l { color: var(--dim); }
 html.ac-light .ac-bac-v { text-shadow: 0 1px 8px rgba(255,255,255,.9); }
 html.ac-light .ac-bac-bars i { background: rgba(40,52,76,.1); }
 html.ac-light .ac-bac-bars i.on { background: #D4AE6A; }
+html.ac-light .ac-art.ac-fp::before { background: linear-gradient(0deg, rgba(255,255,255,.94) 0%, rgba(255,255,255,.45) 40%, rgba(255,255,255,0) 64%); }
+html.ac-light .ac-fp-t { text-shadow: 0 1px 8px rgba(255,255,255,.9); }
+html.ac-light .ac-art.ac-fp:not(.on) { filter: grayscale(.9) opacity(.55); }
+html.ac-light .ac-art.ac-fp:not(.on)::after { box-shadow: inset 0 0 0 1px rgba(40,52,76,.12); }
+html.ac-light .ac-fp-ck { border-color: rgba(40,52,76,.3); background: rgba(255,255,255,.8); color: #fff; }
 
 /* Light theme: no black anywhere. Dimming behind sheets is a pale blue-grey, shadows are soft. */
 html.ac-light .ac-qa-back, html.ac-light .ac-tp-back { background: rgba(60,72,96,.18); }
