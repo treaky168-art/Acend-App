@@ -2505,7 +2505,7 @@ var $AcTodayCards = function (p) {
 // Counted at 2 bytes a character, so it reads high rather than low.
 var $AC_LS_MAX = 5 * 1024 * 1024;
 var $acLsAt = 0, $acLsN = null;
-var $acLsUsed = function () { var t = Date.now(); if (t - $acLsAt < 10000) return $acLsN; $acLsAt = t; return $acLsN = $acLsRead(); };
+var $acLsUsed = function () { var t = Date.now(); if (Math.abs(t - $acLsAt) < 10000) return $acLsN; $acLsAt = t; return $acLsN = $acLsRead(); };
 var $acLsRead = function () { try { var n = 0; for (var i = 0; i < localStorage.length; i++) { var k = localStorage.key(i); n += (k.length + (localStorage.getItem(k) || "").length) * 2; } return n; } catch (x) { return null; } };
 var $acKB = function (b) { return b >= 1048576 ? (b / 1048576).toFixed(1) + " MB" : Math.max(1, Math.round(b / 1024)) + " KB"; };
 var $acLsTint = function (f) { return f >= .8 ? s.red : f >= .6 ? s.amber : s.teal; };
