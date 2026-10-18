@@ -2559,36 +2559,36 @@ function $wgReview(wk){
 // ---- Weekly reminders: a reminder can carry steps, ticked per day. Ticking the last one ticks the reminder off.
 function $acStep(u,sid){
   let cs=(de&&de.cstep&&de.cstep[u.id])||[],on=cs.indexOf(sid)>=0,
-    left=(u.steps||[]).filter(x=>x.t&&x.id!==sid&&cs.indexOf(x.id)<0).length,
-    fin=!on&&!left&&!(de&&de.customs&&de.customs[u.id]);
-  K(m=>{let v=ln(m,fe,V);v.cstep={...v.cstep||{}};let a=(v.cstep[u.id]||[]).filter(x=>x!==sid);on||a.push(sid);v.cstep[u.id]=a;
-    fin&&(v.customs={...v.customs||{}},v.customs[u.id]=!0,m.xp+=u.xp,m.stats.WIL+=1);});
+    fin=!on&&!sm(u.id)&&!(u.steps||[]).some(x=>x.t&&x.id!==sid&&cs.indexOf(x.id)<0);
+  K(m=>{let v=ln(m,fe,V);v.cstep={...v.cstep||{}};let a=v.cstep[u.id]||[],was=a.indexOf(sid)>=0;
+    a=was?a.filter(x=>x!==sid):a.concat(sid);v.cstep[u.id]=a;
+    !was&&!(v.customs&&v.customs[u.id])&&(u.steps||[]).every(x=>!x.t||a.indexOf(x.id)>=0)&&(v.customs={...v.customs||{}},v.customs[u.id]=!0,m.xp+=u.xp,m.stats.WIL+=1);});
   fin&&Ke(u.title+" done. +"+u.xp+" XP");
 }
 function $acRmRow(B,S){
-  let E=l.default.createElement,I=!!(de&&de.customs&&de.customs[B.id]),st=(B.steps||[]).filter(x=>x.t),n=st.length,
-    cs=(de&&de.cstep&&de.cstep[B.id])||[],sd=st.filter(x=>cs.indexOf(x.id)>=0).length,
-    o=n>0&&(B.id in $acRmO?$acRmO[B.id]:!I),
-    tick=(d,sz)=>({width:sz,height:sz,flexShrink:0,borderRadius:8,display:"grid",placeItems:"center",border:"1px solid "+(d?s.teal:s.line),background:d?N(s.teal,.9):"transparent",color:s.isLight?"#FFFFFF":"#08101A",fontSize:15,fontWeight:600}),
+  let E=l.default.createElement,I=sm(B.id),st=(B.steps||[]).filter(x=>x.t),n=st.length,
+    cs=(de&&de.cstep&&de.cstep[B.id])||[],sd=st.filter(x=>cs.indexOf(x.id)>=0).length,o=!!$acRmO[B.id],
+    tick={width:26,height:26,flexShrink:0,borderRadius:8,display:"grid",placeItems:"center",border:"1px solid "+(I?s.teal:s.line),background:I?N(s.teal,.9):"transparent",color:s.isLight?"#FFFFFF":"#08101A",fontSize:15,fontWeight:600},
     icon=E("span",{style:{width:36,height:36,flexShrink:0,borderRadius:8,display:"grid",placeItems:"center",background:N(s.acc,s.isLight?.1:.14),opacity:1,color:s.acc}},$acGlyph(B.icon,19)),
     name={fontSize:15,fontWeight:600,color:I?s.dim:s.text,textDecoration:I?"line-through":"none"},
     xp=E("span",{style:{fontSize:13,color:s.dimmer}},"+",B.xp),
     card={padding:0,animationDelay:S*40+"ms",borderColor:I?N(s.teal,.5):s.line,background:I?Nn(N(s.teal,.08),.88):s.panel};
   if(!n)return E(U,{key:B.id,className:"ac-item ac-row",onClick:()=>Wf(B),style:card},
-    E("div",{style:{display:"flex",alignItems:"center",gap:12,padding:"13px 14px"}},icon,E("div",{style:{flex:1,minWidth:0,...name}},B.title),xp,E("div",{style:tick(I,26)},I?"\u2713":"")));
-  return E(U,{key:B.id,className:"ac-item",style:card},
+    E("div",{style:{display:"flex",alignItems:"center",gap:12,padding:"13px 14px"}},icon,E("div",{style:{flex:1,minWidth:0,...name}},B.title),xp,E("div",{style:tick},I?"\u2713":"")));
+  return E(U,{key:B.id,className:"ac-item",style:{...card,overflow:"hidden"}},
     E("div",{style:{display:"flex",alignItems:"center",gap:12,paddingRight:14}},
       E("button",{className:"ac-btn ac-row","aria-expanded":o,onClick:()=>$acRmSet(q=>({...q,[B.id]:!o})),style:{flex:1,minWidth:0,display:"flex",alignItems:"center",gap:12,padding:"13px 0 13px 14px",background:"none",border:"none",cursor:"pointer",fontFamily:"inherit",color:s.text,textAlign:"left"}},
         icon,
-        E("div",{style:{flex:1,minWidth:0}},E("div",{style:name},B.title),E("div",{style:{fontSize:13,color:sd===n?s.teal:s.dim,marginTop:3}},sd+" of "+n+(n>1?" steps":" step"))),
+        E("div",{style:{flex:1,minWidth:0}},E("div",{style:name},B.title),E("div",{style:{fontSize:13,color:sd===n?s.teal:s.dim,marginTop:3}},sd+"/"+n+(n>1?" steps":" step"))),
         xp,
         E("span",{"aria-hidden":"true",style:{fontSize:17,color:s.dimmer,transition:"transform .3s cubic-bezier(.2,.8,.3,1)",transform:o?"rotate(90deg)":"none"}},"\u203A")),
-      E("button",{className:"ac-btn",onClick:()=>Wf(B),"aria-label":B.title+(I?": mark not done":": mark done"),style:{...tick(I,26),padding:0,cursor:"pointer",fontFamily:"inherit",lineHeight:1}},I?"\u2713":"")),
-    E($AcCollapse,{open:o},E("div",{style:{display:"grid",gap:8,padding:"0 14px 14px"}},st.map((x,j)=>{let d=cs.indexOf(x.id)>=0;
-      return E("button",{key:x.id,className:"ac-btn ac-item",onClick:()=>$acStep(B,x.id),"aria-pressed":d,style:{display:"flex",alignItems:"center",gap:11,width:"100%",padding:"10px 11px",borderRadius:s.radius-4,border:"1px solid "+(d?N(s.teal,.45):s.line),background:d?N(s.teal,.08):s.chipBg,cursor:"pointer",fontFamily:"inherit",textAlign:"left",animationDelay:j*40+"ms"}},
-        E("span",{"aria-hidden":"true",style:tick(d,26)},d?"\u2713":""),
-        E("span",{style:{flex:1,minWidth:0,fontSize:15,lineHeight:1.4,color:d?s.dim:s.text,textDecoration:d?"line-through":"none",overflowWrap:"anywhere"}},x.t));}))));
+      E("button",{className:"ac-btn",onClick:()=>Wf(B),"aria-label":I?"Mark not done":"Mark done",style:{...tick,padding:0,cursor:"pointer",fontFamily:"inherit",lineHeight:1}},I?"\u2713":"")),
+    E($AcCollapse,{open:o},E("div",{style:{padding:"4px 14px 14px",borderTop:"1px solid "+s.line}},st.map(x=>{let d=cs.indexOf(x.id)>=0;
+      return E("div",{key:x.id,className:"ac-step"+(d?" done":""),style:{"--c":s.teal}},
+        E("button",{className:"ac-btn ac-step-box",onClick:()=>$acStep(B,x.id),"aria-label":d?"Mark step not done":"Mark step done"},d?"\u2713":""),
+        E("span",{className:"ac-step-t"},x.t));}))));
 }
+
 // ---- Week start: ask for this week's goals the first time the app opens in a new week.
 function $acWeekAskOpen(){return !!(e&&!e.focusAsk&&e.wgAsk!=null&&e.wgAsk<he&&!$pzHas(e,fe)&&$acPopOn(e,"wk"))}
 function $acWeekAskDone(){K(p=>{p.wgAsk=he});$wgSetT("");$wgSetE(null)}
