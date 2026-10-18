@@ -2493,9 +2493,9 @@ var $AcTodayCards = function (p) {
           E("div", { style: { fontSize: 15, fontWeight: 600, marginTop: 2 } }, Math.round(sf * 100) + "% full")),
         E("div", { style: { fontSize: 13, color: s.dim, fontVariantNumeric: "tabular-nums", whiteSpace: "nowrap" } }, $acKB(su) + " of 5 MB")),
       E("div", { style: { marginTop: 12 } }, E(dt, { v: su, max: $AC_LS_MAX, tint: sc })),
-      E("div", { style: { fontSize: 13, color: s.dim, marginTop: 10, lineHeight: 1.5 } }, sf >= .8 ? "New changes could soon stop saving. Save a backup file now." : "There's still room, but save a backup file to be safe."),
+      E("div", { style: { fontSize: 13, color: s.dim, marginTop: 7, lineHeight: 1.5 } }, sf >= .8 ? "New changes could soon stop saving. Save a backup file now." : "There's still room, but save a backup file to be safe."),
       E("div", { style: { display: "flex", gap: 8, marginTop: 12 } },
-        $acBtn("Save file", function () { $acSaveFile("ascend-backup-" + today + ".json", JSON.stringify(e), "application/json").then(function (okk) { okk && (p.up(function (m) { m.lastBackup = today; m.backupSnooze = null; }), p.toast("Backup saved.")); }); }, { primary: !0, flex: 1 }),
+        $acBtn("Save file", function () { $acSaveFile("ascend-backup-" + today + ".json", JSON.stringify(e), "application/json").then(function (okk) { okk && (p.up(function (m) { m.lastBackup = today; m.backupSnooze = null; m.storeSnooze = $e(today, sf >= .8 ? 1 : 7); }), p.toast("Backup saved.")); }); }, { primary: !0, flex: 1 }),
         $acBtn("Later", function () { p.up(function (m) { m.storeSnooze = $e(today, sf >= .8 ? 1 : 7); }); p.toast(sf >= .8 ? "I'll remind you tomorrow." : "I'll remind you in a week."); }, { color: s.dim }))));
   }
   return out.length ? E("div", null, p.head ? E(J, null, "Up next") : null, E("div", { style: { display: "grid", gap: 10, marginTop: p.head ? 0 : 10 } }, out)) : null;
@@ -2504,7 +2504,9 @@ var $AcTodayCards = function (p) {
 // ---------- Storage: how much of Safari's local storage (about 5 MB a site) the app is using.
 // Counted at 2 bytes a character, so it reads high rather than low.
 var $AC_LS_MAX = 5 * 1024 * 1024;
-var $acLsUsed = function () { try { var n = 0; for (var i = 0; i < localStorage.length; i++) { var k = localStorage.key(i); n += (k.length + (localStorage.getItem(k) || "").length) * 2; } return n; } catch (x) { return null; } };
+var $acLsAt = 0, $acLsN = null;
+var $acLsUsed = function () { var t = Date.now(); if (t - $acLsAt < 10000) return $acLsN; $acLsAt = t; return $acLsN = $acLsRead(); };
+var $acLsRead = function () { try { var n = 0; for (var i = 0; i < localStorage.length; i++) { var k = localStorage.key(i); n += (k.length + (localStorage.getItem(k) || "").length) * 2; } return n; } catch (x) { return null; } };
 var $acKB = function (b) { return b >= 1048576 ? (b / 1048576).toFixed(1) + " MB" : Math.max(1, Math.round(b / 1024)) + " KB"; };
 var $acLsTint = function (f) { return f >= .8 ? s.red : f >= .6 ? s.amber : s.teal; };
 var $AcStore = function () {
