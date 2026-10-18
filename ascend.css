@@ -43,8 +43,6 @@
 .ac-hdr { animation: acDown .25s cubic-bezier(.2,.8,.3,1) both; }
 
 .ac-hud { display: inline-flex; align-items: center; gap: 10px; min-height: 40px; box-sizing: border-box; padding: 4px 14px 4px 4px; border-radius: 99px; border: 1px solid var(--line); background: var(--fill); color: var(--text); cursor: pointer; font-family: inherit; }
-.ac-hud-plus { width: 32px; height: 32px; flex-shrink: 0; border-radius: 50%; display: grid; place-items: center; color: var(--on-acc); background: var(--acc); transition: transform .25s cubic-bezier(.2,.8,.2,1); }
-.ac-hud:active .ac-hud-plus { transform: rotate(90deg) scale(.92); }
 .ac-hud-txt { display: flex; flex-direction: column; align-items: flex-start; line-height: 1.1; }
 .ac-hud-d { font-size: 11px; font-weight: 400; color: var(--dim); }
 .ac-hud-t { margin-top: 2px; font-size: 15px; font-weight: 600; letter-spacing: -.01em; font-variant-numeric: tabular-nums; }
@@ -104,9 +102,9 @@ html[data-acdir="in"] .ac-tab { animation: acDeeper .25s cubic-bezier(.2,.85,.25
 
 /* ---------- Artwork tiles ---------- */
 /* Picture tiles: the art carries the colour, so the frame stays neutral. --t is the tile's tint. */
-.ac-art { position: relative; display: block; width: 100%; box-sizing: border-box; overflow: hidden; border-radius: 20px; border: none; background: #0B0D14 center / cover no-repeat; padding: 0; margin: 0; cursor: pointer; color: #fff; text-align: left; font-family: inherit; box-shadow: 0 0 16px -6px var(--t, transparent), 0 14px 30px -18px rgba(0,0,0,.8); -webkit-user-select: none; user-select: none; transition: transform .3s cubic-bezier(.3,1.4,.5,1), filter .2s ease; }
+.ac-art { position: relative; display: block; width: 100%; box-sizing: border-box; overflow: hidden; border-radius: 20px; border: none; background: #0B0D14 center / cover no-repeat; padding: 0; margin: 0; cursor: pointer; color: #fff; text-align: left; font-family: inherit; box-shadow: 0 14px 30px -18px rgba(0,0,0,.8); -webkit-user-select: none; user-select: none; transition: transform .3s cubic-bezier(.3,1.4,.5,1), filter .2s ease; }
 .ac-art::before { content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; background: linear-gradient(180deg, rgba(6,7,12,.84) 0%, rgba(6,7,12,.5) 30%, rgba(6,7,12,0) 58%); }
-.ac-art::after { content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; box-shadow: inset 0 0 0 1.5px var(--t, rgba(255,255,255,.1)); }
+.ac-art::after { content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--t, #fff) 24%, rgba(255,255,255,.07)); }
 .ac-art:active { transform: scale(.97); filter: brightness(1.06); }
 .ac-art-head { position: absolute; left: 12px; top: 12px; right: 10px; display: flex; gap: 10px; align-items: flex-start; }
 .ac-art-ic { flex: 0 0 auto; width: 34px; height: 34px; box-sizing: border-box; border-radius: 10px; display: grid; place-items: center; background: rgba(10,12,20,.58); box-shadow: inset 0 0 0 1px rgba(255,255,255,.16); color: var(--t); color: color-mix(in srgb, var(--t) 72%, #fff); }
@@ -140,9 +138,9 @@ html[data-acdir="in"] .ac-tab { animation: acDeeper .25s cubic-bezier(.2,.85,.25
 .ac-hchip { position: absolute; left: 8px; bottom: 8px; max-width: calc(100% - 16px); box-sizing: border-box; display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px 4px 8px; border-radius: 99px; background: rgba(8,10,16,.72); box-shadow: inset 0 0 0 1px rgba(255,255,255,.14); color: #fff; font-size: 11.5px; font-weight: 600; line-height: 1.25; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-variant-numeric: tabular-nums; pointer-events: none; }
 .ac-hchip i { flex: 0 0 auto; width: 6px; height: 6px; border-radius: 99px; }
 /* Health page header: a slim picture strip with the title on it. */
-.ac-hhero { position: relative; width: 100%; box-sizing: border-box; aspect-ratio: 10 / 3; max-height: 120px; margin-top: 10px; overflow: hidden; border-radius: 18px; background: #0B0D14 50% 85% / cover no-repeat; box-shadow: 0 0 16px -6px var(--t, transparent), 0 14px 30px -18px rgba(0,0,0,.8); color: #fff; animation: acUp .45s cubic-bezier(.2,.8,.3,1) both; }
+.ac-hhero { position: relative; width: 100%; box-sizing: border-box; aspect-ratio: 10 / 3; max-height: 120px; margin-top: 10px; overflow: hidden; border-radius: 18px; background: #0B0D14 50% 85% / cover no-repeat; box-shadow: 0 14px 30px -18px rgba(0,0,0,.8); color: #fff; animation: acUp .45s cubic-bezier(.2,.8,.3,1) both; }
 .ac-hhero::before { content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; background: linear-gradient(90deg, rgba(6,7,12,.82) 0%, rgba(6,7,12,.5) 45%, rgba(6,7,12,.05) 80%); }
-.ac-hhero::after { content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; box-shadow: inset 0 0 0 1.5px var(--t, rgba(255,255,255,.1)); }
+.ac-hhero::after { content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--t, #fff) 24%, rgba(255,255,255,.07)); }
 .ac-hhero .ac-art-head { left: 14px; top: 50%; transform: translateY(-50%); gap: 12px; align-items: center; }
 .ac-hhero .ac-art-ic { width: 38px; height: 38px; border-radius: 11px; }
 .ac-hhero .ac-art-ic svg { width: 19px; height: 19px; }
@@ -299,9 +297,6 @@ html .ac-sheet .ac-btn.ac-primary.ac-mn-go { background: linear-gradient(100deg,
 .ac-kprog { display: flex; align-items: center; gap: 12px; margin-top: 16px; }
 .ac-kprog-bar { flex: 1; height: 4px; border-radius: 4px; background: var(--track); overflow: hidden; }
 .ac-kprog-bar > span { display: block; height: 100%; border-radius: 4px; background: var(--acc); transition: width .8s cubic-bezier(.2,.85,.25,1); }
-.ac-bchip { position: relative; }
-.ac-bchip-bar { position: absolute; left: 12px; right: 12px; bottom: 4px; height: 2px; border-radius: 2px; background: var(--track); overflow: hidden; }
-.ac-bchip-bar > span { display: block; height: 100%; border-radius: 2px; transition: width .6s ease; }
 .ac-idx { min-width: 20px; padding-top: 1px; font-size: 13px; font-weight: 600; font-variant-numeric: tabular-nums; }
 .ac-idea-acts { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
 
@@ -491,7 +486,8 @@ html.ac-soft.ac-light .ac-sky-opt { background: rgba(255,255,255,.9); }
 /* ---------- Light theme (White Room) ----------
    The light artwork is bright, so picture tiles fade to white at the top and carry dark text.
    The --t tint border and glow stay, as on the dark themes. */
-html.ac-light .ac-art, html.ac-light .ac-hhero { background-color: #F3F5F8; color: var(--text); box-shadow: 0 0 14px -10px var(--t, transparent), 0 12px 26px -20px rgba(60,80,120,.2); }
+html.ac-light .ac-art, html.ac-light .ac-hhero { background-color: #F3F5F8; color: var(--text); box-shadow: 0 1px 2px rgba(60,80,120,.06), 0 12px 26px -20px rgba(60,80,120,.2); }
+html.ac-light .ac-art::after, html.ac-light .ac-hhero::after { box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--t, #283450) 28%, rgba(40,52,76,.06)); }
 html.ac-light .ac-art::before { background: linear-gradient(180deg, rgba(255,255,255,.9) 0%, rgba(255,255,255,.55) 30%, rgba(255,255,255,0) 60%); }
 html.ac-light .ac-art-t { text-shadow: 0 1px 10px rgba(255,255,255,.95); }
 html.ac-light .ac-art-s { color: var(--dim); text-shadow: 0 1px 8px rgba(255,255,255,.95); }
