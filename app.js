@@ -2580,7 +2580,7 @@ function $acRmRow(B,S){
     E("div",{style:{display:"flex",alignItems:"center",gap:12,paddingRight:14}},
       E("button",{className:"ac-btn ac-row","aria-expanded":o,onClick:()=>$acRmSet(q=>({...q,[B.id]:!o})),style:{flex:1,minWidth:0,display:"flex",alignItems:"center",gap:12,padding:"13px 0 13px 14px",background:"none",border:"none",cursor:"pointer",fontFamily:"inherit",color:s.text,textAlign:"left"}},
         icon,
-        E("div",{style:{flex:1,minWidth:0}},E("div",{style:name},B.title),E("div",{style:{fontSize:13,color:sd===n?s.teal:s.dim,marginTop:3}},sd+" of "+n+" steps")),
+        E("div",{style:{flex:1,minWidth:0}},E("div",{style:name},B.title),E("div",{style:{fontSize:13,color:sd===n?s.teal:s.dim,marginTop:3}},sd+" of "+n+(n>1?" steps":" step"))),
         xp,
         E("span",{"aria-hidden":"true",style:{fontSize:17,color:s.dimmer,transition:"transform .3s cubic-bezier(.2,.8,.3,1)",transform:o?"rotate(90deg)":"none"}},"\u203A")),
       E("button",{className:"ac-btn",onClick:()=>Wf(B),"aria-label":B.title+(I?": mark not done":": mark done"),style:{...tick(I,26),padding:0,cursor:"pointer",fontFamily:"inherit",lineHeight:1}},I?"\u2713":"")),
