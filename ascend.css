@@ -176,6 +176,11 @@ html.ac-soft .ac-art.ac-fp { border-radius: 20px; }
 .ac-fp-ck { position: absolute; top: 7px; right: 7px; width: 22px; height: 22px; box-sizing: border-box; border-radius: 99px; display: grid; place-items: center; border: 1.5px solid rgba(255,255,255,.55); background: rgba(8,10,16,.35); color: #fff; }
 .ac-fp.on .ac-fp-ck { border-color: transparent; background: var(--t); }
 .ac-lay-hab { display: flex; align-items: center; gap: 10px; }
+.ac-fp-cap { margin: 18px 2px 0; font-size: 13px; font-weight: 600; color: var(--dim); }
+.ac-fp-cap + .ac-fp-grid { margin-top: 10px; }
+/* Habits with no artwork yet: a wash of the habit colour with its icon. */
+.ac-art.ac-fp.noart { background: radial-gradient(120% 90% at 100% 0%, color-mix(in srgb, var(--t) 42%, transparent), transparent 70%), linear-gradient(160deg, color-mix(in srgb, var(--t) 22%, #0c0d14), #0c0d14); }
+.ac-fp-ic { position: absolute; left: 50%; top: 40%; transform: translate(-50%, -50%); line-height: 0; color: color-mix(in srgb, var(--t) 80%, #fff); }
 
 /* ---------- Controls ---------- */
 /* Inputs: a calm focus ring. */
@@ -465,6 +470,8 @@ html.ac-light .ac-fp-t { text-shadow: 0 1px 8px rgba(255,255,255,.9); }
 html.ac-light .ac-art.ac-fp:not(.on) { filter: grayscale(.9) opacity(.55); }
 html.ac-light .ac-art.ac-fp:not(.on)::after { box-shadow: inset 0 0 0 1px rgba(40,52,76,.12); }
 html.ac-light .ac-fp-ck { border-color: rgba(40,52,76,.3); background: rgba(255,255,255,.8); color: #fff; }
+html.ac-light .ac-art.ac-fp.noart { background: radial-gradient(120% 90% at 100% 0%, color-mix(in srgb, var(--t) 26%, transparent), transparent 70%), linear-gradient(160deg, color-mix(in srgb, var(--t) 12%, #fff), #fff); }
+html.ac-light .ac-fp-ic { color: color-mix(in srgb, var(--t) 85%, #000); }
 
 /* Light theme: no black anywhere. Dimming behind sheets is a pale blue-grey, shadows are soft. */
 html.ac-light .ac-qa-back, html.ac-light .ac-tp-back { background: rgba(60,72,96,.18); }
