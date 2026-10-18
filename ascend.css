@@ -178,6 +178,33 @@ html.ac-soft .ac-art.ac-fp { border-radius: 20px; }
 .ac-lay-hab { display: flex; align-items: center; gap: 10px; }
 .ac-fp-cap { margin: 18px 2px 0; font-size: 13px; font-weight: 600; color: var(--dim); }
 .ac-mn-epi .ac-epi { margin: 18px 4px 18px; }
+/* Morning card: a sky for the time of day, a rising sun and a few sparkles behind the greeting. */
+.ac-mn-hero { position: relative; overflow: hidden; border-radius: 22px; padding: 22px 18px 18px; color: #fff; min-height: 168px; box-sizing: border-box; display: flex; align-items: flex-end; box-shadow: 0 18px 36px -22px rgba(40,20,80,.6); animation: acMnIn .6s cubic-bezier(.2,.8,.3,1) both; }
+html.ac-soft .ac-mn-hero { border-radius: 26px; }
+.ac-mn-am { background: linear-gradient(155deg, #2A2F78 0%, #7A3FA0 42%, #E0628A 72%, #F7A35C 100%); }
+.ac-mn-pm { background: linear-gradient(155deg, #173F8F 0%, #2C79C9 48%, #49A8E6 76%, #9ED8F5 100%); }
+.ac-mn-ev { background: linear-gradient(155deg, #160F38 0%, #3D2478 46%, #8A3A8E 74%, #E5688A 100%); }
+.ac-mn-sky { position: absolute; inset: 0; pointer-events: none; }
+.ac-mn-sun { position: absolute; right: -40px; bottom: -54px; width: 132px; height: 132px; border-radius: 50%; background: radial-gradient(circle at 50% 45%, #FFF6D6 0%, #FFD98A 38%, #FFB45E 64%, rgba(255,160,90,0) 72%); animation: acMnRise 1.6s cubic-bezier(.2,.8,.3,1) both; }
+.ac-mn-pm .ac-mn-sun { right: -46px; bottom: auto; top: -60px; background: radial-gradient(circle at 50% 50%, #FFFDF0 0%, #FFF1B8 36%, #FFD86E 60%, rgba(255,216,110,0) 72%); }
+.ac-mn-ev .ac-mn-sun { width: 64px; height: 64px; right: 14px; bottom: auto; top: 14px; background: radial-gradient(circle at 38% 38%, #FFF7E8 0%, #F4E2C0 50%, rgba(244,226,192,0) 71%); }
+.ac-mn-rays { position: absolute; right: -118px; bottom: -132px; width: 290px; height: 290px; border-radius: 50%; background: repeating-conic-gradient(from 0deg, rgba(255,236,190,.16) 0deg 6deg, rgba(255,236,190,0) 6deg 18deg); -webkit-mask: radial-gradient(circle, #000 30%, transparent 70%); mask: radial-gradient(circle, #000 30%, transparent 70%); animation: acMnSpin 40s linear infinite, acMnRise 1.6s cubic-bezier(.2,.8,.3,1) both; }
+.ac-mn-pm .ac-mn-rays { right: -124px; bottom: auto; top: -140px; }
+.ac-mn-ev .ac-mn-rays { display: none; }
+.ac-mn-sp { position: absolute; width: 6px; height: 6px; border-radius: 50%; background: #fff; box-shadow: 0 0 10px 2px rgba(255,255,255,.7); opacity: .0; animation: acMnTw 3.2s ease-in-out infinite; }
+.ac-mn-sp.s1 { right: 34%; top: 20%; animation-delay: .4s; }
+.ac-mn-sp.s2 { right: 18%; top: 48%; width: 4px; height: 4px; animation-delay: 1.4s; }
+.ac-mn-sp.s3 { right: 46%; top: 36%; width: 3px; height: 3px; animation-delay: 2.2s; }
+.ac-mn-txt { position: relative; min-width: 0; padding-right: 58px; }
+.ac-mn-gr { font-size: 26px; font-weight: 700; letter-spacing: -.02em; line-height: 1.15; text-shadow: 0 2px 14px rgba(20,10,50,.35); }
+.ac-mn-line { margin-top: 6px; font-size: 15px; font-weight: 500; line-height: 1.45; color: rgba(255,255,255,.92); text-shadow: 0 1px 10px rgba(20,10,50,.35); }
+.ac-mn-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 14px; }
+.ac-mn-chip { display: inline-flex; align-items: center; gap: 5px; padding: 5px 10px; border-radius: 99px; font-size: 12.5px; font-weight: 600; background: rgba(255,255,255,.18); box-shadow: inset 0 0 0 1px rgba(255,255,255,.25); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); font-variant-numeric: tabular-nums; white-space: nowrap; }
+html .ac-sheet .ac-btn.ac-primary.ac-mn-go { background: linear-gradient(100deg, #F7A35C, #E0628A 55%, #8A5CFF) !important; color: #fff !important; border: none !important; box-shadow: 0 14px 28px -16px #E0628A !important; }
+@keyframes acMnIn { from { opacity: 0; transform: translateY(10px) scale(.98); } to { opacity: 1; transform: none; } }
+@keyframes acMnRise { from { transform: translateY(46px); opacity: 0; } to { transform: none; opacity: 1; } }
+@keyframes acMnSpin { to { rotate: 360deg; } }
+@keyframes acMnTw { 0%, 100% { opacity: 0; transform: scale(.6); } 50% { opacity: .9; transform: scale(1); } }
 .ac-fp-cap + .ac-fp-grid { margin-top: 10px; }
 /* Habits with no artwork yet: a wash of the habit colour with its icon. */
 .ac-art.ac-fp.noart { background: radial-gradient(120% 90% at 100% 0%, color-mix(in srgb, var(--t) 42%, transparent), transparent 70%), linear-gradient(160deg, color-mix(in srgb, var(--t) 22%, #0c0d14), #0c0d14); }
@@ -370,6 +397,8 @@ html.ac-soft .ac-art.ac-fp { border-radius: 20px; }
 .ac-swipe-back { transition: transform .22s cubic-bezier(.2,.8,.3,1), opacity .22s ease !important; }
 
 @media (prefers-reduced-motion: reduce) {
+  .ac-mn-hero, .ac-mn-sun, .ac-mn-rays, .ac-mn-sp { animation: none !important; }
+  .ac-mn-sp { opacity: .7; }
   .ac-qa, .ac-qa-back, .ac-qa-tile, .ac-qa-sub, .ac-tp, .ac-tp-back, .ac-ring-draw, .ac-ins-card, .ac-hhero, .ac-bartip, .ac-live-dot, .ac-live-dot::after, .ac-dl-row.next .ac-dl-dot::after { animation: none !important; }
 }
 
