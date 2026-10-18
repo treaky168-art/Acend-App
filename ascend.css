@@ -93,9 +93,9 @@ html[data-acdir="in"] .ac-tab { animation: acDeeper .25s cubic-bezier(.2,.85,.25
 
 /* Sections open and close by animating their height (grid rows 0fr -> 1fr), with the content
    drifting in slightly behind it. */
-.ac-col { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .25s cubic-bezier(.2,.8,.2,1); }
+.ac-col { display: grid; grid-template-columns: minmax(0, 1fr); grid-template-rows: 0fr; transition: grid-template-rows .25s cubic-bezier(.2,.8,.2,1); }
 .ac-col.open { grid-template-rows: 1fr; }
-.ac-col-in { min-height: 0; overflow: hidden; }
+.ac-col-in { min-height: 0; min-width: 0; overflow: hidden; }
 .ac-col.settled > .ac-col-in { overflow: visible; }
 .ac-col-in > * { opacity: 0; transform: translate3d(0, -6px, 0); transform-origin: top center; transition: opacity .24s ease, transform .25s cubic-bezier(.2,.8,.2,1); }
 .ac-col.open > .ac-col-in > * { opacity: 1; transform: none; transition-delay: .04s; }
