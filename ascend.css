@@ -177,6 +177,7 @@ html.ac-soft .ac-art.ac-fp { border-radius: 20px; }
 .ac-fp.on .ac-fp-ck { border-color: transparent; background: var(--t); }
 .ac-lay-hab { display: flex; align-items: center; gap: 10px; }
 .ac-fp-cap { margin: 18px 2px 0; font-size: 13px; font-weight: 600; color: var(--dim); }
+.ac-mn-epi .ac-epi { margin: 18px 4px 18px; }
 .ac-fp-cap + .ac-fp-grid { margin-top: 10px; }
 /* Habits with no artwork yet: a wash of the habit colour with its icon. */
 .ac-art.ac-fp.noart { background: radial-gradient(120% 90% at 100% 0%, color-mix(in srgb, var(--t) 42%, transparent), transparent 70%), linear-gradient(160deg, color-mix(in srgb, var(--t) 22%, #0c0d14), #0c0d14); }
