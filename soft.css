@@ -41,7 +41,7 @@ html.ac-soft .ac-tab div[style^="display: grid; gap:"]:not([style*="columns"]):n
 /* Feature cards take the accent as a soft gradient, like the reference's premium card. */
 html.ac-soft .ac-glow.ac-row {
   background: radial-gradient(120% 90% at 85% 0%, color-mix(in srgb, var(--acc) 55%, transparent) 0%, transparent 60%), linear-gradient(160deg, color-mix(in srgb, var(--acc) 34%, #0c0d14) 0%, color-mix(in srgb, var(--acc2) 22%, #0c0d14) 100%) !important;
-  box-shadow: inset 0 1px 0 rgba(255,255,255,.12), 0 24px 40px -28px rgba(0,0,0,.9) !important;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.14), 0 26px 44px -26px color-mix(in srgb, var(--acc) 70%, transparent) !important;
 }
 html.ac-soft .ac-ins-card { border-radius: var(--soft-r) !important; border-color: transparent !important; background: linear-gradient(160deg, color-mix(in srgb, var(--acc2) 30%, #0c0d14), color-mix(in srgb, var(--acc) 14%, #0c0d14)) !important; box-shadow: inset 0 1px 0 rgba(255,255,255,.1), 0 24px 40px -28px rgba(0,0,0,.9) !important; }
 
@@ -52,7 +52,7 @@ html.ac-soft .ac-root h2, html.ac-soft .ac-sec { font-size: 22px !important; fon
 html.ac-soft .ac-sec-chev { width: 34px; height: 34px; background: rgba(255,255,255,.07); }
 
 /* ---------- Buttons: pills ---------- */
-html.ac-soft .ac-primary { border-radius: 999px !important; min-height: 52px !important; font-weight: 600 !important; background: linear-gradient(180deg, color-mix(in srgb, var(--acc) 100%, #fff 12%), var(--acc)) !important; box-shadow: inset 0 1px 0 rgba(255,255,255,.28), 0 10px 22px -14px color-mix(in srgb, var(--acc) 55%, transparent) !important; }
+html.ac-soft .ac-primary { border-radius: 999px !important; min-height: 52px !important; font-weight: 600 !important; background: linear-gradient(180deg, color-mix(in srgb, var(--acc) 100%, #fff 12%), var(--acc)) !important; box-shadow: inset 0 1px 0 rgba(255,255,255,.35), 0 14px 28px -16px var(--acc) !important; }
 html.ac-soft button.ac-btn[style*="min-height: 44px"] { border-radius: 999px !important; }
 html.ac-soft .ac-hit { border-radius: 999px !important; }
 html.ac-soft .ac-root button[aria-label^="Previous"], html.ac-soft .ac-root button[aria-label^="Next"], html.ac-soft .ac-root button[aria-label="Close"] { border-radius: 50% !important; background: rgba(255,255,255,.08) !important; border-color: transparent !important; }
@@ -118,7 +118,7 @@ html.ac-soft.ac-light .ac-tab div[style^="display: grid; gap:"]:not([style*="col
 html.ac-soft.ac-light .ac-tab div[style^="display: grid; gap:"]:not([style*="columns"]):not([style="display: grid; gap: 10px; margin-top: 14px;"]):has(> .ac-panel + .ac-panel):not(:has(> :not(.ac-panel))) > .ac-panel + .ac-panel::before { background: rgba(40,52,76,.07); }
 html.ac-soft.ac-light .ac-glow.ac-row {
   background: radial-gradient(120% 90% at 85% 0%, color-mix(in srgb, var(--acc) 26%, transparent) 0%, transparent 60%), linear-gradient(160deg, color-mix(in srgb, var(--acc) 16%, #fff) 0%, color-mix(in srgb, var(--acc2) 10%, #fff) 100%) !important;
-  box-shadow: inset 0 1px 0 rgba(255,255,255,.9), 0 12px 28px -22px rgba(60,80,120,.22) !important;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.9), 0 18px 34px -24px color-mix(in srgb, var(--acc) 70%, transparent) !important;
 }
 html.ac-soft.ac-light .ac-ins-card { background: linear-gradient(160deg, color-mix(in srgb, var(--acc2) 14%, #fff), color-mix(in srgb, var(--acc) 8%, #fff)) !important; box-shadow: inset 0 1px 0 rgba(255,255,255,.9), 0 12px 28px -22px rgba(60,80,120,.2) !important; }
 html.ac-soft.ac-light .ac-hud, html.ac-soft.ac-light .ac-hdr .ac-hit, html.ac-soft.ac-light .ac-ph-btn {
