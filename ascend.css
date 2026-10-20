@@ -183,6 +183,12 @@ html.ac-soft .ac-mn-hero { border-radius: 26px; }
 .ac-mn-pm { background: linear-gradient(155deg, #173F8F 0%, #2C79C9 48%, #49A8E6 76%, #9ED8F5 100%); }
 .ac-mn-ev { background: linear-gradient(155deg, #160F38 0%, #3D2478 46%, #8A3A8E 74%, #E5688A 100%); }
 .ac-mn-sky { position: absolute; inset: 0; pointer-events: none; }
+/* Evening review: a night sky with a moon and stars. */
+.ac-mn-nt { background: radial-gradient(90% 70% at 85% 0%, rgba(140,120,255,.35), transparent 60%), linear-gradient(160deg, #060A22 0%, #121A4A 46%, #2A2370 78%, #46307E 100%); }
+.ac-mn-nt .ac-mn-sun { width: 54px; height: 54px; right: 20px; bottom: auto; top: 18px; background: transparent; box-shadow: inset 13px -7px 0 0 #F4EBD0, 0 0 26px -4px rgba(244,235,208,.35); }
+.ac-mn-sp.s4 { right: 62%; top: 14%; width: 3px; height: 3px; animation-delay: .9s; }
+.ac-mn-sp.s5 { right: 8%; top: 70%; width: 3px; height: 3px; animation-delay: 1.9s; }
+html .ac-sheet .ac-btn.ac-primary.ac-mn-go.ac-ev-go { background: linear-gradient(100deg, #3B4FD8, #6C4BE0 55%, #A15BE6) !important; box-shadow: 0 14px 28px -16px #6C4BE0 !important; }
 .ac-mn-sun { position: absolute; right: -40px; bottom: -54px; width: 132px; height: 132px; border-radius: 50%; background: radial-gradient(circle at 50% 45%, #FFF6D6 0%, #FFD98A 38%, #FFB45E 64%, rgba(255,160,90,0) 72%); animation: acMnRise 1.6s cubic-bezier(.2,.8,.3,1) both; }
 .ac-mn-pm .ac-mn-sun { right: -46px; bottom: auto; top: -60px; background: radial-gradient(circle at 50% 50%, #FFFDF0 0%, #FFF1B8 36%, #FFD86E 60%, rgba(255,216,110,0) 72%); }
 .ac-mn-ev .ac-mn-sun { width: 64px; height: 64px; right: 14px; bottom: auto; top: 14px; background: radial-gradient(circle at 38% 38%, #FFF7E8 0%, #F4E2C0 50%, rgba(244,226,192,0) 71%); }
