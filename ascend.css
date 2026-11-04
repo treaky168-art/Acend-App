@@ -206,6 +206,17 @@ html .ac-sheet .ac-btn.ac-primary.ac-mn-go.ac-ev-go { background: linear-gradien
 .ac-mn-chip { display: inline-flex; align-items: center; gap: 5px; padding: 5px 10px; border-radius: 99px; font-size: 12.5px; font-weight: 600; background: rgba(255,255,255,.18); box-shadow: inset 0 0 0 1px rgba(255,255,255,.25); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); font-variant-numeric: tabular-nums; white-space: nowrap; }
 html .ac-sheet .ac-btn.ac-primary.ac-mn-go { background: linear-gradient(100deg, #F7A35C, #E0628A 55%, #8A5CFF) !important; color: #fff !important; border: none !important; box-shadow: 0 14px 28px -16px #E0628A !important; }
 @keyframes acMnIn { from { opacity: 0; transform: translateY(10px) scale(.98); } to { opacity: 1; transform: none; } }
+/* Morning and evening reviews: one part at a time. */
+.ac-steps-top { display: flex; align-items: center; gap: 10px; margin: 0 0 14px; }
+.ac-steps-bar { flex: 1; display: flex; gap: 5px; }
+.ac-steps-seg { flex: 1; padding: 8px 0; margin: 0; border: none; background: none; cursor: pointer; }
+.ac-steps-seg i { display: block; height: 4px; border-radius: 4px; transition: background .3s ease; }
+.ac-steps-n { font-size: 13px; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.ac-steps-in { animation: acStepIn .34s cubic-bezier(.2,.8,.3,1) both; }
+.ac-steps-in.back { animation-name: acStepBack; }
+.ac-steps-nav { display: flex; gap: 10px; margin-top: 16px; }
+@keyframes acStepIn { from { opacity: 0; transform: translateX(18px); } to { opacity: 1; transform: none; } }
+@keyframes acStepBack { from { opacity: 0; transform: translateX(-18px); } to { opacity: 1; transform: none; } }
 @keyframes acMnRise { from { transform: translateY(46px); opacity: 0; } to { transform: none; opacity: 1; } }
 @keyframes acMnSpin { to { rotate: 360deg; } }
 @keyframes acMnTw { 0%, 100% { opacity: 0; transform: scale(.6); } 50% { opacity: .9; transform: scale(1); } }
@@ -399,6 +410,7 @@ html .ac-sheet .ac-btn.ac-primary.ac-mn-go { background: linear-gradient(100deg,
 
 @media (prefers-reduced-motion: reduce) {
   .ac-mn-hero, .ac-mn-sun, .ac-mn-rays, .ac-mn-sp { animation: none !important; }
+  .ac-steps-in { animation: none !important; }
   .ac-mn-sp { opacity: .7; }
   .ac-qa, .ac-qa-back, .ac-qa-tile, .ac-qa-sub, .ac-tp, .ac-tp-back, .ac-ring-draw, .ac-ins-card, .ac-hhero, .ac-bartip, .ac-live-dot, .ac-live-dot::after, .ac-dl-row.next .ac-dl-dot::after { animation: none !important; }
 }
