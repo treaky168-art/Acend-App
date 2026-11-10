@@ -13,20 +13,20 @@
 /* Only "from" states, so elements settle back to their own inline opacity/transform. */
 @keyframes acUp { from { opacity: 0; transform: translate3d(0, 10px, 0); } }
 @keyframes acDown { from { opacity: 0; transform: translate3d(0, -6px, 0); } }
-@keyframes acNavPop { 0% { transform: scale(.88); } 60% { transform: scale(1.06); } 100% { transform: none; } }
+@keyframes acNavPop { from { transform: scale(.92); } to { transform: none; } }
 @keyframes acFlash { 0% { box-shadow: 0 0 0 0 var(--accFaint); } 30% { box-shadow: 0 0 0 6px var(--accFaint); } 65% { box-shadow: 0 0 0 0 transparent; } 85% { box-shadow: 0 0 0 4px var(--accFaint); } 100% { box-shadow: 0 0 0 0 transparent; } }
 @keyframes acRipple { from { transform: translate(-50%, -50%) scale(0); opacity: .16; } to { transform: translate(-50%, -50%) scale(1); opacity: 0; } }
 @keyframes acSpark { from { transform: translate(-50%, -50%) scale(1); opacity: 1; } to { transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) scale(.2); opacity: 0; } }
 @keyframes acFloat { 0% { transform: translate(-50%, 0) scale(.8); opacity: 0; } 20% { transform: translate(-50%, -14px) scale(1.05); opacity: 1; } 100% { transform: translate(-50%, -64px) scale(1); opacity: 0; } }
 @keyframes acEpi { from { opacity: 0; transform: translate3d(0, 4px, 0); } }
 @keyframes acGrow { from { transform: scaleX(0); } }
-@keyframes acBump { 0% { transform: none; } 35% { transform: scale(1.1); } 100% { transform: none; } }
+@keyframes acBump { 0% { transform: none; } 35% { transform: scale(1.05); } 100% { transform: none; } }
 @keyframes acBumpGlow { 0% { color: inherit; } 30% { color: var(--acc); } 100% { color: inherit; } }
 @keyframes acPick { 0% { transform: scale(1); } 40% { transform: scale(1.05); } 100% { transform: scale(1); } }
 @keyframes acCardSwap { from { opacity: 0; transform: translate3d(0, 8px, 0); } }
 @keyframes acToastIn { 0% { opacity: 0; transform: translate(-50%, -20px) scale(.96); } 60% { opacity: 1; transform: translate(-50%, 2px) scale(1); } 100% { opacity: 1; transform: translate(-50%, 0) scale(1); } }
-@keyframes acFromR { from { opacity: 0; transform: translate3d(28px, 0, 0); } }
-@keyframes acFromL { from { opacity: 0; transform: translate3d(-28px, 0, 0); } }
+@keyframes acFromR { from { opacity: 0; transform: translate3d(14px, 0, 0); } }
+@keyframes acFromL { from { opacity: 0; transform: translate3d(-14px, 0, 0); } }
 @keyframes acDeeper { from { opacity: 0; transform: translate3d(0, 6px, 0) scale(.98); } }
 @keyframes acTip { from { opacity: 0; transform: translate(-50%, 4px) scale(.94); } to { opacity: 1; transform: translate(-50%, 0) scale(1); } }
 @keyframes acTipIn { from { opacity: 0; transform: translate(-50%, 3px); } to { opacity: 1; transform: translate(-50%, 0); } }
@@ -49,16 +49,8 @@
 
 /* ---------- Page entrance ---------- */
 .ac-tab { animation: acUp .25s cubic-bezier(.2,.8,.3,1) both !important; }
-.ac-tab > div > :not(.ac-item):not(.ac-sheet) { animation: acUp .25s cubic-bezier(.2,.8,.3,1) both; }
-.ac-tab > div > :nth-child(1) { animation-delay: 0ms; }
-.ac-tab > div > :nth-child(2) { animation-delay: 30ms; }
-.ac-tab > div > :nth-child(3) { animation-delay: 60ms; }
-.ac-tab > div > :nth-child(4) { animation-delay: 90ms; }
-.ac-tab > div > :nth-child(5) { animation-delay: 120ms; }
-.ac-tab > div > :nth-child(6) { animation-delay: 150ms; }
-.ac-tab > div > :nth-child(7) { animation-delay: 180ms; }
-.ac-tab > div > :nth-child(8) { animation-delay: 210ms; }
-.ac-tab > div > :nth-child(n+9) { animation-delay: 240ms; }
+/* The page arrives as one piece. Cards inside it do not each animate in. */
+.ac-tab .ac-item { animation-delay: 0ms !important; }
 /* Pages slide in from the side you're heading towards (fx.js sets data-acdir on <html>). */
 html[data-acdir="r"] .ac-tab { animation: acFromR .25s cubic-bezier(.2,.85,.25,1) both !important; }
 html[data-acdir="l"] .ac-tab { animation: acFromL .25s cubic-bezier(.2,.85,.25,1) both !important; }
@@ -400,10 +392,6 @@ html .ac-sheet .ac-btn.ac-primary.ac-mn-go { background: linear-gradient(100deg,
 /* Numbers that change give a small bump. */
 .ac-bump { animation: acBump .25s cubic-bezier(.2,.8,.2,1); }
 .ac-bump-g { animation: acBumpGlow .25s ease; }
-/* Cards further down the page rise in as you scroll to them. !important beats the entrance
-   animations, which would otherwise hold these at full opacity. */
-.ac-rv { opacity: 0 !important; transform: translate3d(0, 18px, 0) !important; }
-.ac-rv.ac-rv-in { opacity: 1 !important; transform: none !important; transition: opacity .25s ease, transform .25s cubic-bezier(.2,.85,.25,1) !important; }
 /* Edge-swipe back on sub-pages (fx.js moves the page while you drag). */
 .ac-swiping { transition: none !important; will-change: transform; }
 .ac-swipe-back { transition: transform .22s cubic-bezier(.2,.8,.3,1), opacity .22s ease !important; }

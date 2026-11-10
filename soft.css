@@ -11,7 +11,7 @@
    - accent-gradient feature cards, fully rounded bars
    ===================================================================== */
 
-html.ac-soft { --soft-r: 28px; --soft-r-s: 18px; --ga: .115; --gs: 0; }
+html.ac-soft { --soft-r: 28px; --soft-r-s: 18px; --ga: .115; --gs: .45; }
 /* --gs is glass solidity: the theme background mixed in underneath, 0 = clear, 1 = nothing shows through. */
 html.ac-soft .ac-root { --gb: color-mix(in srgb, var(--bg) calc(var(--gs) * 100%), transparent); }
 /* --ga is the glass strength from Customise; every see-through surface scales from it. */
