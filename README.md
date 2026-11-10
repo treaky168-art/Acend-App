@@ -25,8 +25,9 @@ your progress carry across.
 
 ### Making the phone pick it up
 
-The app loads its files from the network whenever it can, so a new version shows
-up the next time you open it after a deploy. If it still shows the old build:
+Every time it opens, the app checks the network for a new version, so a deploy shows
+up the next time you open it. (When nothing has changed it runs from the copy saved on
+the phone, which is why it opens quickly and works offline.) If it still shows the old build:
 
 1. Swipe up from the App Switcher to fully close Ascend (not just background it).
 2. Open it again.
