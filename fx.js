@@ -169,12 +169,15 @@
   // appear are left alone (they have their own entrance).
   if (root && window.IntersectionObserver) {
     var seen = new WeakSet();
+    // Read once and on resize: asking for innerHeight inside the callback forces a layout.
+    var vh = innerHeight;
+    addEventListener("resize", function () { vh = innerHeight; }, { passive: true });
     var io = new IntersectionObserver(function (ents) {
       ents.forEach(function (en) {
         var el = en.target;
         if (!seen.has(el)) {
           seen.add(el);
-          if (en.isIntersecting || en.boundingClientRect.top < innerHeight) { io.unobserve(el); return; }
+          if (en.isIntersecting || en.boundingClientRect.top < vh) { io.unobserve(el); return; }
           el.classList.add("ac-rv");
           return;
         }
