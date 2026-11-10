@@ -1,4 +1,4 @@
-const BUILD = "2026.11.10.02";
+const BUILD = "2026.11.10.03";
 const CACHE = "ascend-" + BUILD;
 
 // index.html asks for these as file?v=<build>. A new build changes that address, so a copy
