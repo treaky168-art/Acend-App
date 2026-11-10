@@ -10,7 +10,13 @@
     var cur = activeTab(), next = b.textContent.trim();
     if (cur === next) { scrollTo({ top: 0, behavior: "smooth" }); return; }
     pos[cur] = scrollY;
-    requestAnimationFrame(function () { requestAnimationFrame(function () { scrollTo(0, pos[next] || 0); }); });
+    // Move to the new tab's place the moment its content is in the page, before the browser
+    // draws it. Waiting a frame or two showed the top of the page first, then jumped.
+    var done = false, root = document.getElementById("root");
+    var place = function () { if (done) return; done = true; mo && mo.disconnect(); scrollTo(0, pos[next] || 0); };
+    var mo = root && window.MutationObserver ? new MutationObserver(place) : null;
+    if (mo) mo.observe(root, { childList: true, subtree: true });
+    requestAnimationFrame(place);
   }, true);
 
   // Swipe right from the left edge on an Everyday sub-page to go back.
